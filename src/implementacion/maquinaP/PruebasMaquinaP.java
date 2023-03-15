@@ -3,7 +3,11 @@ package implementacion.maquinaP;
 public class PruebasMaquinaP {
 
 	public static void main(String[] args) {
-		MaquinaP m = new MaquinaP(5,10,10,2);
+		prog1();
+	}
+	
+	private static void prog1() {
+		MaquinaP m = new MaquinaP(1, 3, 0, 1);
 
 		/*
             int x;
@@ -36,5 +40,4 @@ public class PruebasMaquinaP {
 		System.out.println("-------------");
 		m.muestraEstado();
 	}
-
 }
