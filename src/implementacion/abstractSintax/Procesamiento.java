@@ -33,5 +33,5 @@ public interface Procesamiento {
 	void procesa(Param_Ref param);
 	void procesa(Param_Val param);
 	
-	//LIns
+	//LIns (pendiente)
 }
