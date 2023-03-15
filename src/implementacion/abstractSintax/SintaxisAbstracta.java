@@ -125,7 +125,7 @@ public class SintaxisAbstracta {
 	}
 	
 	//Prog
-	public static abstract class Prog  { // Est·tica porque no hace nada por sÌ misma
+	public static abstract class Prog  { // Est√°tica porque no hace nada por s√≠ misma
 		public Prog() {
 		}   
 		public abstract void procesa(Procesamiento p); 
