@@ -44,7 +44,6 @@ public class MaquinaP {
 			this.valor = valor;
 		}
 		public int valorInt() {return valor;}
-		public double valorReal() {return valor;}
 		public String valorString() {return String.valueOf(valor);}
 		public String toString() {
 			return String.valueOf(valor);
@@ -55,7 +54,6 @@ public class MaquinaP {
 		public ValorReal(double valor) {
 			this.valor = valor;
 		}
-		public int valorInt() {return (int) valor;}
 		public double valorReal() {return valor;}
 		public String valorString() {return String.valueOf(valor);}
 		public String toString() {
@@ -93,38 +91,80 @@ public class MaquinaP {
 	}
 
 	//Operaciones de la máquina-p
-	private ISuma ISUMA;
-	private class ISuma implements Instruccion {
+	private ISumaInt ISUMAINT;
+	private class ISumaInt implements Instruccion {
+		public void ejecuta() {
+			Valor opnd2 = pilaEvaluacion.pop();
+			Valor opnd1 = pilaEvaluacion.pop();
+			pilaEvaluacion.push(new ValorInt(opnd1.valorInt()+opnd2.valorInt()));
+			pc++;
+		} 
+		public String toString() {return "sumaInt";}
+	}
+	private ISumaReal ISUMAREAL;
+	private class ISumaReal implements Instruccion {
 		public void ejecuta() {
 			Valor opnd2 = pilaEvaluacion.pop();
 			Valor opnd1 = pilaEvaluacion.pop();
 			pilaEvaluacion.push(new ValorReal(opnd1.valorReal()+opnd2.valorReal()));
 			pc++;
 		} 
-		public String toString() {return "suma";}
+		public String toString() {return "sumaReal";}
 	}
-	private IResta IRESTA;
-	private class IResta implements Instruccion {
+	private IRestaInt IRESTAINT;
+	private class IRestaInt implements Instruccion {
+		public void ejecuta() {
+			Valor opnd2 = pilaEvaluacion.pop();
+			Valor opnd1 = pilaEvaluacion.pop();
+			pilaEvaluacion.push(new ValorInt(opnd1.valorInt()-opnd2.valorInt()));
+			pc++;
+		} 
+		public String toString() {return "restaInt";}
+	}
+	private IRestaReal IRESTAREAL;
+	private class IRestaReal implements Instruccion {
 		public void ejecuta() {
 			Valor opnd2 = pilaEvaluacion.pop();
 			Valor opnd1 = pilaEvaluacion.pop();
 			pilaEvaluacion.push(new ValorReal(opnd1.valorReal()-opnd2.valorReal()));
 			pc++;
 		} 
-		public String toString() {return "resta";}
+		public String toString() {return "restaReal";}
 	}
-	private IMul IMUL;
-	private class IMul implements Instruccion {
+	private IMulInt IMULINT;
+	private class IMulInt implements Instruccion {
+		public void ejecuta() {
+			Valor opnd2 = pilaEvaluacion.pop();
+			Valor opnd1 = pilaEvaluacion.pop();
+			pilaEvaluacion.push(new ValorInt(opnd1.valorInt()*opnd2.valorInt()));
+			pc++;
+		} 
+		public String toString() {return "mulInt";}
+	}
+	private IMulReal IMULREAL;
+	private class IMulReal implements Instruccion {
 		public void ejecuta() {
 			Valor opnd2 = pilaEvaluacion.pop();
 			Valor opnd1 = pilaEvaluacion.pop();
 			pilaEvaluacion.push(new ValorReal(opnd1.valorReal()*opnd2.valorReal()));
 			pc++;
 		} 
-		public String toString() {return "mul";}
+		public String toString() {return "mulReal";}
 	}
-	private IDiv IDIV;
-	private class IDiv implements Instruccion {
+	private IDivInt IDIVINT;
+	private class IDivInt implements Instruccion {
+		public void ejecuta() {
+			Valor opnd2 = pilaEvaluacion.pop();
+			if(opnd2.valorInt() == 0)
+				throw new EDivisionPorCero(pc);
+			Valor opnd1 = pilaEvaluacion.pop();
+			pilaEvaluacion.push(new ValorInt(opnd1.valorInt()/opnd2.valorInt()));
+			pc++;
+		} 
+		public String toString() {return "divInt";}
+	}
+	private IDivReal IDIVREAL;
+	private class IDivReal implements Instruccion {
 		public void ejecuta() {
 			Valor opnd2 = pilaEvaluacion.pop();
 			if(opnd2.valorInt() == 0)
@@ -133,7 +173,7 @@ public class MaquinaP {
 			pilaEvaluacion.push(new ValorReal(opnd1.valorReal()/opnd2.valorReal()));
 			pc++;
 		} 
-		public String toString() {return "div";}
+		public String toString() {return "divReal";}
 	}
 	private IMod IMOD;
 	private class IMod implements Instruccion {
@@ -294,7 +334,7 @@ public class MaquinaP {
 		public String toString() {return "bne";}
 	}
 
-	private IRealToInt IREALTOINT;
+	private IRealToInt IREALTOINT;//No se usa en Tiny
 	private class IRealToInt implements Instruccion {
 		public void ejecuta() {
 			Valor opnd = pilaEvaluacion.pop();
@@ -609,10 +649,14 @@ public class MaquinaP {
 	}
 
 
-	public Instruccion suma() {return ISUMA;}
-	public Instruccion resta() {return IRESTA;}
-	public Instruccion mul() {return IMUL;}
-	public Instruccion div() {return IDIV;}
+	public Instruccion sumaInt() {return ISUMAINT;}
+	public Instruccion sumaReal() {return ISUMAREAL;}
+	public Instruccion restaInt() {return IRESTAINT;}
+	public Instruccion restaReal() {return IRESTAREAL;}
+	public Instruccion mulInt() {return IMULINT;}
+	public Instruccion mulReal() {return IMULREAL;}
+	public Instruccion divInt() {return IDIVINT;}
+	public Instruccion divReal() {return IDIVREAL;}
 	public Instruccion mod() {return IMOD;}
 	public Instruccion and() {return IAND;}
 	public Instruccion or() {return IOR;}
@@ -665,10 +709,14 @@ public class MaquinaP {
 		datos = new Valor[tamdatos+tampila+tamheap];
 		this.pc = 0;
 		//Para las instrucciones en que no se tienen parámetros, se reutiliza el mismo objeto.
-		ISUMA = new ISuma();
-		IRESTA = new IResta();
-		IMUL = new IMul();
-		IDIV = new IDiv();
+		ISUMAINT = new ISumaInt();
+		ISUMAREAL = new ISumaReal();
+		IRESTAINT = new IRestaInt();
+		IRESTAREAL = new IRestaReal();
+		IMULINT = new IMulInt();
+		IMULREAL = new IMulReal();
+		IDIVINT = new IDivInt();
+		IDIVREAL = new IDivReal();
 		IMOD = new IMod();
 		IAND = new IAnd();
 		IOR = new IOr();
@@ -744,7 +792,7 @@ public class MaquinaP {
 		m.ponInstruccion(m.activa(1,1,8));
 		m.ponInstruccion(m.dup());
 		m.ponInstruccion(m.apilaInt(0));
-		m.ponInstruccion(m.suma());
+		m.ponInstruccion(m.sumaInt());
 		m.ponInstruccion(m.apilaInt(5));
 		m.ponInstruccion(m.desapilaInd());
 		m.ponInstruccion(m.desapilad(1));
@@ -753,7 +801,7 @@ public class MaquinaP {
 		m.ponInstruccion(m.apilaInt(0));
 		m.ponInstruccion(m.apilad(1));
 		m.ponInstruccion(m.apilaInt(0));
-		m.ponInstruccion(m.suma());
+		m.ponInstruccion(m.sumaInt());
 		m.ponInstruccion(m.mueve(1));
 		m.ponInstruccion(m.desactiva(1,1));
 		m.ponInstruccion(m.irInd());       

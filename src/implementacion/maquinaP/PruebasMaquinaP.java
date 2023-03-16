@@ -22,7 +22,7 @@ public class PruebasMaquinaP {
 		m.ponInstruccion(m.activa(1,1,8));
 		m.ponInstruccion(m.dup());
 		m.ponInstruccion(m.apilaInt(0));
-		m.ponInstruccion(m.suma());
+		m.ponInstruccion(m.sumaInt());
 		m.ponInstruccion(m.apilaInt(5));
 		m.ponInstruccion(m.desapilaInd());
 		m.ponInstruccion(m.desapilad(1));
@@ -31,7 +31,7 @@ public class PruebasMaquinaP {
 		m.ponInstruccion(m.apilaInt(0));
 		m.ponInstruccion(m.apilad(1));
 		m.ponInstruccion(m.apilaInt(0));
-		m.ponInstruccion(m.suma());
+		m.ponInstruccion(m.sumaInt());
 		m.ponInstruccion(m.mueve(1));
 		m.ponInstruccion(m.desactiva(1,1));
 		m.ponInstruccion(m.irInd());       
