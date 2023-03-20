@@ -1202,79 +1202,79 @@ public class SintaxisAbstracta {
 	}
 
 	//E
-	public E Int(String str) {
+	public E cInt(String str) {
 		return new Int(str);
 	}
-	public E Real(String str) {
+	public E cReal(String str) {
 		return new Real(str);
 	}
-	public E True() {
+	public E cTrue() {
 		return new True();
 	}
-	public E False() {
+	public E cFalse() {
 		return new False();
 	}
-	public E Cadena(String str) {
+	public E cCadena(String str) {
 		return new Cadena(str);
 	}
-	public E Id(String str)  {
+	public E cId(String str)  {
 		return new Id(str) ;
 	}
-	public E Null(String str) {
+	public E cNull(String str) {
 		return new Null(str);
 	}
-	public E Blt(E arg0, E arg1) {
+	public E cBlt(E arg0, E arg1) {
 		return new Blt(arg0, arg1);
 	}
-	public E Ble(E arg0, E arg1) {
+	public E cBle(E arg0, E arg1) {
 		return new Ble(arg0, arg1);
 	}
-	public E Bgt(E arg0, E arg1) {
+	public E cBgt(E arg0, E arg1) {
 		return new Bgt(arg0, arg1);
 	}
-	public E Bge(E arg0, E arg1) {
+	public E cBge(E arg0, E arg1) {
 		return new Bge(arg0, arg1) ;
 	}
-	public E Beq(E arg0, E arg1) {
+	public E cBeq(E arg0, E arg1) {
 		return new Beq(arg0, arg1);
 	}
-	public E Bne(E arg0, E arg1) {
+	public E cBne(E arg0, E arg1) {
 		return new Bne(arg0, arg1);
 	}
-	public E Suma(E arg0, E arg1) {
+	public E cSuma(E arg0, E arg1) {
 		return new Suma(arg0, arg1);
 	}
-	public E Resta(E arg0, E arg1) {
+	public E cResta(E arg0, E arg1) {
 		return new Resta(arg0, arg1);
 	}
-	public E And(E arg0, E arg1) {
+	public E cAnd(E arg0, E arg1) {
 		return new And(arg0, arg1);
 	}
-	public E Or(E arg0, E arg1) {
+	public E cOr(E arg0, E arg1) {
 		return new Or(arg0, arg1);
 	}
-	public E Mult(E arg0, E arg1) {
+	public E cMult(E arg0, E arg1) {
 		return new Mult(arg0, arg1);
 	}
-	public E Div(E arg0, E arg1) {
+	public E cDiv(E arg0, E arg1) {
 		return new Div(arg0, arg1);
 	}
-	public E Mod(E arg0, E arg1) {
+	public E cMod(E arg0, E arg1) {
 		return new Mod(arg0, arg1);
 	}
-	public E Neg(E arg0) {
+	public E cNeg(E arg0) {
 		return new Neg(arg0);
 	}
-	public E Not(E arg0) {
+	public E cNot(E arg0) {
 		return new Not(arg0);
 	}
-	public E Index(E arg0, E arg1) {
+	public E cIndex(E arg0, E arg1) {
 		return new Index(arg0, arg1);
 	}
-	public E Access(E arg0, String str) {
+	public E cAccess(E arg0, String str) {
 		return new Access(arg0, str);
 	}
-	public E Indir(E arg0) {
+	public E cIndir(E arg0) {
 		return new Indir(arg0);
 	}
 
