@@ -1,12 +1,6 @@
 package implementacion.abstractSintax;
 
 public class SintaxisAbstracta {
-	public static abstract class Plantilla {//Borrar (sirve de plantilla)
-		public Plantilla() {
-		}
-		public abstract void procesa(Procesamiento p);
-	}
-
 	//Prog
 	public static abstract class Prog  { // Estática porque no hace nada por sí misma
 		public Prog() {
@@ -645,7 +639,7 @@ public class SintaxisAbstracta {
 	public static class Ins_Compuesta extends Ins {
 		private LDecs lDecs;
 		private LIns lIns;
-		public Call_Proc(LDecs lDecs, LIns lIns) {
+		public Ins_Compuesta(LDecs lDecs, LIns lIns) {
 			super();
 			this.lDecs = lDecs;
 			this.lIns = lIns;
@@ -694,7 +688,7 @@ public class SintaxisAbstracta {
 	public static class Muchas_Expr extends LExp {
 		public LExp lExp;
 		public E e;
-		public Una_Expr(LExp lExp, E e) {
+		public Muchas_Expr(LExp lExp, E e) {
 			super();
 			this.lExp = lExp
 			this.e = e;
@@ -755,7 +749,7 @@ public class SintaxisAbstracta {
 	}
 
 	public static class False extends E {
-		public True() {
+		public False() {
 			super();
 		}
 		public void procesa(Procesamiento p) {
@@ -1059,5 +1053,229 @@ public class SintaxisAbstracta {
             return 5;
         }
     }	
+
+
+	//Constructores
+	public Prog cProg_(LDecs lDecs, LIns lIns) {
+		return new Prog_(lDecs, lIns)
+	}
+
+	//LDecs
+	public LDecs cSin_Decs() {
+		return new Sin_Decs()
+	}
+
+	public LDecs cUna_Dec(Dec dec) {
+		return new Una_Dec(dec)
+	}
+
+	//Dec
+	public Dec cDec_Var(String str, Tipo t) {
+		return new Dec_Var(str, t)
+	}
+
+	public Dec cDec_Tipo(String str, Tipo t) {
+		return new Dec_Tipo(str, t)
+	}
+
+	public Dec cDec_Proc(String str, LParams lParams, LDecs lDecs, LIns lIns) {
+		return new Dec_Proc(str,  lParams, lDecs, lIns)
+	}
+
+	//Tipo
+	public Tipo cInt_() {
+		return new Int_()
+	}
+
+	public Tipo cReal_() {
+		return new Real_()
+	}
+
+	public Tipo cBool_() {
+		return new Bool_()
+	}
+
+	public Tipo cString_() {
+		return new String_()
+	}
+
+	public Tipo cRef_(String str) {
+		return new Ref_(str)
+	}
+
+	public Tipo cArray_(String str, Tipo t) {
+		return new Array_(str,t)
+	}
+
+	public Tipo cRecord_(Campos campos) {
+		return new Record_(campos)
+	}
+
+	public Tipo cPuntero_(Tipo t) {
+		return new Puntero_(t)
+	}
+
+	//Campos
+	public Campos cUn_Campo(Campo campo) {
+		return new Un_Campo(campo)
+	}
+
+	public Campos cMuchos_Campos(Campos campos, Campo campo) {
+		return new Muchos_Campos(campos, campo)
+	}
+
+	public Campos cCampo(String str, Tipo t) {
+		return new Campo(str,t)
+	}
+
+	//LParams
+	public LParams cSin_Params() {
+		return new Sin_Params()
+	}
+
+	public LParams cUn_Param(Param param) {
+		return new Un_Param(param)
+	}
+
+	public LParams cMuchos_Params(LParams lParams, Param param) {
+		return new Muchos_Params(lParams, param)
+	}
+
+	//LIns
+	public LIns cSin_Ins() {
+		return new Sin_Ins();
+	}
+	public LIns cUna_Ins(Ins ins) {
+		return new Una_Ins(ins);
+	}
+	public LIns cMuchas_Ins(LIns lIns, Ins ins) {
+		return new Muchas_Ins(lIns, ins);
+	}
+
+	//Ins
+	public Ins cAsignacion_(E e1, E e2) {
+		return new Asignacion_(e1, e2);
+	}
+	public Ins cIf_Then(E e, LIns lIns) {
+		return new If_Then(e, lIns);
+	}
+	public Ins cIf_Then_Else(E e, LIns lIns1, LIns lIns2) {
+		return new If_Then_Else(e, lIns1, lIns2);
+	}
+	public Ins cWhile_(E e, LIns lIns) {
+		return new While_(e, lIns);
+	}
+	public Ins cRead_(E e, Ins ins) {
+		return new Read_(e, ins);
+	}
+	public Ins cWrite_(E e, Ins ins) {
+		return new Write_(e, ins);
+	}
+	public Ins cRead_(E e, Ins ins) {
+		return new Read_(e, ins);
+	}
+	public Ins cNl_(E e, Ins ins) {
+		return new Nl_(e, ins);
+	}
+	public Ins cNew_(E e) {
+		return new New_(e);
+	}
+	public Ins cDelete_(E e) {
+		return new Delete_(e);
+	}
+	public Ins cCall_Proc(E e, LExp lExp) {
+		return new Call_Proc(e, lExp);
+	}
+	public Ins cIns_Compuesta(LDecs lDecs, LIns lIns) {
+		return new Ins_Compuesta(lDecs, lIns);
+	}
+
+	//LExp
+	public LExp cCSin_Expr() {
+		return new Sin_Expr();
+	}
+	public LExp cUna_Expr(E e) {
+		return new Una_Expr(e);
+	}
+	public LExp cMuchas_Expr(LExp lExp, E e) {
+		return new Muchas_Expr(lExp, e);
+	}
+
+	//E
+	public E Int(String str) {
+		return new Int(str);
+	}
+	public E Real(String str) {
+		return new Real(str);
+	}
+	public E True() {
+		return new True();
+	}
+	public E False() {
+		return new False();
+	}
+	public E Cadena(String str) {
+		return new Cadena(str);
+	}
+	public E Id(String str)  {
+		return new Id(str) ;
+	}
+	public E Null(String str) {
+		return new Null(str);
+	}
+	public E Blt(E arg0, E arg1) {
+		return new Blt(arg0, arg1);
+	}
+	public E Ble(E arg0, E arg1) {
+		return new Ble(arg0, arg1);
+	}
+	public E Bgt(E arg0, E arg1) {
+		return new Bgt(arg0, arg1);
+	}
+	public E Bge(E arg0, E arg1) {
+		return new Bge(arg0, arg1) ;
+	}
+	public E Beq(E arg0, E arg1) {
+		return new Beq(arg0, arg1);
+	}
+	public E Bne(E arg0, E arg1) {
+		return new Bne(arg0, arg1);
+	}
+	public E Suma(E arg0, E arg1) {
+		return new Suma(arg0, arg1);
+	}
+	public E Resta(E arg0, E arg1) {
+		return new Resta(arg0, arg1);
+	}
+	public E And(E arg0, E arg1) {
+		return new And(arg0, arg1);
+	}
+	public E Or(E arg0, E arg1) {
+		return new Or(arg0, arg1);
+	}
+	public E Mult(E arg0, E arg1) {
+		return new Mult(arg0, arg1);
+	}
+	public E Div(E arg0, E arg1) {
+		return new Div(arg0, arg1);
+	}
+	public E Mod(E arg0, E arg1) {
+		return new Mod(arg0, arg1);
+	}
+	public E Neg(E arg0) {
+		return new Neg(arg0);
+	}
+	public E Not(E arg0) {
+		return new Not(arg0);
+	}
+	public E Index(E arg0, E arg1) {
+		return new Index(arg0, arg1);
+	}
+	public E Access(E arg0, String str) {
+		return new Access(arg0, str);
+	}
+	public E Indir(E arg0) {
+		return new Indir(arg0);
+	}
 
 }
