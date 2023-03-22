@@ -1053,6 +1053,10 @@ public class SintaxisAbstracta {
 	public LDecs cUna_Dec(Dec dec) {
 		return new Una_Dec(dec);
 	}
+	
+	public LDecs cMuchas_Decs(LDecs decs, Dec dec) {
+		return new Muchas_Decs(decs, dec);
+	}
 
 	//Dec
 	public Dec cDec_Var(String str, Tipo t) {
