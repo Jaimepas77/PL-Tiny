@@ -1154,10 +1154,10 @@ public class SintaxisAbstracta {
 	public Ins cWhile_(E e, LIns lIns) {
 		return new While_(e, lIns);
 	}
-	public Ins cRead_(E e, Ins ins) {
+	public Ins cRead_(E e) {
 		return new Read_(e);
 	}
-	public Ins cWrite_(E e, Ins ins) {
+	public Ins cWrite_(E e) {
 		return new Write_(e);
 	}
 	public Ins cNl_() {

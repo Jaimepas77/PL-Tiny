@@ -48,7 +48,8 @@ public class ejemploPrincipal {
 										sa.cMuchas_Decs(
 												sa.cMuchas_Decs(
 														sa.cMuchas_Decs(
-																sa.cUna_Dec(escribeNombres),	//escribe_nombres(arbol: tArbol)
+																sa.cUna_Dec(
+																		escribeNombres),	//escribe_nombres(arbol: tArbol)
 																construyeArbol),	//proc construye_arbol()
 														leeNombres),	//proc lee_nombres(var nombres: tListaNombres)
 												
@@ -63,7 +64,20 @@ public class ejemploPrincipal {
 								sa.cCampo("izq", sa.cRef_("tArbol"))),	//izq: tArbol;
 								sa.cCampo("nombre", sa.cString_()))))),	//nombre: string;
 				sa.cDec_Tipo("tArbol", sa.cPuntero_(sa.cRef_("tNodo"))));	//type tArbol: ^tNodo;
-		LIns progIns = sa.cSin_Ins();//PENDIENTE de completar
+		LIns progIns = sa.cMuchas_Ins(	//Instrucciones del programa principal
+				sa.cMuchas_Ins(
+						sa.cMuchas_Ins(
+								sa.cMuchas_Ins(
+										sa.cMuchas_Ins(
+												sa.cMuchas_Ins(
+														sa.cUna_Ins(
+																sa.cCall_Proc(sa.cId("escribe_nombres"), sa.cUna_Expr(sa.cId("arbol")))),
+														sa.cNl_()),
+												sa.cWrite_(sa.cCadena("---------------------------"))),
+										sa.cNl_()),
+								sa.cWrite_(sa.cCadena("Listado de nombres ordenado"))),
+						sa.cCall_Proc(sa.cId("construye_arbol"), sa.cSin_Expr())),
+				sa.cCall_Proc(sa.cId("lee_nombres"), sa.cUna_Expr(sa.cId("nombres"))));
 		
 		prog = sa.cProg_(progDecs, progIns);
 		
