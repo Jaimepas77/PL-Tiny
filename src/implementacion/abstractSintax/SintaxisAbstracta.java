@@ -1129,6 +1129,15 @@ public class SintaxisAbstracta {
 	public LParams cMuchos_Params(LParams lParams, Param param) {
 		return new Muchos_Params(lParams, param);
 	}
+	
+	//Param
+	public Param cParam_Ref(String str, Tipo t) {
+		return new Param_Ref(str, t);
+	}
+	
+	public Param cParam_Val(String str, Tipo t) {
+		return new Param_Val(str, t);
+	}
 
 	//LIns
 	public LIns cSin_Ins() {
