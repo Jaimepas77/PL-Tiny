@@ -1215,7 +1215,7 @@ public class SintaxisAbstracta {
 	public E cId(String str)  {
 		return new Id(str) ;
 	}
-	public E cNull(String str) {
+	public E cNull() {
 		return new Null();
 	}
 	public E cBlt(E arg0, E arg1) {

@@ -33,8 +33,24 @@ public class ejemploPrincipal {
 		//AST-ejemplo21.jpg
 		Dec insertaNombre = null;
 		
-		//AST-ejemplo2.jpg
-		Dec construyeArbol = null;
+		//AST-ejemplo2.jpg -> todas las listas recursivas de los ASTs dibujados están al revés ERROR!! -> arreglado en el código
+		Dec construyeArbol = sa.cDec_Proc("construye_arbol",
+				sa.cSin_Params(),
+				sa.cMuchas_Decs(
+						sa.cUna_Dec(
+								sa.cDec_Var("i", sa.cInt_())),
+						insertaNombre),
+				sa.cMuchas_Ins(
+						sa.cMuchas_Ins(
+								sa.cUna_Ins(
+										sa.cAsignacion_(sa.cId("arbol"), sa.cNull())),
+								sa.cAsignacion_(sa.cId("i"), sa.cInt("0"))),
+						sa.cWhile_(
+								sa.cBlt(sa.cId("i"), sa.cAccess(sa.cId("nombres"), "cont")),
+								sa.cMuchas_Ins(
+										sa.cUna_Ins(
+												sa.cCall_Proc(sa.cId("inserta_nombre"),sa.cUna_Expr(sa.cId("arbol")))),
+										sa.cAsignacion_(sa.cId("i"), sa.cSuma(sa.cId("i"), sa.cInt("1")))))));
 		
 		//AST-ejemplo1.jpg -> todas las listas recursivas de los ASTs dibujados están al revés ERROR!! -> arreglado en el código
 		Dec leeNombres = sa.cDec_Proc("lee_nombres",
