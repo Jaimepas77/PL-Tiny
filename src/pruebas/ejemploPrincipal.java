@@ -30,8 +30,55 @@ public class ejemploPrincipal {
 		//AST-ejemplo22.jpg
 		Ins ifThen = null;
 		
-		//AST-ejemplo21.jpg
-		Dec insertaNombre = null;
+		//AST-ejemplo21.jpg -> todas las listas recursivas de los ASTs dibujados están al revés -> arreglado en el código
+		Dec insertaNombre = sa.cDec_Proc("inserta_nombre",
+				sa.cUn_Param(sa.cParam_Ref("arbol", sa.cRef_("tArbol"))),
+				sa.cSin_Decs(),
+				sa.cUna_Ins(
+						sa.cIf_Then_Else(
+								sa.cBeq(sa.cId("arbol"), sa.cNull()),
+								sa.cMuchas_Ins(
+										sa.cMuchas_Ins(
+												sa.cMuchas_Ins(
+														sa.cUna_Ins(
+																sa.cNew_(sa.cId("arbol"))),
+														sa.cAsignacion_(
+																sa.cAccess(sa.cIndir(sa.cId("arbol")), "nombre"),
+																sa.cIndex(sa.cAccess(sa.cId("nombres"), "nombres"), sa.cId("i")))),
+												sa.cAsignacion_(
+														sa.cAccess(sa.cIndir(sa.cId("arbol")), "izq"),
+														sa.cNull())),
+										sa.cAsignacion_(
+												sa.cAccess(sa.cIndir(sa.cId("arbol")), "der"),
+												sa.cNull())),
+								sa.cMuchas_Ins(
+										sa.cMuchas_Ins(
+												sa.cMuchas_Ins(
+														sa.cUna_Ins(
+																sa.cAsignacion_(sa.cId("fin"), sa.cFalse())),
+														sa.cAsignacion_(sa.cId("act"), sa.cId("arbol"))),
+												sa.cWhile_(sa.cNot(sa.cId("fin")),
+														sa.cMuchas_Ins(
+																sa.cMuchas_Ins(
+																		sa.cUna_Ins(
+																				sa.cAsignacion_(sa.cId("padre"), sa.cId("act"))),
+																		sa.cIf_Then_Else(
+																				sa.cBlt(sa.cAccess(sa.cIndir(sa.cId("act")), "nombre"), sa.cIndex(sa.cAccess(sa.cId("nombres"), "nombres"), sa.cId("i"))),
+																				sa.cUna_Ins(
+																						sa.cAsignacion_(sa.cId("act"), sa.cAccess(sa.cIndir(sa.cId("act")), "der"))),
+																				sa.cUna_Ins(
+																						sa.cIf_Then(
+																								sa.cBgt(sa.cAccess(sa.cIndir(sa.cId("act")), "nombre"), sa.cIndex(sa.cAccess(sa.cId("nombres"), "nombres"),sa.cId("i"))),
+																								sa.cUna_Ins(sa.cAsignacion_(sa.cId("act"), sa.cAccess(sa.cIndir(sa.cId("act")), "izq"))))))),
+																sa.cIf_Then_Else(
+																		sa.cBeq(sa.cId("act"), sa.cNull()),
+																		sa.cUna_Ins(sa.cAsignacion_(sa.cId("fin"), sa.cTrue())),
+																		sa.cUna_Ins(
+																				sa.cIf_Then(
+																						sa.cBeq(sa.cAccess(sa.cIndir(sa.cId("act")), "nombre"), sa.cIndex(sa.cAccess(sa.cId("nombres"), "nombres"), sa.cId("i"))),
+																						sa.cUna_Ins(
+																								sa.cAsignacion_(sa.cId("fin"), sa.cTrue())))))))),
+										ifThen))));
 		
 		//AST-ejemplo2.jpg -> todas las listas recursivas de los ASTs dibujados están al revés ERROR!! -> arreglado en el código
 		Dec construyeArbol = sa.cDec_Proc("construye_arbol",
