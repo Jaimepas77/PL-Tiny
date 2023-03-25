@@ -1068,7 +1068,7 @@ public class SintaxisAbstracta {
 	}
 
 	public Dec cDec_Proc(String str, LParams lParams, LDecs lDecs, LIns lIns) {
-		return new Dec_Proc(str,  lParams, lDecs, lIns);
+		return new Dec_Proc(str, lParams, lDecs, lIns);
 	}
 
 	//Tipo

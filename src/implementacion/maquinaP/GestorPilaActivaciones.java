@@ -3,7 +3,7 @@ package implementacion.maquinaP;
 public class GestorPilaActivaciones {
     private int fin;
     private int[] displays;
-    private int pp;
+    private int pp;	//Puntero a pila
     public GestorPilaActivaciones(int comienzo, int fin, int ndisplays) {
        pp = comienzo; 
        this.fin = fin;
