@@ -87,6 +87,8 @@ public class SintaxisAbstracta {
 	public static class Dec_Var extends Dec {
 		private String str;
 		private Tipo t;
+		private int dir;
+		private int nivel;
 		public Dec_Var(String str, Tipo t) {
 			super();
 			this.str = str;
@@ -100,6 +102,18 @@ public class SintaxisAbstracta {
 		}
 		public void procesa(Procesamiento p) {
 			p.procesa(this);
+		}
+		public int getDir() {
+			return dir;
+		}
+		public void setDir(int dir) {
+			this.dir = dir;
+		}
+		public int getNivel() {
+			return nivel;
+		}
+		public void setNivel(int nivel) {
+			this.nivel = nivel;
 		}
 	}
 
@@ -127,6 +141,8 @@ public class SintaxisAbstracta {
 		private LParams lParams;
 		private LDecs lDecs;
 		private LIns lIns;
+		private int nivel;
+		private int tamDatos;
 		public Dec_Proc(String str, LParams lParams, LDecs lDecs, LIns lIns) {
 			super();
 			this.str = str;
@@ -149,13 +165,32 @@ public class SintaxisAbstracta {
 		public void procesa(Procesamiento p) {
 			p.procesa(this);
 		}
+		public int getNivel() {
+			return nivel;
+		}
+		public void setNivel(int nivel) {
+			this.nivel = nivel;
+		}
+		public int getTamDatos() {
+			return tamDatos;
+		}
+		public void setTamDatos(int tamDatos) {
+			this.tamDatos = tamDatos;
+		}
 	}
 
 	//Tipo
 	public static abstract class Tipo {
+		private int tam = -1;//-1 = null
 		public Tipo() {
 		}
 		public abstract void procesa(Procesamiento p);
+		public int getTam() {
+			return tam;
+		}
+		public void setTam(int tam) {
+			this.tam = tam;
+		}
 	}
 
 	public static class Int_ extends Tipo {
@@ -298,6 +333,7 @@ public class SintaxisAbstracta {
 	public static class Campo {
 		private String str;
 		private Tipo t;
+		private int despl = 0;//Por defecto es 0
 		public Campo(String str, Tipo t) {
 			super();
 			this.str = str;
@@ -311,6 +347,12 @@ public class SintaxisAbstracta {
 		}
 		public void procesa(Procesamiento p) {
 			p.procesa(this);
+		}
+		public int getDespl() {
+			return despl;
+		}
+		public void setDespl(int despl) {
+			this.despl = despl;
 		}
 	}
 
@@ -372,6 +414,8 @@ public class SintaxisAbstracta {
 	public static class Param_Ref extends Param {
 		private String str;
 		private Tipo t;
+		private int dir;
+		private int nivel;
 		public Param_Ref(String str, Tipo t) {
 			super();
 			this.str = str;
@@ -386,11 +430,25 @@ public class SintaxisAbstracta {
 		public void procesa(Procesamiento p) {
 			p.procesa(this);
 		}
+		public int getDir() {
+			return dir;
+		}
+		public void setDir(int dir) {
+			this.dir = dir;
+		}
+		public int getNivel() {
+			return nivel;
+		}
+		public void setNivel(int nivel) {
+			this.nivel = nivel;
+		}
 	}	
 
 	public static class Param_Val extends Param {
 		private String str;
 		private Tipo t;
+		private int dir;
+		private int nivel;
 		public Param_Val(String str, Tipo t) {
 			super();
 			this.str = str;
@@ -404,6 +462,18 @@ public class SintaxisAbstracta {
 		}
 		public void procesa(Procesamiento p) {
 			p.procesa(this);
+		}
+		public int getDir() {
+			return dir;
+		}
+		public void setDir(int dir) {
+			this.dir = dir;
+		}
+		public int getNivel() {
+			return nivel;
+		}
+		public void setNivel(int nivel) {
+			this.nivel = nivel;
 		}
 	}
 

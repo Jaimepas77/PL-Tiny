@@ -2,6 +2,7 @@ package pruebas;
 
 import implementacion.abstractSintax.SintaxisAbstracta;
 import implementacion.abstractSintax.SintaxisAbstracta.*;
+import implementacion.maquinaP.MaquinaP;
 import implementacion.procesamientos.*;
 
 public class ejemploPrincipal {
@@ -14,11 +15,13 @@ public class ejemploPrincipal {
 		//Procesamientos
 		prog.procesa(new Vinculacion());
 //		prog.procesa(new Tipado());
-//		prog.procesa(new AsignacionEspacio());
+		prog.procesa(new AsignacionEspacio());
 //		prog.procesa(new Etiquetado());
-//		prog.procesa(new GenCodigo());
+		MaquinaP m = new MaquinaP(20, 15, 40, 3);
+//		prog.procesa(new GenCodigo(m));
 		
 		//Ejecución sobre la máquina-p
+		m.ejecuta();
 	}
 
 	private static Prog astCodigoDeEjemplo() {

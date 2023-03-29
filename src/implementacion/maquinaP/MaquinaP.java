@@ -5,9 +5,6 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Stack;
 
-
-
-
 public class MaquinaP {
 	//Excepciones
 	@SuppressWarnings("serial")
@@ -437,7 +434,16 @@ public class MaquinaP {
 		} 
 		public String toString() {return "write";}
 	}
-
+	
+	private INl INL;	//New line
+	private class INl implements Instruccion {
+		public void ejecuta() {
+			System.out.print("\n");
+			pc++;
+		}
+		public String toString() {return "nl";}
+	}
+	
 	private class IIrA implements Instruccion {
 		private int dir;
 		public IIrA(int dir) {
@@ -678,6 +684,7 @@ public class MaquinaP {
 	public Instruccion readInt() {return IREADINT;}
 	public Instruccion readReal() {return IREADREAL;}
 	public Instruccion write() {return IWRITE;}
+	public Instruccion nl() {return INL;}
 	public Instruccion apilaInd() {return IAPILAIND;}
 	public Instruccion desapilaInd() {return IDESAPILAIND;}
 	public Instruccion mueve(int tam) {return new IMueve(tam);}
@@ -735,6 +742,7 @@ public class MaquinaP {
 		IREADSTRING = new IReadString();
 		IREADINT = new IReadInt();
 		IWRITE = new IWrite();
+		INL = new INl();
 		IREADREAL = new IReadReal();
 		IAPILAIND = new IApilaind();
 		IDESAPILAIND = new IDesapilaind();
