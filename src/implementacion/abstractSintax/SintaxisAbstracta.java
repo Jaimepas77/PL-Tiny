@@ -816,10 +816,6 @@ public class SintaxisAbstracta {
 		public ENivel0(E arg0, E arg1) {
 			super(arg0, arg1);
 		}
-
-		public final int prioridad() {
-			return 0;
-		}
 	}
 
 	public static class Blt extends ENivel0 {
@@ -881,9 +877,6 @@ public class SintaxisAbstracta {
 		public ENivel1(E arg0, E arg1) {
 			super(arg0, arg1);
 		}
-		public final int prioridad() {
-			return 1;
-		}
 	}
 
 	public static class Suma extends ENivel1 {
@@ -909,9 +902,6 @@ public class SintaxisAbstracta {
 		public ENivel2(E arg0, E arg1) {
 			super(arg0, arg1);
 		}
-		public final int prioridad() {
-			return 2;
-		}
 	}
 
 	public static class And extends ENivel2 {
@@ -936,9 +926,6 @@ public class SintaxisAbstracta {
 	private static abstract class ENivel3 extends EBinario {
 		public ENivel3(E arg0, E arg1) {
 			super(arg0, arg1);
-		}
-		public final int prioridad() {
-			return 3;
 		}
 	}
 
@@ -974,9 +961,6 @@ public class SintaxisAbstracta {
 		public ENivel4(E arg0) {
 			super(arg0);
 		}
-		public final int prioridad() {
-			return 4;
-		}
 	}
 
 	public static class Neg extends ENivel4 {
@@ -1005,9 +989,6 @@ public class SintaxisAbstracta {
 		public void procesa(Procesamiento p) {
 			p.procesa(this);
 		}
-		public final int prioridad() {
-			return 5;
-		}
 	}
 
 	public static class Access extends EUnario {
@@ -1022,9 +1003,6 @@ public class SintaxisAbstracta {
 		public void procesa(Procesamiento p) {
 			p.procesa(this);
 		}
-		public final int prioridad() {
-			return 5;
-		}
 	}
 
 	public static class Indir extends EUnario {
@@ -1033,9 +1011,6 @@ public class SintaxisAbstracta {
 		}
 		public void procesa(Procesamiento p) {
 			p.procesa(this); 
-		}
-		public final int prioridad() {
-			return 5;
 		}
 	}	
 
@@ -1093,7 +1068,7 @@ public class SintaxisAbstracta {
 	}
 
 	public Tipo cArray_(String str, Tipo t) {
-		return new Array_(str,t);
+		return new Array_(str, t);
 	}
 
 	public Tipo cRecord_(Campos campos) {
@@ -1114,7 +1089,7 @@ public class SintaxisAbstracta {
 	}
 
 	public Campo cCampo(String str, Tipo t) {
-		return new Campo(str,t);
+		return new Campo(str, t);
 	}
 
 	//LParams
@@ -1272,5 +1247,4 @@ public class SintaxisAbstracta {
 	public E cIndir(E arg0) {
 		return new Indir(arg0);
 	}
-
 }
