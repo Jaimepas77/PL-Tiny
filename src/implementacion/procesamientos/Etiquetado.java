@@ -300,98 +300,126 @@ public class Etiquetado implements Procesamiento {
 
 	@Override
 	public void procesa(Sin_Expr lExp) {
-		// TODO Auto-generated method stub
-
+		//skip
 	}
 
 	@Override
 	public void procesa(Una_Expr lExp) {
-		// TODO Auto-generated method stub
-
+		lExp.getE().procesa(this);
 	}
 
 	@Override
 	public void procesa(Muchas_Expr lExp) {
-		// TODO Auto-generated method stub
-
+		lExp.getLExp().procesa(this);
+		lExp.getE().procesa(this);
 	}
 
 	@Override
 	public void procesa(Int e) {
-		// TODO Auto-generated method stub
-
+		etq++;
 	}
 
 	@Override
 	public void procesa(Real e) {
-		// TODO Auto-generated method stub
-
+		etq++;
 	}
 
 	@Override
 	public void procesa(True e) {
-		// TODO Auto-generated method stub
-
+		etq++;
 	}
 
 	@Override
 	public void procesa(False e) {
-		// TODO Auto-generated method stub
-
+		etq++;
 	}
 
 	@Override
 	public void procesa(Cadena e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void procesa(Id e) {
-		// TODO Auto-generated method stub
-
+		etq++;
 	}
 
 	@Override
 	public void procesa(Null e) {
-		// TODO Auto-generated method stub
+		etq++;
+	}
 
+	@Override
+	public void procesa(Id e) {
+		if(e.getVinculo().nivel == 0) {
+			etq++;
+		}
+		else {
+			etq += 3;
+			if(e.getVinculo() instanceof Param_Ref) {
+				etq++;
+			}
+		}
+	}
+	
+	//Op relacionales
+	private void etiquetaBinRel(EBinario e) {
+		e.getArg0().procesa(this);
+		if(e.getArg0() instanceof Id) {
+			etq++;
+		}
+		e.getArg1().procesa(this);
+		if(e.getArg1() instanceof Id) {
+			etq++;
+		}
+		etq++;
 	}
 
 	@Override
 	public void procesa(Blt e) {
-		// TODO Auto-generated method stub
-
+		etiquetaBinRel(e);
 	}
 
 	@Override
 	public void procesa(Ble e) {
-		// TODO Auto-generated method stub
-
+		etiquetaBinRel(e);
 	}
 
 	@Override
 	public void procesa(Bgt e) {
-		// TODO Auto-generated method stub
-
+		etiquetaBinRel(e);
 	}
 
 	@Override
 	public void procesa(Bge e) {
-		// TODO Auto-generated method stub
-
+		etiquetaBinRel(e);
 	}
 
 	@Override
 	public void procesa(Beq e) {
-		// TODO Auto-generated method stub
-
+		etiquetaBinRel(e);
 	}
 
 	@Override
 	public void procesa(Bne e) {
-		// TODO Auto-generated method stub
-
+		etiquetaBinRel(e);
+	}
+	
+	//Op aritméticos binarios
+	private void etiquetaBinArit(EBinario e) {
+		e.getArg0().procesa(this);
+		if(e.getArg0().getTipo() instanceof Id) {
+			etq++;
+		}
+		if(e.getTipo() instanceof Real) {
+			if(e.getArg0().getTipo() instanceof Int) {
+				etq++;
+			}
+		}
+		e.getArg1().procesa(this);
+		if(e.getArg1() instanceof Id) {
+			etq++;
+		}
+		if(e.getTipo() instanceof Real) {
+			if(e.getArg1().getTipo() instanceof Int) {
+				etq++;
+			}
+		}
 	}
 
 	@Override
