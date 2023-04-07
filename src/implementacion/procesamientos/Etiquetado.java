@@ -3,9 +3,10 @@ package implementacion.procesamientos;
 import java.util.Stack;
 
 import implementacion.abstractSintax.Procesamiento;
+import implementacion.abstractSintax.ProcesamientoPorDefecto;
 import implementacion.abstractSintax.SintaxisAbstracta.*;
 
-public class Etiquetado implements Procesamiento {
+public class Etiquetado extends ProcesamientoPorDefecto {
 	private int etq = 0;
 	private Stack<Dec_Proc> procs = new Stack<>();
 	
@@ -18,36 +19,6 @@ public class Etiquetado implements Procesamiento {
 			Dec_Proc p = procs.pop();
 			p.procesa(this);
 		}
-	}
-
-	@Override
-	public void procesa(Sin_Decs lDecs) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void procesa(Una_Dec lDecs) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void procesa(Muchas_Decs lDecs) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void procesa(Dec_Var dec) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void procesa(Dec_Tipo dec) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -79,103 +50,7 @@ public class Etiquetado implements Procesamiento {
 			//skip
 		}
 	}
-
-	@Override
-	public void procesa(Int_ tipo) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void procesa(Real_ tipo) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void procesa(Bool_ tipo) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void procesa(String_ tipo) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void procesa(Ref_ tipo) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void procesa(Array_ tipo) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void procesa(Record_ tipo) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void procesa(Puntero_ tipo) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void procesa(Un_Campo campos) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void procesa(Muchos_Campos campos) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void procesa(Campo campo) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void procesa(Sin_Params lParams) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void procesa(Un_Param lParams) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void procesa(Muchos_Params lParams) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void procesa(Param_Ref param) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void procesa(Param_Val param) {
-		// TODO Auto-generated method stub
-
-	}
-
+	
 	@Override
 	public void procesa(Sin_Ins lIns) {
 		//skip
@@ -406,8 +281,8 @@ public class Etiquetado implements Procesamiento {
 		if(e.getArg0().getTipo() instanceof Id) {
 			etq++;
 		}
-		if(e.getTipo() instanceof Real) {
-			if(e.getArg0().getTipo() instanceof Int) {
+		if(e.getTipo() instanceof Real_) {
+			if(e.getArg0().getTipo() instanceof Int_) {
 				etq++;
 			}
 		}
@@ -415,83 +290,138 @@ public class Etiquetado implements Procesamiento {
 		if(e.getArg1() instanceof Id) {
 			etq++;
 		}
-		if(e.getTipo() instanceof Real) {
-			if(e.getArg1().getTipo() instanceof Int) {
+		if(e.getTipo() instanceof Real_) {
+			if(e.getArg1().getTipo() instanceof Int_) {
 				etq++;
 			}
 		}
+		etq++;
 	}
 
 	@Override
 	public void procesa(Suma e) {
-		// TODO Auto-generated method stub
-
-	}
+		etiquetaBinArit(e);
+		}
 
 	@Override
 	public void procesa(Resta e) {
-		// TODO Auto-generated method stub
-
+		etiquetaBinArit(e);
 	}
-
-	@Override
-	public void procesa(And e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void procesa(Or e) {
-		// TODO Auto-generated method stub
-
-	}
-
+	
 	@Override
 	public void procesa(Mult e) {
-		// TODO Auto-generated method stub
-
+		etiquetaBinArit(e);
 	}
 
 	@Override
 	public void procesa(Div e) {
-		// TODO Auto-generated method stub
-
+		etiquetaBinArit(e);
 	}
 
 	@Override
 	public void procesa(Mod e) {
-		// TODO Auto-generated method stub
+		etiquetaBinArit(e);
+	}
+	
+	//Op lógicos binarios
+	private void etiquetaBin(EBinario e) {
+		e.getArg0().procesa(this);
+		if(e.getArg0().getTipo() instanceof Id) {
+			etq++;
+		}
+		e.getArg1().procesa(this);
+		if(e.getArg1() instanceof Id) {
+			etq++;
+		}
+		etq++;
+	}
 
+	@Override
+	public void procesa(And e) {
+		etiquetaBin(e);
+	}
+
+	@Override
+	public void procesa(Or e) {
+		etiquetaBin(e);
+	}
+	
+	//Op unarios (infijos) [nivel4]
+	private void etiquetaUn(EUnario e) {
+		e.getArg0().procesa(this);
+		if(e.getArg0().getTipo() instanceof Id) {
+			etq++;
+		}
+		etq++;
 	}
 
 	@Override
 	public void procesa(Neg e) {
-		// TODO Auto-generated method stub
-
+		etiquetaUn(e);
 	}
 
 	@Override
 	public void procesa(Not e) {
-		// TODO Auto-generated method stub
-
+		etiquetaUn(e);
 	}
 
 	@Override
 	public void procesa(Index e) {
-		// TODO Auto-generated method stub
-
+		e.getArg0().procesa(this);
+		e.getArg1().procesa(this);
+		if(e.getArg1().getTipo() instanceof Id) {
+			etq++;
+		}
+		etq += 3;
 	}
 
 	@Override
 	public void procesa(Access e) {
-		// TODO Auto-generated method stub
-
+		e.getArg0().procesa(this);
+		etq += 2;
 	}
 
 	@Override
 	public void procesa(Indir e) {
-		// TODO Auto-generated method stub
-
+		e.getArg0().procesa(this);
+		e.sigStop = etq+4;
+		etq += 5;
 	}
 
+	private void etiquetaParams(LParams lParams, LExp lExp) {
+		if(lParams instanceof Sin_Params && lExp instanceof Sin_Expr) {
+			//skip
+		}
+		else if(lParams instanceof Un_Param && lExp instanceof Una_Expr) {
+			etiquetaPaso(((Un_Param) lParams).getParam(), ((Una_Expr) lExp).getE());
+		}
+		else if(lParams instanceof Muchos_Params && lExp instanceof Muchas_Expr) {
+			etiquetaParams(lParams, lExp);
+			etiquetaPaso(((Muchos_Params) lParams).getParam(), ((Una_Expr) lExp).getE());
+		}
+	}
+	
+	private void etiquetaPaso(Param p, E e) {
+		etq += 3;
+		e.procesa(this);
+		if(p instanceof Param_Val) {
+			if (((Param_Val) p).getT() instanceof Real_ && e.getTipo() instanceof Int_) {
+				if(e instanceof Id) {
+					etq++;
+				}
+				etq += 2;
+			}
+			else {
+				if(e instanceof Id) {
+					etq++;
+				}
+				else {
+					etq++;
+				}
+			}
+		}
+		else {
+			etq++;
+		}
+	}
 }
