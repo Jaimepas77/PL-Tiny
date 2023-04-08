@@ -5,17 +5,19 @@ import java.util.HashMap;
 import implementacion.abstractSintax.Procesamiento;
 import implementacion.abstractSintax.SintaxisAbstracta.*;
 
-class Vinculos extends HashMap<String, Dec> {}
+class Vinculos extends HashMap<String, Dec> {
+	Vinculos padre = null;
+}
 
 public class Vinculacion implements Procesamiento {
 
-	private Vinculos ts, ant_ts;	//Clave: id; Valor: nodo con la declaración
-	private int pasada = 1;	//Sirve para diferenciar los procesa de la primera y la segunda pasada
-	private Dec vinculo;
+	private Vinculos ts, ant_ts; //Clave: id; Valor: nodo con la declaración
+	private int pasada;	//Sirve para diferenciar los procesa de la primera y la segunda pasada
 
 	@Override
 	public void procesa(Prog_ prog) {
 		ts = new Vinculos();
+		pasada = 1;
 		prog.getlDecs().procesa(this);
 		pasada = 2;
 		prog.getlDecs().procesa(this);
@@ -63,7 +65,11 @@ public class Vinculacion implements Procesamiento {
 			else ts.put(dec.getStr(), dec);
 		}
 		ant_ts = ts;
-		//TODO crea_ambito(ts)
+		// crea_ambito(ts)
+		ts = new Vinculos();
+		ts.padre = ant_ts;
+
+		pasada = 1;
 		dec.getlParams().procesa(this);
 		dec.getlDecs().procesa(this);
 		pasada = 2;
@@ -96,7 +102,7 @@ public class Vinculacion implements Procesamiento {
 	@Override
 	public void procesa(Ref_ tipo) {
 		if(pasada==1){
-			if (ts.containsKey(tipo.getStr())) vinculo = ts.get(tipo.getStr());
+			if (ts.containsKey(tipo.getStr())) tipo.setVinculo(ts.get(tipo.getStr()));
 			else throw new RuntimeException("No existe: " + tipo.getStr());
 		}
 	}
@@ -113,17 +119,14 @@ public class Vinculacion implements Procesamiento {
 
 	@Override
 	public void procesa(Puntero_ tipo) {
-		// TODO Medio invent
 		if(pasada==1){
 			if(!(tipo.getT() instanceof Ref_)) tipo.getT().procesa(this);
 		} else if(pasada==2){
-			// TODO Duda no sabemos de donde cogger ref(id)m de la condición tipo==ref(id)
 			if(tipo.getT() instanceof Ref_){
-				if (ts.containsKey(tipo.getT())) vinculo = ts.get(tipo.getT());
-				else throw new RuntimeException("No existe: " + tipo.getT());
-			} else{
-				tipo.getT().procesa(this);
-			}
+				if (ts.containsKey(((Ref_) tipo.getT()).getStr())){
+					tipo.setVinculo(ts.get(((Ref_) tipo.getT()).getStr()));
+				} else throw new RuntimeException("No existe: " + ((Ref_) tipo.getT()).getStr());
+			} else tipo.getT().procesa(this);
 		}
 	}
 
@@ -169,7 +172,7 @@ public class Vinculacion implements Procesamiento {
 		param.getT().procesa(this);
 		if(pasada==1){
 			if (ts.containsKey(param.getStr())) throw new RuntimeException("Constante ya definida: " + param.getStr());
-			else ts.put(param.getStr(), vinculo);	//TODO NO ESTAMOS SEGUROS DE "vinculo"
+			else ts.put(param.getStr(), param.getVinculo());
 		}
 	}
 	@Override
@@ -247,7 +250,11 @@ public class Vinculacion implements Procesamiento {
 	@Override
 	public void procesa(Ins_Compuesta ins) {
 		ant_ts = ts;
-		//TODO crea_ambito(ts)
+		// crea_ambito(ts)
+		ts = new Vinculos();
+		ts.padre = ant_ts;
+
+		pasada = 1;
 		ins.getLDecs().procesa(this);
 		pasada = 2;
 		ins.getLDecs().procesa(this);
@@ -298,7 +305,7 @@ public class Vinculacion implements Procesamiento {
 
 	@Override
 	public void procesa(Id e) {
-		if (ts.containsKey(e.getStr())) vinculo = ts.get(e.getStr());
+		if (ts.containsKey(e.getStr())) e.setVinculo(ts.get(e.getStr()));
 			else throw new RuntimeException("No existe: " + e.getStr());
 	}
 

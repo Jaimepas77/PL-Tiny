@@ -231,12 +231,16 @@ public class SintaxisAbstracta {
 
 	public static class Ref_ extends Tipo {
 		public String str;
+		private Dec vinculo;
 		public Ref_(String str) {
 			super();
 			this.str = str;
 		}
 		public String getStr() {
 			return str;
+		}
+		public void setVinculo(Dec vinculo) {
+			this.vinculo = vinculo;
 		}
 		public void procesa(Procesamiento p) {
 			p.procesa(this);
@@ -278,12 +282,20 @@ public class SintaxisAbstracta {
 
 	public static class Puntero_ extends Tipo {
 		public Tipo t;
+		private Dec vinculo;
+
 		public Puntero_(Tipo t) {
 			super();
 			this.t = t;
 		}
 		public Tipo getT() {
 			return t;
+		}
+		public Dec getVinculo() {
+			return vinculo;
+		}
+		public void setVinculo(Dec vinculo) {
+			this.vinculo = vinculo;
 		}
 		public void procesa(Procesamiento p) {
 			p.procesa(this);
@@ -449,6 +461,7 @@ public class SintaxisAbstracta {
 		private Tipo t;
 		private int dir;
 		private int nivel;
+		private Dec vinculo;
 		public Param_Val(String str, Tipo t) {
 			super();
 			this.str = str;
@@ -471,6 +484,9 @@ public class SintaxisAbstracta {
 		}
 		public int getNivel() {
 			return nivel;
+		}
+		public Dec getVinculo() {
+			return vinculo;
 		}
 		public void setNivel(int nivel) {
 			this.nivel = nivel;
@@ -833,12 +849,19 @@ public class SintaxisAbstracta {
 
 	public static class Id extends E {
 		public String str;
+		private Dec vinculo;
 		public Id(String str) {
 			super();
 			this.str = str;
 		}
 		public String getStr() {
 			return str;
+		}
+		public Dec getVinculo() {
+			return vinculo;
+		}
+		public void setVinculo(Dec vinculo) {
+			this.vinculo = vinculo;
 		}
 		public void procesa(Procesamiento p) {
 			p.procesa(this);
