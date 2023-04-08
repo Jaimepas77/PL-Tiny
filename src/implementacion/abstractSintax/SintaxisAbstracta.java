@@ -876,7 +876,7 @@ public class SintaxisAbstracta {
 			super();
 			this.arg0 = arg0;
 		}
-		public E arg0() {
+		public E getArg0() {
 			return arg0;
 		}
 	}

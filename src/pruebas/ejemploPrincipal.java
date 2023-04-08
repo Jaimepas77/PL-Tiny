@@ -16,7 +16,7 @@ public class ejemploPrincipal {
 		prog.procesa(new Vinculacion());
 //		prog.procesa(new Tipado());
 		prog.procesa(new AsignacionEspacio());
-//		prog.procesa(new Etiquetado());
+		prog.procesa(new Etiquetado());
 		MaquinaP m = new MaquinaP(20, 15, 40, 3);
 //		prog.procesa(new GenCodigo(m));
 		
