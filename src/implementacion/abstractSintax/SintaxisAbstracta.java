@@ -11,6 +11,7 @@ public class SintaxisAbstracta {
 	public static class Prog_ extends Prog {
 		private LDecs lDecs;
 		private LIns lIns;
+		private int ini;
 		public Prog_(LDecs lDecs, LIns lIns) {
 			super();
 			this.lDecs = lDecs;
@@ -25,6 +26,14 @@ public class SintaxisAbstracta {
 		}
 		public void procesa(Procesamiento p) {
 			p.procesa(this); 
+		}
+
+		public int getIni() {
+			return ini;
+		}
+
+		public void setIni(int ini) {
+			this.ini = ini;
 		}
 	}
 
@@ -143,6 +152,8 @@ public class SintaxisAbstracta {
 		private LIns lIns;
 		private int nivel;
 		private int tamDatos;
+		private int ini;
+		private int sig;
 		public Dec_Proc(String str, LParams lParams, LDecs lDecs, LIns lIns) {
 			super();
 			this.str = str;
@@ -176,6 +187,18 @@ public class SintaxisAbstracta {
 		}
 		public void setTamDatos(int tamDatos) {
 			this.tamDatos = tamDatos;
+		}
+		public int getIni() {
+			return ini;
+		}
+		public void setIni(int ini) {
+			this.ini = ini;
+		}
+		public int getSig() {
+			return sig;
+		}
+		public void setSig(int sig) {
+			this.sig = sig;
 		}
 	}
 
@@ -479,9 +502,24 @@ public class SintaxisAbstracta {
 
 	//LIns
 	public static abstract class LIns {
+		private int ini;
+		private int sig;
 		public LIns() {
 		}
 		public abstract void procesa(Procesamiento p);
+		
+		public int getIni() {
+			return ini;
+		}
+		public void setIni(int ini) {
+			this.ini = ini;
+		}
+		public int getSig() {
+			return sig;
+		}
+		public void setSig(int sig) {
+			this.sig = sig;
+		}
 	}
 
 	public static class Sin_Ins extends LIns {
@@ -495,6 +533,8 @@ public class SintaxisAbstracta {
 
 	public static class Una_Ins extends LIns {
 		private Ins ins;
+		private int ini;
+		private int sig;
 		public Una_Ins(Ins ins) {
 			super();
 			this.ins = ins;
@@ -504,6 +544,18 @@ public class SintaxisAbstracta {
 		}
 		public void procesa(Procesamiento p) {
 			p.procesa(this);
+		}
+		public int getIni() {
+			return ini;
+		}
+		public void setIni(int ini) {
+			this.ini = ini;
+		}
+		public int getSig() {
+			return sig;
+		}
+		public void setSig(int sig) {
+			this.sig = sig;
 		}
 	}
 
@@ -528,9 +580,24 @@ public class SintaxisAbstracta {
 
 	//Ins
 	public static abstract class Ins {
+		private int ini;
+		private int sig;
 		public Ins() {
 		}
 		public abstract void procesa(Procesamiento p);
+		
+		public int getIni() {
+			return ini;
+		}
+		public void setIni(int ini) {
+			this.ini = ini;
+		}
+		public int getSig() {
+			return sig;
+		}
+		public void setSig(int sig) {
+			this.sig = sig;
+		}
 	}	
 
 	public static class Asignacion_ extends Ins {
@@ -665,6 +732,7 @@ public class SintaxisAbstracta {
 
 	public static class Delete_ extends Ins {
 		private E e;
+		private int sigStop;
 		public Delete_(E e) {
 			super();
 			this.e = e;
@@ -674,6 +742,12 @@ public class SintaxisAbstracta {
 		}
 		public void procesa(Procesamiento p) {
 			p.procesa(this);
+		}
+		public int getSigStop() {
+			return sigStop;
+		}
+		public void setSigStop(int sigStop) {
+			this.sigStop = sigStop;
 		}
 	}
 
@@ -717,9 +791,24 @@ public class SintaxisAbstracta {
 
 	//LExp
 	public static abstract class LExp {
+		private int ini;
+		private int sig;
 		public LExp() {
 		}
 		public abstract void procesa(Procesamiento p);
+		
+		public int getIni() {
+			return ini;
+		}
+		public void setIni(int ini) {
+			this.ini = ini;
+		}
+		public int getSig() {
+			return sig;
+		}
+		public void setSig(int sig) {
+			this.sig = sig;
+		}
 	}
 
 	public static class Sin_Expr extends LExp {
@@ -766,9 +855,24 @@ public class SintaxisAbstracta {
 
 	//E - Expresión
 	public static abstract class E {
+		private int ini;
+		private int sig;
 		public E() {
 		}
 		public abstract void procesa(Procesamiento p);
+		
+		public int getIni() {
+			return ini;
+		}
+		public void setIni(int ini) {
+			this.ini = ini;
+		}
+		public int getSig() {
+			return sig;
+		}
+		public void setSig(int sig) {
+			this.sig = sig;
+		}
 	}
 
 	public static class Int extends E {
@@ -1098,6 +1202,7 @@ public class SintaxisAbstracta {
 	}
 
 	public static class Indir extends EUnario {
+		private int sigStop;
 		public Indir(E arg0) {
 			super(arg0);
 		}
@@ -1106,6 +1211,12 @@ public class SintaxisAbstracta {
 		}
 		public final int prioridad() {
 			return 5;
+		}
+		public int getSigStop() {
+			return sigStop;
+		}
+		public void setSigStop(int sigStop) {
+			this.sigStop = sigStop;
 		}
 	}	
 
