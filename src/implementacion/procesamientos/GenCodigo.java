@@ -167,6 +167,7 @@ public class GenCodigo extends ProcesamientoPorDefecto {
 	@Override
 	public void procesa(Delete_ ins) {
 		ins.getE().procesa(this);
+		m.ponInstruccion(m.dup());
 		m.ponInstruccion(m.apilaInt(-1));
 		m.ponInstruccion(m.beq());
 		m.ponInstruccion(m.irF(ins.getSigStop()));
@@ -253,159 +254,198 @@ public class GenCodigo extends ProcesamientoPorDefecto {
 	}
 	
 	//Op relacionales
-	private void etiquetaBinRel(EBinario e) {
+	private void genCodBinRel(EBinario e) {
 		e.getArg0().procesa(this);
 		if(e.getArg0() instanceof Id) {
-			etq++;
+			m.ponInstruccion(m.apilaInd());
 		}
 		e.getArg1().procesa(this);
 		if(e.getArg1() instanceof Id) {
-			etq++;
+			m.ponInstruccion(m.apilaInd());
 		}
-		etq++;
 	}
 
 	@Override
 	public void procesa(Blt e) {
-		etiquetaBinRel(e);
+		genCodBinRel(e);
+		m.ponInstruccion(m.blt());
 	}
 
 	@Override
 	public void procesa(Ble e) {
-		etiquetaBinRel(e);
+		genCodBinRel(e);
+		m.ponInstruccion(m.ble());
 	}
 
 	@Override
 	public void procesa(Bgt e) {
-		etiquetaBinRel(e);
+		genCodBinRel(e);
+		m.ponInstruccion(m.bgt());
 	}
 
 	@Override
 	public void procesa(Bge e) {
-		etiquetaBinRel(e);
+		genCodBinRel(e);
+		m.ponInstruccion(m.bge());
 	}
 
 	@Override
 	public void procesa(Beq e) {
-		etiquetaBinRel(e);
+		genCodBinRel(e);
+		m.ponInstruccion(m.beq());
 	}
 
 	@Override
 	public void procesa(Bne e) {
-		etiquetaBinRel(e);
+		genCodBinRel(e);
+		m.ponInstruccion(m.bne());
 	}
 	
 	//Op aritméticos binarios
-	private void etiquetaBinArit(EBinario e) {
+	private void genCodBinArit(EBinario e) {
 		e.getArg0().procesa(this);
 		if(e.getArg0().getTipo() instanceof Id) {
-			etq++;
+			m.ponInstruccion(m.apilaInd());
 		}
 		if(e.getTipo() instanceof Real_) {
 			if(e.getArg0().getTipo() instanceof Int_) {
-				etq++;
+				m.ponInstruccion(m.intToReal());
 			}
 		}
 		e.getArg1().procesa(this);
 		if(e.getArg1() instanceof Id) {
-			etq++;
+			m.ponInstruccion(m.apilaInd());
 		}
 		if(e.getTipo() instanceof Real_) {
 			if(e.getArg1().getTipo() instanceof Int_) {
-				etq++;
+				m.ponInstruccion(m.intToReal());
 			}
 		}
-		etq++;
 	}
 
 	@Override
 	public void procesa(Suma e) {
-		etiquetaBinArit(e);
+		genCodBinArit(e);
+		if(e.getTipo() instanceof Real_) {
+			m.ponInstruccion(m.sumaReal());
 		}
+		else {
+			m.ponInstruccion(m.sumaInt());
+		}
+	}
 
 	@Override
 	public void procesa(Resta e) {
-		etiquetaBinArit(e);
+		genCodBinArit(e);
+		if(e.getTipo() instanceof Real_) {
+			m.ponInstruccion(m.restaReal());
+		}
+		else {
+			m.ponInstruccion(m.restaInt());
+		}
 	}
 	
 	@Override
 	public void procesa(Mult e) {
-		etiquetaBinArit(e);
+		genCodBinArit(e);
+		if(e.getTipo() instanceof Real_) {
+			m.ponInstruccion(m.mulReal());
+		}
+		else {
+			m.ponInstruccion(m.mulInt());
+		}
 	}
 
 	@Override
 	public void procesa(Div e) {
-		etiquetaBinArit(e);
+		genCodBinArit(e);
+		if(e.getTipo() instanceof Real_) {
+			m.ponInstruccion(m.divReal());
+		}
+		else {
+			m.ponInstruccion(m.divInt());
+		}
 	}
 
 	@Override
 	public void procesa(Mod e) {
-		etiquetaBinArit(e);
+		genCodBinArit(e);
+		m.ponInstruccion(m.mod());
 	}
 	
 	//Op lógicos binarios
 	private void etiquetaBin(EBinario e) {
 		e.getArg0().procesa(this);
 		if(e.getArg0().getTipo() instanceof Id) {
-			etq++;
+			m.ponInstruccion(m.apilaInd());
 		}
 		e.getArg1().procesa(this);
 		if(e.getArg1() instanceof Id) {
-			etq++;
+			m.ponInstruccion(m.apilaInd());
 		}
-		etq++;
 	}
 
 	@Override
 	public void procesa(And e) {
 		etiquetaBin(e);
+		m.ponInstruccion(m.and());
 	}
 
 	@Override
 	public void procesa(Or e) {
 		etiquetaBin(e);
+		m.ponInstruccion(m.or());
 	}
 	
 	//Op unarios (infijos) [nivel4]
 	private void etiquetaUn(EUnario e) {
 		e.getArg0().procesa(this);
 		if(e.getArg0().getTipo() instanceof Id) {
-			etq++;
+			m.ponInstruccion(m.apilaInd());
 		}
-		etq++;
 	}
 
 	@Override
 	public void procesa(Neg e) {
 		etiquetaUn(e);
+		m.ponInstruccion(m.neg());
 	}
 
 	@Override
 	public void procesa(Not e) {
 		etiquetaUn(e);
+		m.ponInstruccion(m.not());
 	}
 
+	//Operadores unarios (sufijos)
 	@Override
 	public void procesa(Index e) {
 		e.getArg0().procesa(this);
 		e.getArg1().procesa(this);
 		if(e.getArg1().getTipo() instanceof Id) {
-			etq++;
+			m.ponInstruccion(m.apilaInd());
 		}
-		etq += 3;
+		m.ponInstruccion(m.apilaInt(e.getArg0().getTipo().getTam()));
+		m.ponInstruccion(m.mulInt());
+		m.ponInstruccion(m.sumaInt());
 	}
 
 	@Override
 	public void procesa(Access e) {
 		e.getArg0().procesa(this);
-		etq += 2;
+		m.ponInstruccion(m.apilaInt(e.getTipo().getDespl(e.getStr())));
+		m.ponInstruccion(m.sumaInt());
 	}
 
 	@Override
 	public void procesa(Indir e) {
 		e.getArg0().procesa(this);
-		e.setSigStop(etq+4);
-		etq += 5;
+		m.ponInstruccion(m.dup());
+		m.ponInstruccion(m.apilaInt(-1));
+		m.ponInstruccion(m.beq());
+		m.ponInstruccion(m.irF(e.getSigStop()));
+		m.ponInstruccion(m.stop());
+		m.ponInstruccion(m.apilaInd());
 	}
 
 	private void genCodParams(LParams lParams, LExp lExp) {
@@ -413,35 +453,38 @@ public class GenCodigo extends ProcesamientoPorDefecto {
 			//skip
 		}
 		else if(lParams instanceof Un_Param && lExp instanceof Una_Expr) {
-			etiquetaPaso(((Un_Param) lParams).getParam(), ((Una_Expr) lExp).getE());
+			genCodPaso(((Un_Param) lParams).getParam(), ((Una_Expr) lExp).getE());
 		}
 		else if(lParams instanceof Muchos_Params && lExp instanceof Muchas_Expr) {
 			genCodParams(lParams, lExp);
-			etiquetaPaso(((Muchos_Params) lParams).getParam(), ((Una_Expr) lExp).getE());
+			genCodPaso(((Muchos_Params) lParams).getParam(), ((Una_Expr) lExp).getE());
 		}
 	}
 	
-	private void etiquetaPaso(Param p, E e) {
-		etq += 3;
+	private void genCodPaso(Param p, E e) {
+		m.ponInstruccion(m.dup());
+		m.ponInstruccion(m.apilaInt(p.getDir()));
+		m.ponInstruccion(m.sumaInt());
 		e.procesa(this);
 		if(p instanceof Param_Val) {
 			if (((Param_Val) p).getT() instanceof Real_ && e.getTipo() instanceof Int_) {
 				if(e instanceof Id) {
-					etq++;
+					m.ponInstruccion(m.apilaInd());
 				}
-				etq += 2;
+				m.ponInstruccion(m.intToReal());
+				m.ponInstruccion(m.desapilaInd());
 			}
 			else {
 				if(e instanceof Id) {
-					etq++;
+					m.ponInstruccion(m.mueve(e.getTipo().getTam()));
 				}
 				else {
-					etq++;
+					m.ponInstruccion(m.desapilaInd());
 				}
 			}
 		}
 		else {
-			etq++;
+			m.ponInstruccion(m.desapilaInd());
 		}
 	}
 }

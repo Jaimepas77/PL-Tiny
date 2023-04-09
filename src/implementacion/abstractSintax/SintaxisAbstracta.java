@@ -528,35 +528,12 @@ public class SintaxisAbstracta {
 
 	// Param
 	public static abstract class Param {
+		private int dir;
+		private int nivel;
 		public Param() {
 		}
 
 		public abstract void procesa(Procesamiento p);
-	}
-
-	public static class Param_Ref extends Param {
-		private String str;
-		private Tipo t;
-		private int dir;
-		private int nivel;
-
-		public Param_Ref(String str, Tipo t) {
-			super();
-			this.str = str;
-			this.t = t;
-		}
-
-		public String getStr() {
-			return str;
-		}
-
-		public Tipo getT() {
-			return t;
-		}
-
-		public void procesa(Procesamiento p) {
-			p.procesa(this);
-		}
 
 		public int getDir() {
 			return dir;
@@ -575,11 +552,32 @@ public class SintaxisAbstracta {
 		}
 	}
 
+	public static class Param_Ref extends Param {
+		private String str;
+		private Tipo t;
+
+		public Param_Ref(String str, Tipo t) {
+			super();
+			this.str = str;
+			this.t = t;
+		}
+
+		public String getStr() {
+			return str;
+		}
+
+		public Tipo getT() {
+			return t;
+		}
+
+		public void procesa(Procesamiento p) {
+			p.procesa(this);
+		}
+	}
+
 	public static class Param_Val extends Param {
 		private String str;
 		private Tipo t;
-		private int dir;
-		private int nivel;
 		private Dec vinculo;
 
 		public Param_Val(String str, Tipo t) {
@@ -600,24 +598,8 @@ public class SintaxisAbstracta {
 			p.procesa(this);
 		}
 
-		public int getDir() {
-			return dir;
-		}
-
-		public void setDir(int dir) {
-			this.dir = dir;
-		}
-
-		public int getNivel() {
-			return nivel;
-		}
-
 		public Dec getVinculo() {
 			return vinculo;
-		}
-
-		public void setNivel(int nivel) {
-			this.nivel = nivel;
 		}
 	}
 

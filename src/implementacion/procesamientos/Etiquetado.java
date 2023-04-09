@@ -173,8 +173,8 @@ public class Etiquetado extends ProcesamientoPorDefecto {
 	public void procesa(Delete_ ins) {
 		ins.setIni(etq);
 		ins.getE().procesa(this);
-		ins.setSigStop(etq + 4);
-		etq += 5;
+		ins.setSigStop(etq + 5);
+		etq += 6;
 		ins.setSig(etq);
 	}
 
@@ -439,8 +439,8 @@ public class Etiquetado extends ProcesamientoPorDefecto {
 	public void procesa(Indir e) {
 		e.setIni(etq);
 		e.getArg0().procesa(this);
-		e.setSigStop(etq+4);
-		etq += 5;
+		e.setSigStop(etq+5);
+		etq += 6;
 		e.setSig(etq);
 	}
 
