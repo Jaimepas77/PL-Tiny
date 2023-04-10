@@ -80,13 +80,13 @@ public class Etiquetado extends ProcesamientoPorDefecto {
 		ins.getE1().procesa(this);
 		ins.getE2().procesa(this);
 		if(ins.getE1().getTipo() instanceof Real_ && ins.getE2().getTipo() instanceof Int_) {
-			if(ins.getE2() instanceof Id) {
+			if(esDesignador(ins.getE2())) {
 				etq++;
 			}
 			etq += 2;
 		}
 		else {
-			if(ins.getE2() instanceof Id) {//Sí, es redundante, pero se deja así por claridad
+			if(esDesignador(ins.getE2())) {//Sí, es redundante, pero se deja así por claridad
 				etq++;
 			}
 			else {
@@ -100,7 +100,7 @@ public class Etiquetado extends ProcesamientoPorDefecto {
 	public void procesa(If_Then ins) {
 		ins.setIni(etq);
 		ins.getE().procesa(this);
-		if(ins.getE() instanceof Id) {
+		if(esDesignador(ins.getE())) {
 			etq++;
 		}
 		etq++;
@@ -112,7 +112,7 @@ public class Etiquetado extends ProcesamientoPorDefecto {
 	public void procesa(If_Then_Else ins) {
 		ins.setIni(etq);
 		ins.getE().procesa(this);
-		if(ins.getE() instanceof Id) {
+		if(esDesignador(ins.getE())) {
 			etq++;
 		}
 		etq++;
@@ -126,7 +126,7 @@ public class Etiquetado extends ProcesamientoPorDefecto {
 	public void procesa(While_ ins) {
 		ins.setIni(etq);
 		ins.getE().procesa(this);
-		if(ins.getE() instanceof Id) {
+		if(esDesignador(ins.getE())) {
 			etq++;
 		}
 		etq++;
@@ -147,7 +147,7 @@ public class Etiquetado extends ProcesamientoPorDefecto {
 	public void procesa(Write_ ins) {
 		ins.setIni(etq);
 		ins.getE().procesa(this);
-		if(ins.getE() instanceof Id) {
+		if(esDesignador(ins.getE())) {
 			etq++;
 		}
 		etq++;
@@ -278,11 +278,11 @@ public class Etiquetado extends ProcesamientoPorDefecto {
 	private void etiquetaBinRel(EBinario e) {
 		e.setIni(etq);
 		e.getArg0().procesa(this);
-		if(e.getArg0() instanceof Id) {
+		if(esDesignador(e.getArg0())) {
 			etq++;
 		}
 		e.getArg1().procesa(this);
-		if(e.getArg1() instanceof Id) {
+		if(esDesignador(e.getArg1())) {
 			etq++;
 		}
 		etq++;
@@ -323,7 +323,8 @@ public class Etiquetado extends ProcesamientoPorDefecto {
 	private void etiquetaBinArit(EBinario e) {
 		e.setIni(etq);
 		e.getArg0().procesa(this);
-		if(e.getArg0().getTipo() instanceof Id) {
+		if(esDesignador(e.getArg0())) {
+			
 			etq++;
 		}
 		if(e.getTipo() instanceof Real_) {
@@ -332,7 +333,7 @@ public class Etiquetado extends ProcesamientoPorDefecto {
 			}
 		}
 		e.getArg1().procesa(this);
-		if(e.getArg1() instanceof Id) {
+		if(esDesignador(e.getArg1())) {
 			etq++;
 		}
 		if(e.getTipo() instanceof Real_) {
@@ -373,11 +374,11 @@ public class Etiquetado extends ProcesamientoPorDefecto {
 	private void etiquetaBin(EBinario e) {
 		e.setIni(etq);
 		e.getArg0().procesa(this);
-		if(e.getArg0().getTipo() instanceof Id) {
+		if(esDesignador(e.getArg0())) {
 			etq++;
 		}
 		e.getArg1().procesa(this);
-		if(e.getArg1() instanceof Id) {
+		if(esDesignador(e.getArg1())) {
 			etq++;
 		}
 		etq++;
@@ -398,7 +399,7 @@ public class Etiquetado extends ProcesamientoPorDefecto {
 	private void etiquetaUn(EUnario e) {
 		e.setIni(etq);
 		e.getArg0().procesa(this);
-		if(e.getArg0().getTipo() instanceof Id) {
+		if(esDesignador(e.getArg0())) {
 			etq++;
 		}
 		etq++;
@@ -420,7 +421,7 @@ public class Etiquetado extends ProcesamientoPorDefecto {
 		e.setIni(etq);
 		e.getArg0().procesa(this);
 		e.getArg1().procesa(this);
-		if(e.getArg1().getTipo() instanceof Id) {
+		if(esDesignador(e.getArg1())) {
 			etq++;
 		}
 		etq += 3;
@@ -462,13 +463,13 @@ public class Etiquetado extends ProcesamientoPorDefecto {
 		e.procesa(this);
 		if(p instanceof Param_Val) {
 			if (((Param_Val) p).getT() instanceof Real_ && e.getTipo() instanceof Int_) {
-				if(e instanceof Id) {
+				if(esDesignador(e)) {
 					etq++;
 				}
 				etq += 2;
 			}
 			else {
-				if(e instanceof Id) {
+				if(esDesignador(e)) {
 					etq++;
 				}
 				else {
@@ -479,5 +480,9 @@ public class Etiquetado extends ProcesamientoPorDefecto {
 		else {
 			etq++;
 		}
+	}
+	
+	private boolean esDesignador(E e) {
+		return e instanceof Id || e instanceof Indir || e instanceof Access || e instanceof Index;
 	}
 }
