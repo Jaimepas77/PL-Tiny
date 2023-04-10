@@ -13,6 +13,7 @@ public class ejemploPrincipal {
 //		prog = astCodigoDeEjemplo();
 		prog = astCodigoNl();
 //		prog = astCodigoSumaInt();
+//		prog = astCodigoReadWrite();
 		
 		//Procesamientos
 		prog.procesa(new Vinculacion());
@@ -73,6 +74,23 @@ public class ejemploPrincipal {
 						sa.cAsignacion_(
 								sa.cId("i"),
 								sa.cSuma(sa.cId("i"), sa.cInt("1")))));
+	}
+	
+	private static Prog astCodigoReadWrite() {
+		//Este código precisa de todos los procesamientos excepto el etiquetado
+		/*
+		 * var text: string;
+		 * begin
+		 * 	read text;
+		 *  write text;
+		 * end.
+		 * */
+		SintaxisAbstracta sa = new SintaxisAbstracta();
+		return sa.cProg_(sa.cUna_Dec(sa.cDec_Var("text", sa.cInt_())),
+				sa.cMuchas_Ins(
+						sa.cUna_Ins(
+								sa.cRead_(sa.cId("text"))),
+						sa.cWrite_(sa.cId("text"))));
 	}
 	
 	private static Prog astCodigoDeEjemplo() {
