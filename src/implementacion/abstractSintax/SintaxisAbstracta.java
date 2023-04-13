@@ -1,6 +1,6 @@
 package implementacion.abstractSintax;
 
-import implementacion.abstractSintax.SintaxisAbstracta.Tipo;
+import implementacion.procesamientos.TipoDatos;
 
 public class SintaxisAbstracta {
 	//Prog
@@ -14,15 +14,7 @@ public class SintaxisAbstracta {
 		private LDecs lDecs;
 		private LIns lIns;
         private boolean tipo;
-
-		public boolean getTipo() {
-			return tipo;
-		}
-
-		public void setTipo(boolean tipo) {
-			this.tipo = tipo;
-		}
-
+		
 		public Prog_(LDecs lDecs, LIns lIns) {
 			super();
 			this.lDecs = lDecs;
@@ -35,6 +27,13 @@ public class SintaxisAbstracta {
 		public LIns getlIns() {
 			return lIns;
 		}
+		public boolean getTipo() {
+			return tipo;
+		}
+		public void setTipo(boolean tipo) {
+			this.tipo = tipo;
+		}
+
 		public void procesa(Procesamiento p) {
 			p.procesa(this); 
 		}
@@ -42,22 +41,27 @@ public class SintaxisAbstracta {
 
 	//LDecs
 	public static abstract class LDecs {
+		private boolean tipo;
         public LDecs() {
 		}
 		public abstract void procesa(Procesamiento p);
+		public boolean getTipo() {
+			return tipo;
+		}
 	}
 
 	public static class Sin_Decs extends LDecs {
 		private boolean tipo;
+
+		public Sin_Decs() {
+			super();
+		}
+
 		public boolean getTipo() {
 			return tipo;
 		}
-
 		public void setTipo(boolean tipo) {
 			this.tipo = tipo;
-		}
-		public Sin_Decs() {
-			super();
 		}
 		public void procesa(Procesamiento p) {
 			p.procesa(this);
@@ -66,14 +70,8 @@ public class SintaxisAbstracta {
 
 	public static class Una_Dec extends LDecs {
 		private Dec dec;
-		private Dec tipo; 
+		private boolean tipo;
 		
-		public Dec getTipo() {
-			return tipo;
-		}
-		public void setTipo(Dec tipo) {
-			this.tipo = tipo;
-		}
 		public Una_Dec(Dec dec) {
 			super();
 			this.dec = dec;
@@ -81,6 +79,13 @@ public class SintaxisAbstracta {
 		public Dec getDec() {
 			return dec;
 		}
+		public boolean getTipo() {
+			return tipo;
+		}
+		public void setTipo(boolean tipo) {
+			this.tipo = tipo;
+		}
+
 		public void procesa(Procesamiento p) {
 			p.procesa(this);
 		}
@@ -89,17 +94,27 @@ public class SintaxisAbstracta {
 	public static class Muchas_Decs extends LDecs {
 		private Dec dec;
 		private LDecs decs;
+		private boolean tipo;
+
 		public Muchas_Decs(LDecs decs, Dec dec) {
 			super();
 			this.decs = decs;
 			this.dec = dec;
 		}
+
 		public LDecs getDecs() {
 			return decs;
 		}
 		public Dec getDec() {
 			return dec;
 		}
+		public boolean getTipo() {
+			return tipo;
+		}
+		public void setTipo(boolean tipo) {
+			this.tipo = tipo;
+		}
+
 		public void procesa(Procesamiento p) {
 			p.procesa(this);
 		}
@@ -107,9 +122,13 @@ public class SintaxisAbstracta {
 
 	//Dec
 	public static abstract class Dec {
+		private boolean tipo;
 		public Dec() {
 		}
 		public abstract void procesa(Procesamiento p);
+		public boolean getTipo() {
+			return tipo;
+		}
 	}
 
 	public static class Dec_Var extends Dec {
@@ -117,27 +136,19 @@ public class SintaxisAbstracta {
 		private Tipo t;
 		private int dir;
 		private int nivel;
-		private Tipo tipo; 
+		private boolean tipo;
 		
-		public Tipo getTipo() {
-			return tipo;
-		}
-		public void setTipo(Tipo tipo) {
-			this.tipo = tipo;
-		}
 		public Dec_Var(String str, Tipo t) {
 			super();
 			this.str = str;
 			this.t = t;
 		}
+
 		public String getStr() {
 			return str;
 		}
 		public Tipo getT() {
 			return t;
-		}
-		public void procesa(Procesamiento p) {
-			p.procesa(this);
 		}
 		public int getDir() {
 			return dir;
@@ -151,34 +162,39 @@ public class SintaxisAbstracta {
 		public void setNivel(int nivel) {
 			this.nivel = nivel;
 		}
+		public void setTipo(boolean tipo) {
+			this.tipo = tipo;
+		}
+
+		public void procesa(Procesamiento p) {
+			p.procesa(this);
+		}
 	}
 
 	public static class Dec_Tipo extends Dec {
 		private String str;
 		private Tipo t;
-		private Tipo tipo; 
-
-		public Tipo getTipo() {
-			return tipo;
-		}
+		private boolean tipo;
 		
 		public Dec_Tipo(String str, Tipo t) {
 			super();
 			this.str = str;
 			this.t = t;
 		}
+
 		public String getStr() {
 			return str;
 		}
 		public Tipo getT() {
 			return t;
 		}
+		public void setTipo(boolean tipo) {
+			this.tipo = tipo;
+		}
+
 		public void procesa(Procesamiento p) {
 			p.procesa(this);
 		}
-        public void setTipo(Tipo tipo) {
-			this.tipo = tipo;
-        }
 	}
 
 	public static class Dec_Proc extends Dec {
@@ -188,6 +204,7 @@ public class SintaxisAbstracta {
 		private LIns lIns;
 		private int nivel;
 		private int tamDatos;
+
 		public Dec_Proc(String str, LParams lParams, LDecs lDecs, LIns lIns) {
 			super();
 			this.str = str;
@@ -195,6 +212,7 @@ public class SintaxisAbstracta {
 			this.lDecs = lDecs;
 			this.lIns = lIns;
 		}
+
 		public String getStr() {
 			return str;
 		}
@@ -206,9 +224,6 @@ public class SintaxisAbstracta {
 		}
 		public LIns getlIns() {
 			return lIns;
-		}
-		public void procesa(Procesamiento p) {
-			p.procesa(this);
 		}
 		public int getNivel() {
 			return nivel;
@@ -222,11 +237,16 @@ public class SintaxisAbstracta {
 		public void setTamDatos(int tamDatos) {
 			this.tamDatos = tamDatos;
 		}
+
+		public void procesa(Procesamiento p) {
+			p.procesa(this);
+		}
 	}
 
 	//Tipo
 	public static abstract class Tipo {
 		private int tam = -1;//-1 = null
+		private boolean tipo;
 		public Tipo() {
 		}
 		public abstract void procesa(Procesamiento p);
@@ -236,7 +256,13 @@ public class SintaxisAbstracta {
 		public void setTam(int tam) {
 			this.tam = tam;
 		}
-		public abstract Tipo getTipo(); 
+		public abstract Tipo getT();
+		public boolean getTipo() {
+			return tipo;
+		}
+		public void setTipo(boolean tipo) {
+			this.tipo = tipo;
+		}
 	}
 
 	public static class Int_ extends Tipo {
@@ -244,226 +270,242 @@ public class SintaxisAbstracta {
         public Int_() {
 			super();
 		}
-		public void procesa(Procesamiento p) {
-			p.procesa(this);
-		}
+
 		@Override
-		public Tipo getTipo() {
+		public Tipo getT() {
 			return new Int_();
 		}
 		public void setTipo(boolean tipo) {
 			this.tipo = tipo;
 		}
+
+		public void procesa(Procesamiento p) {
+			p.procesa(this);
+		}
 	}
 
 	public static class Real_ extends Tipo {
 		private boolean tipo;
+
 		public Real_() {
 			super();
 		}
-		public void procesa(Procesamiento p) {
-			p.procesa(this);
-		}
+
 		@Override
-		public Tipo getTipo() {
+		public Tipo getT() {
 			return new Real_(); 
 		}
 		public void setTipo(boolean b) {
 			this.tipo = b; 
         }
-	}
 
-	public static class Bool_ extends Tipo {
-		private boolean tipo; 
-		public Bool_() {
-			super();
-		}
 		public void procesa(Procesamiento p) {
 			p.procesa(this);
 		}
+	}
+
+	public static class Bool_ extends Tipo {
+		private boolean tipo;
+
+		public Bool_() {
+			super();
+		}
+		
 		@Override
-		public Tipo getTipo() {
+		public Tipo getT() {
 			return new Bool_(); 
 		}
 		public void setTipo(boolean b) {
 			this.tipo = b; 
         }
-	}
 
-	public static class String_ extends Tipo {
-		private boolean tipo; 
-		public String_() {
-			super();
-		}
 		public void procesa(Procesamiento p) {
 			p.procesa(this);
 		}
+	}
+
+	public static class String_ extends Tipo {
+		private boolean tipo;
+
+		public String_() {
+			super();
+		}
+		
 		@Override
-		public Tipo getTipo() {
+		public Tipo getT() {
 			return new String_(); 
 		}
         public void setTipo(boolean b) {
 			this.tipo = b; 
         }
+
+		public void procesa(Procesamiento p) {
+			p.procesa(this);
+		}
 	}
 
 	public static class Ref_ extends Tipo {
 		public String str;
+
 		public Ref_(String str) {
 			super();
 			this.str = str;
 		}
-		
+		public void procesa(Procesamiento p) {
+			p.procesa(this);
+		}
+
 		@Override
-		public Tipo getTipo() {
+		public Tipo getT() {
 			return new Ref_(this.str);
 		}
 		public String getStr() {
 			return str;
 		}
-		public void procesa(Procesamiento p) {
-			p.procesa(this);
-		}
+		
 	}
 
 	public static class Array_ extends Tipo {
 		public String str;
 		public Tipo t;
-		private boolean tipo;
+
 		public Array_(String str, Tipo t) {
 			super();
 			this.str = str;
 			this.t = t;
 		}
+
 		public String getStr() {
 			return str;
 		}
+		@Override
 		public Tipo getT() {
-			return t;
+			return new Array_(this.str, this.t); 
 		}
+
 		public void procesa(Procesamiento p) {	
 			p.procesa(this);
 		}
-		public void setTipo(boolean tipo) {
-			this.tipo = tipo;
-		}
-		@Override
-		public Tipo getTipo() {
-			return new Array_(this.str, this.t); 
-		}
-		
 	}
 
 	public static class Record_ extends Tipo {
 		public Campos campos;
-		private Campos tipo;
 
 		public Record_(Campos campos) {
 			super();
 			this.campos = campos;
 		}
+
 		public Campos getCampos() {
 			return campos;
 		}
+		@Override
+		public Tipo getT() {
+			return new Record_(this.campos); 
+		}
+
 		public void procesa(Procesamiento p) {
 			p.procesa(this);
 		}
-		
-		@Override
-		public Tipo getTipo() {
-			return new Record_(this.campos); 
-		}
-		public Campos setTipo(Campos c){
-			return this.tipo = c; 
-		}
-		
 	}
 
 	public static class Puntero_ extends Tipo {
 		public Tipo t;
+
 		public Puntero_(Tipo t) {
 			super();
 			this.t = t;
 		}
+
+		@Override
 		public Tipo getT() {
-			return t;
+			return new Puntero_(this.t); 
 		}
+
 		public void procesa(Procesamiento p) {
 			p.procesa(this);
-		}
-		@Override
-		public Tipo getTipo() {
-			return new Puntero_(this.t); 
 		}
 	}	
 
 	//Campos
 	public static abstract class Campos {
+		private boolean tipo;
 		public Campos() {
 		}
 		public abstract void procesa(Procesamiento p);		
-		public abstract Campos getTipo(); 
+		public abstract Campos getT();
+		public boolean getTipo() {
+			return tipo;
+		}
+		public void setTipo(boolean tipo) {
+			this.tipo = tipo;
+		}
 	}
 
 	public static class Un_Campo extends Campos {
 		private Campo campo;
+
 		public Un_Campo(Campo campo) {
 			super();
 			this.campo = campo;
 		}
+		
 		public Campo getCampo() {
 			return campo;
 		}
+		@Override
+		public Campos getT() {
+			return new Un_Campo(this.campo);
+		}
+
 		public void procesa(Procesamiento p) {
 			p.procesa(this);
-		}
-		@Override
-		public Campos getTipo() {
-			return new Un_Campo(this.campo);
 		}
 	}
 
 	public static class Muchos_Campos extends Campos {
 		private Campo campo;
 		private Campos campos;
+
 		public Muchos_Campos(Campos campos, Campo campo) {
 			super();
 			this.campos = campos;
 			this.campo = campo;
 		}
+
 		public Campos getCampos() {
 			return campos;
 		}
 		public Campo getCampo() {
 			return campo;
 		}
+		@Override
+		public Campos getT() {
+			return new Muchos_Campos(this.campos, this.campo); 
+		}
+
 		public void procesa(Procesamiento p) {
 			p.procesa(this);
 		}
-		@Override
-		public Campos getTipo() {
-			return new Muchos_Campos(this.campos, this.campo); 
-		}
-		
 	}
 
 	public static class Campo {
 		private String str;
 		private Tipo t;
 		private int despl = 0;//Por defecto es 0
+		private boolean tipo;
+
 		public Campo(String str, Tipo t) {
 			super();
 			this.str = str;
 			this.t = t;
 		}
+
 		public String getStr() {
 			return str;
 		}
 		public Tipo getT() {
 			return t;
-		}
-		public void procesa(Procesamiento p) {
-			p.procesa(this);
 		}
 		public int getDespl() {
 			return despl;
@@ -471,19 +513,37 @@ public class SintaxisAbstracta {
 		public void setDespl(int despl) {
 			this.despl = despl;
 		}
+		public boolean getTipo() {
+			return tipo;
+		}
+		public void setTipo(boolean tipo) {
+			this.tipo = tipo;
+		}
+
+		public void procesa(Procesamiento p) {
+			p.procesa(this);
+		}
 	}
 
 	//LParams
 	public static abstract class LParams {
+		private boolean tipo;
 		public LParams() {
 		}
 		public abstract void procesa(Procesamiento p);
+		public boolean getTipo() {
+			return tipo;
+		}
+		public void setTipo(boolean tipo) {
+			this.tipo = tipo;
+		}
 	}
 
 	public static class Sin_Params extends LParams {
 		public Sin_Params() {
 			super();
 		}
+
 		public void procesa(Procesamiento p) {
 			p.procesa(this);
 		}
@@ -523,9 +583,16 @@ public class SintaxisAbstracta {
 	}
 	//Param
 	public static abstract class Param {
+		private boolean tipo;
 		public Param() {
 		}
 		public abstract void procesa(Procesamiento p);
+        public boolean getTipo() {
+			return tipo;
+		}
+		public void setTipo(boolean tipo) {
+			this.tipo = tipo;
+		}
 	}
 
 	public static class Param_Ref extends Param {
@@ -596,15 +663,23 @@ public class SintaxisAbstracta {
 
 	//LIns
 	public static abstract class LIns {
+		private boolean tipo;
 		public LIns() {
 		}
 		public abstract void procesa(Procesamiento p);
+		public boolean getTipo() {
+			return tipo;
+		}
+		public void setTipo(boolean tipo) {
+			this.tipo = tipo;
+		}
 	}
 
 	public static class Sin_Ins extends LIns {
 		public Sin_Ins() {
 			super();
 		}
+
 		public void procesa(Procesamiento p) {
 			p.procesa(this);
 		}
@@ -645,9 +720,16 @@ public class SintaxisAbstracta {
 
 	//Ins
 	public static abstract class Ins {
+		private boolean tipo;
 		public Ins() {
 		}
 		public abstract void procesa(Procesamiento p);
+        public boolean getTipo() {
+			return tipo;
+		}
+		public void setTipo(boolean tipo) {
+			this.tipo = tipo;
+		}
 	}	
 
 	public static class Asignacion_ extends Ins {
@@ -797,17 +879,24 @@ public class SintaxisAbstracta {
 	public static class Call_Proc extends Ins {
 		private E e;
 		private LExp lExp;
+		private LParams lParams;
+
 		public Call_Proc(E e, LExp lExp) {
 			super();
 			this.e = e;
 			this.lExp = lExp;
 		}
+
 		public E getE() {
 			return e;
 		}
 		public LExp getLExp() {
 			return lExp;
-		}		
+		}
+		public LParams getLParams() {
+			return lParams;
+		}
+		
 		public void procesa(Procesamiento p) {
 			p.procesa(this);
 		}
@@ -883,20 +972,35 @@ public class SintaxisAbstracta {
 
 	//E - Expresión
 	public static abstract class E {
+		private boolean tipo;
+		// TODO VER SI TIENE SENTIDO USAR UN ENUM PARA ESTO
+		public TipoDatos tipoDatos;
 		public E() {
 		}
 		public abstract void procesa(Procesamiento p);
+		public boolean getTipo() {
+			return tipo;
+		}
+		public TipoDatos getTipoDatos() {
+			return tipoDatos;
+		}
+		public void setTipoDatos(TipoDatos tipoDatos) {
+			this.tipoDatos = tipoDatos;
+		}
 	}
 
 	public static class Int extends E {
 		public String str;
+
 		public Int(String str) {
 			super();
 			this.str = str;
 		}
+
 		public String getStr() {
 			return str;
 		}
+
 		public void procesa(Procesamiento p) {
 			p.procesa(this);
 		}
