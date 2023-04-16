@@ -2,14 +2,16 @@ package implementacion.procesamientos;
 
 import implementacion.abstractSintax.ProcesamientoPorDefecto;
 import implementacion.abstractSintax.SintaxisAbstracta.*;
+import implementacion.procesamientos.FuncionesAuxiliares;
 
 public class Tipado extends ProcesamientoPorDefecto {
+    FuncionesAuxiliares aux = new FuncionesAuxiliares();
 
     @Override
     public void procesa(Prog_ prog) {
         prog.getlDecs().procesa(this);
 		prog.getlIns().procesa(this);
-        prog.setTipo(prog.getlDecs().getTipo() && prog.getlIns().getTipo());
+        prog.setTipo(aux.ambos_ok(prog.getlDecs().getTipo(), prog.getlIns().getTipo()));
     }
 
     @Override
@@ -27,7 +29,7 @@ public class Tipado extends ProcesamientoPorDefecto {
     public void procesa(Muchas_Decs lDecs) {
         lDecs.getDecs().procesa(this);
 		lDecs.getDec().procesa(this);
-        lDecs.setTipo(lDecs.getDecs().getTipo() && lDecs.getDec().getTipo());
+        lDecs.setTipo(aux.ambos_ok(lDecs.getDecs().getTipo(), lDecs.getDec().getTipo()));
     }
 
     @Override
@@ -90,7 +92,7 @@ public class Tipado extends ProcesamientoPorDefecto {
     @Override
     public void procesa(Record_ tipo) {
         tipo.getCampos().procesa(this);
-        tipo.setTipo(tipo.getCampos().getTipo());
+        tipo.setTipo(tipo.getCampos().getT());
     }
 
     @Override
@@ -102,13 +104,13 @@ public class Tipado extends ProcesamientoPorDefecto {
     @Override
     public void procesa(Un_Campo campos) {
         campos.getCampo().procesa(this);
-        campos.setTipo(campos.getCampo().getTipo());
+        campos.setTipo(campos.getCampo().getT());
     }
 
     @Override
     public void procesa(Muchos_Campos campos) {
         campos.getCampo().procesa(this);
-        if(campos.getCampo().getTipo()){
+        if(campos.getCampo().getT()){
             //TODO COMO HACER ESTE IF
             if(!esta_en(Campo.string, Campos)){
                 campos.getT().procesa(this);
@@ -134,14 +136,14 @@ public class Tipado extends ProcesamientoPorDefecto {
     @Override
     public void procesa(Un_Param lParams) {
         lParams.getParam().procesa(this);
-        lParams.setTipo(lParams.getParam().getTipo());
+        lParams.setTipo(lParams.getParam().getT().getTipo());
     }
 
     @Override
     public void procesa(Muchos_Params lParams) {
         lParams.getParams().procesa(this);
         lParams.getParam().procesa(this);
-        lParams.setTipo(lParams.getParams().getTipo() && lParams.getParam().getTipo());
+        lParams.setTipo(aux.ambos_ok(lParams.getParams().getT().getTipo(), lParams.getParam().getT().getTipo()));
     }
 
     @Override
@@ -164,25 +166,25 @@ public class Tipado extends ProcesamientoPorDefecto {
     @Override
     public void procesa(Una_Ins lIns) {
         lIns.getIns().procesa(this);
-        lIns.setTipo(lIns.getIns().getTipo());
+        lIns.setTipo(lIns.getIns().getT().getTipo());
     }
 
     @Override
     public void procesa(Muchas_Ins lIns) {
         lIns.getLIns().procesa(this);
         lIns.getIns().procesa(this);
-        lIns.setTipo(lIns.getIns().getTipo());
+        lIns.setTipo(aux.ambos_ok(lIns.getLIns().getT().getTipo(), lIns.getIns().getT().getTipo()));
     }
 
     @Override
     public void procesa(Asignacion_ ins) {
         ins.getE1().procesa(this);
         ins.getE2().procesa(this);
-        // TODO son_compatibles y es_designador
-        if(son_compatibles(ins.getE1().getTipo(), ins.getE2().getTipo()) && es_designador(ins.getE1())){
+        // TODO aux.son_compatibles y es_designador
+        if(aux.son_compatibles(ins.getE1().getT().getTipo(), ins.getE2().getT().getTipo()) && es_designador(ins.getE1())){
             ins.setTipo(true);
         } else{
-            if(ins.getE1().getTipo() && ins.getE2().getTipo()){
+            if(ins.getE1().getT().getTipo() && ins.getE2().getT().getTipo()){
                 // TODO THROW error??
             }
             ins.setTipo(false);
@@ -193,9 +195,9 @@ public class Tipado extends ProcesamientoPorDefecto {
     public void procesa(If_Then ins) {
         ins.getE().procesa(this);
         ins.getLIns().procesa(this);
-        // TODO son_compatibles, bool debe venir de Tipo?
-        if(son_compatibles(ins.getE().getTipo(), bool)){
-            ins.setTipo(ins.getLIns().getTipo());
+        // TODO aux.son_compatibles, bool debe venir de Tipo?
+        if(aux.son_compatibles(ins.getE().getT().getTipo(), Bool)){
+            ins.setTipo(ins.getLIns().getT().getTipo());
         } else{
             ins.setTipo(false);
             // TODO THROW error??
@@ -207,9 +209,9 @@ public class Tipado extends ProcesamientoPorDefecto {
         ins.getE().procesa(this);
         ins.getLIns1().procesa(this);
         ins.getLIns2().procesa(this);
-        // TODO son_compatibles, bool debe venir de Tipo?
-        if(son_compatibles(ins.getE().getTipo(), bool)){
-            ins.setTipo(ins.getLIns1().getTipo() && ins.getLIns2().getTipo());
+        // TODO aux.son_compatibles, bool debe venir de Tipo?
+        if(aux.son_compatibles(ins.getE().getT().getTipo(), Bool)){
+            ins.setTipo(aux.ambos_ok(ins.getLIns1().getT().getTipo(), ins.getLIns2().getTipo()));
         } else{
             ins.setTipo(false);
             // TODO THROW error??
@@ -220,9 +222,9 @@ public class Tipado extends ProcesamientoPorDefecto {
     public void procesa(While_ ins) {
         ins.getE().procesa(this);
         ins.getLIns().procesa(this);
-        // TODO son_compatibles, bool debe venir de Tipo?
-        if(son_compatibles(ins.getE().getTipo(), bool)){
-            ins.setTipo(ins.getLIns().getTipo());
+        // TODO aux.son_compatibles, bool debe venir de Tipo?
+        if(aux.son_compatibles(ins.getE().getT().getTipo(), Bool)){
+            ins.setTipo(ins.getLIns().getT().getTipo());
         } else{
             ins.setTipo(false);
             // TODO THROW error??
@@ -232,9 +234,9 @@ public class Tipado extends ProcesamientoPorDefecto {
     @Override
     public void procesa(Read_ ins) {
         ins.getE().procesa(this);
-        // TODO VER CÓMO HACER ESTE ref! y es_designador
-        if(((ref!(ins.getE().getTipo()) instanceof Int) || (ref!(ins.getE().getTipo()) instanceof Real) ||
-        (ref!(ins.getE().getTipo()) instanceof String)) && es_designador(ins.getE())){
+        // TODO VER CÓMO HACER ESTE aux.ref_exc y es_designador
+        if(((aux.ref_exc(ins.getE().getT()) instanceof Int) || (aux.ref_exc(ins.getE().getT()) instanceof Real) ||
+        (aux.ref_exc(ins.getE().getT()) instanceof String)) && es_designador(ins.getE())){
             ins.setTipo(true);
         } else{
             ins.setTipo(false);
@@ -245,9 +247,9 @@ public class Tipado extends ProcesamientoPorDefecto {
     @Override
     public void procesa(Write_ ins) {
         ins.getE().procesa(this);
-        // TODO VER CÓMO HACER ref!
-        if((ref!(ins.getE().getTipo()) instanceof Int) || (ref!(ins.getE().getTipo()) instanceof Real) ||
-        (ref!(ins.getE().getTipo()) instanceof Bool) || (ref!(ins.getE().getTipo()) instanceof String)){
+        // TODO VER CÓMO HACER aux.ref_exc
+        if((aux.ref_exc(ins.getE().getT()) instanceof Int) || (aux.ref_exc(ins.getE().getT()) instanceof Real) ||
+        (aux.ref_exc(ins.getE().getT()) instanceof Bool) || (aux.ref_exc(ins.getE().getT()) instanceof String)){
             ins.setTipo(true);
         } else{
             ins.setTipo(false);
@@ -263,25 +265,26 @@ public class Tipado extends ProcesamientoPorDefecto {
     @Override
     public void procesa(New_ ins) {
         ins.getE().procesa(this);
-        if(ref!(ins.getE().getTipo()) instanceof Puntero){
+        if(aux.ref_exc(ins.getE().getTipo()) instanceof Puntero){
             ins.setTipo(true);
         } else{
             ins.setTipo(false);
             // TODO PONER OR CON LOS TIPOS?!
-            if(ref!(ins.getE().getTipo()) instanceof != Error)
-            // TODO THROW error??
+            if(aux.ref_exc(ins.getE().getTipo()) instanceof != Error){
+                // TODO THROW error??
+            }
         }
     }
 
     @Override
     public void procesa(Delete_ ins) {
         ins.getE().procesa(this);
-        if(ref!(ins.getE().getTipo()) instanceof Puntero){
+        if(aux.ref_exc(ins.getE().getTipo()) instanceof Puntero){
             ins.setTipo(true);
         } else{
             ins.setTipo(false);
             // TODO PONER OR CON LOS TIPOS?!
-            if(ref!(ins.getE().getTipo()) instanceof != Error)
+            if(aux.ref_exc(ins.getE().getTipo()) instanceof != Error)
             // TODO THROW error??
         }
     }
@@ -307,7 +310,7 @@ public class Tipado extends ProcesamientoPorDefecto {
     @Override
     public void procesa(Ins_Compuesta ins) {
         ins.getLIns().procesa(this);
-        ins.setTipo(ins.getLIns().getTipo());
+        ins.setTipo(ins.getLIns().getT().getTipo());
     }
 
     @Override
@@ -327,27 +330,27 @@ public class Tipado extends ProcesamientoPorDefecto {
 
     @Override
     public void procesa(Int e) {
-       e.setTipoDatos(TipoDatos.Int);
+       e.setT(e.getT());
     }
 
     @Override
     public void procesa(Real e) {
-        e.setTipoDatos(TipoDatos.Real);
+        e.setT(e.getT());
     }
 
     @Override
     public void procesa(True e) {
-        e.setTipoDatos(TipoDatos.Bool);
+        e.setT(e.getT());
     }
 
     @Override
     public void procesa(False e) {
-        e.setTipoDatos(TipoDatos.Bool);
+        e.setT(e.getT());
     }
 
     @Override
     public void procesa(Cadena e) {
-        e.setTipoDatos(TipoDatos.String);
+        e.setT(e.getT());
     }
 
     @Override
@@ -357,97 +360,126 @@ public class Tipado extends ProcesamientoPorDefecto {
 
     @Override
     public void procesa(Null e) {
-        e.setTipoDatos(TipoDatos.Null);
+        e.setT(e.getT());
     }
 
     @Override
     public void procesa(Blt e) {
-        
+        e.setTipoDatos(aux.tip_relacional1(e.getArg0(), e.getArg1()));
     }
 
     @Override
     public void procesa(Ble e) {
-       
+        e.setTipoDatos(aux.tip_relacional1(e.getArg0(), e.getArg1()));
     }
 
     @Override
     public void procesa(Bgt e) {
-        
+        e.setTipoDatos(aux.tip_relacional1(e.getArg0(), e.getArg1()));
     }
 
     @Override
     public void procesa(Bge e) {
-        
+        e.setTipoDatos(aux.tip_relacional1(e.getArg0(), e.getArg1()));
     }
 
     @Override
     public void procesa(Beq e) {
-        
+        e.setTipoDatos(aux.tip_relacional2(e.getArg0(), e.getArg1()));
     }
 
     @Override
     public void procesa(Bne e) {
-        
+        e.setTipoDatos(aux.tip_relacional2(e.getArg0(), e.getArg1()));
     }
 
     @Override
     public void procesa(Suma e) {
-        
+        e.setTipoDatos(aux.tip_arit(e.getArg0(), e.getArg1()));
     }
 
     @Override
     public void procesa(Resta e) {
-        
-    }
-
-    @Override
-    public void procesa(And e) {
-        
-    }
-
-    @Override
-    public void procesa(Or e) {
-        
+        e.setTipoDatos(aux.tip_arit(e.getArg0(), e.getArg1()));
     }
 
     @Override
     public void procesa(Mult e) {
-        
+        e.setTipoDatos(aux.tip_arit(e.getArg0(), e.getArg1()));
     }
 
     @Override
     public void procesa(Div e) {
-        
+        e.setTipoDatos(aux.tip_arit(e.getArg0(), e.getArg1()));
     }
 
     @Override
     public void procesa(Mod e) {
-        
+        e.setTipoDatos(aux.tip_mod(e.getArg0(), e.getArg1()));
     }
 
     @Override
-    public void procesa(Neg e) {
-        
+    public void procesa(And e) {
+        e.setTipoDatos(aux.tip_log(e.getArg0(), e.getArg1()));
+    }
+
+    @Override
+    public void procesa(Or e) {
+        e.setTipoDatos(aux.tip_log(e.getArg0(), e.getArg1()));
     }
 
     @Override
     public void procesa(Not e) {
-        
+        if(aux.ref_exc(e.getArg0()) instanceof Bool){
+            e.setTipoDatos(TipoDatos.Bool);
+        } else{
+            e.setTipoDatos(TipoDatos.Error);
+            // TODO THROW error??
+        }
+    }
+
+    @Override
+    public void procesa(Neg e) {
+        if(aux.ref_exc(e.getTipoDatos())==TipoDatos.Int){
+            e.setTipoDatos(TipoDatos.Int);
+        } else if(aux.ref_exc(e.getTipoDatos())==TipoDatos.Real){
+            e.setTipoDatos(TipoDatos.Real);
+            // TODO THROW error??
+        } else{
+            e.setTipoDatos(TipoDatos.Error);
+            // TODO THROW error??
+        }
     }
 
     @Override
     public void procesa(Index e) {
-        
+        e.getArg0().procesa(this);
+        e.getArg1().procesa(this);
+        if(aux.ref_exc(e.getArg0())==TipoDatos.Array && aux.ref_exc(e.getArg1())==TipoDatos.Int){
+            // TODO $.tipo = array(tam, tipo)
+            e.setTipoDatos(TipoDatos.Array);
+        } else if((aux.ref_exc(e.getArg0().getTipoDatos())!=TipoDatos.Error && aux.ref_exc(e.getArg0().getTipoDatos())!=TipoDatos.Array)
+            || (aux.ref_exc(e.getArg0().getTipoDatos())==TipoDatos.Array && aux.ref_exc(e.getArg1().getTipoDatos())!=TipoDatos.Error 
+            && aux.ref_exc(e.getArg1().getTipoDatos())!=TipoDatos.Int)){
+            e.setTipoDatos(TipoDatos.Error);
+            // TODO THROW error??
+        }
     }
 
     @Override
     public void procesa(Access e) {
-        
+        e.getArg0().procesa(this);
+        // TODO
     }
 
     @Override
     public void procesa(Indir e) {
-        
+        e.getArg0().procesa(this);
+        if(aux.ref_exc(e.getArg0().getTipoDatos())==TipoDatos.Puntero){
+            e.setTipoDatos(e.getArg0().getTipoDatos());
+        } else if(aux.ref_exc(e.getArg0().getTipoDatos())==TipoDatos.Error){
+            e.setTipoDatos(TipoDatos.Error);
+        }
     }
 
     @Override
@@ -455,6 +487,5 @@ public class Tipado extends ProcesamientoPorDefecto {
         dec.getlParams().procesa(this);
 		dec.getlDecs().procesa(this);
 		dec.getlIns().procesa(this);
-    }
-    
+    }   
 }
