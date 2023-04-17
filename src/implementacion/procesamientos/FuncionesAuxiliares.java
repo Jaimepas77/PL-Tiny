@@ -1,6 +1,5 @@
 package implementacion.procesamientos;
 
-import java.sql.Ref;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,20 +10,20 @@ public class FuncionesAuxiliares {
         return val1 && val2;
     }
 
-    public Tipo ref_exc(Tipo t){
+    public E ref_exc(E t){
         // TODO NO SÉ SI ESTÁ BIEN
-        while(t instanceof Ref){
+        while(t instanceof Id){
             t = t.getVinculo();
         }
-        return t.getTipo();
+        return t.getT();
     }
     
     // TODO NO SÉ QUÉ PONER EN EL RETURN
     public boolean tip_relacional1(E e0, E e1){
         e0.procesa(this);
         e1.procesa(this);
-        if((ref_exc(e0.getT()==Int) || ref_exc(e0.getT()==Real)) && (ref_exc(e1.getT()==Int) || ref_exc(e1.getT()==Real))) return Bool;
-        else if(ref_exc(e0.getT()==Bool) && ref_exc(e1.getT()==Bool)) return Bool;
+        if((ref_exc(e0.getT() instanceof Int) || ref_exc(e0.getT() instanceof Real)) && (ref_exc(e1.getT() instanceof Int) || ref_exc(e1.getT() instanceof Real))) return Bool;
+        else if(ref_exc(e0.getT() instanceof Bool) && ref_exc(e1.getT() instanceof Bool)) return Bool;
         else{
             // TODO THROW error??
             return false;
@@ -103,8 +102,9 @@ public class FuncionesAuxiliares {
     public boolean check_params(Una_Expr ue, Un_Param up){
         return check_param(ue.getE(), up.getParam());
     } 
-    public boolean check_params(Muchas_Expr me, Muchos_Params mp){
-        return ambos_ok(check_params(me.getLExp(), mp.getParams()), check_param(me.getE(), mp.getParams()));
+    public boolean check_params3(Muchas_Expr me, Muchos_Params mp){
+        // TODO NO SÉ SI check_param se refiere al check_param(E e0, Param_Ref paramRef) o al check_param(E e0, Param_Val paramVal)
+        return ambos_ok(check_params3(me.getLExp(), mp.getParams()), check_param(me.getE(), mp.getParams()));
     }
 
     public boolean check_param(E e0, Param_Ref paramRef){

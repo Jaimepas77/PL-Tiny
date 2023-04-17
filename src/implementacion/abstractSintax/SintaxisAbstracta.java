@@ -1,5 +1,7 @@
 package implementacion.abstractSintax;
 
+import implementacion.procesamientos.Vinculacion;
+
 public class SintaxisAbstracta {
 	//Prog
 	public static abstract class Prog  { // Estática porque no hace nada por sí misma
@@ -231,7 +233,6 @@ public class SintaxisAbstracta {
 	public static abstract class Tipo {
 		private int tam = -1;//-1 = null
 		private boolean tipo;
-		private Vinculo vinculo;
 		public Tipo() {
 		}
 		public abstract void procesa(Procesamiento p);
@@ -244,11 +245,7 @@ public class SintaxisAbstracta {
 		public boolean getTipo() {
 			return tipo;
 		}
-		public abstract  void setTipo(boolean tipo); 
-		
-		public Vinculo getVinculo() {
-			return vinculo;
-		}
+		public abstract  void setTipo(boolean tipo);
 	}
 
 	public static class Int_ extends Tipo {
@@ -959,9 +956,13 @@ public class SintaxisAbstracta {
 
 	//LExp
 	public static abstract class LExp {
+		private boolean tipo;
 		public LExp() {
 		}
 		public abstract void procesa(Procesamiento p);
+		public void setTipo(boolean tipo) {
+			this.tipo = tipo;
+		}
 	}
 
 	public static class Sin_Expr extends LExp {
@@ -1008,10 +1009,14 @@ public class SintaxisAbstracta {
 
 	//E - Expresión
 	public static abstract class E {
+		private E t;
 		public E() {
 		}
 		public abstract void procesa(Procesamiento p);
 		public abstract E getT();
+		public void setT(E t) {
+			this.t = t;
+		}
 	}
 
 	public static class Int extends E {
