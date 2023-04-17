@@ -128,12 +128,12 @@ public class FuncionesAuxiliares {
         }
     }
 
-    public boolean son_compatibles(Tipo t1, Tipo t2){
-        Set<Tipo> st = new HashSet<Tipo>();
-        return son_compatibles(st, t1, t2);
+    public boolean son_compatibles(E t1, E t2){
+        Set<E> st = new HashSet<E>();
+        return son_compatibles2(st, t1, t2);
     }
 
-    public boolean son_compatibles(Set<Tipo> st, Tipo t1, Tipo t2){
+    public boolean son_compatibles2(Set<E> st, E t1, E t2){
         // TODO DEBERÍA HACER GETTIPODATOS() Y QUE ME DEVUELVA LA CLASE? CÓMO LO HAGO?
         if(st.contains(t1) && st.contains(t2)){
             return true;
@@ -141,13 +141,13 @@ public class FuncionesAuxiliares {
             st.add(t1);
             st.add(t2);
             // TODO no de debería ser t1, porque no es una clase
-            if(t1 instanceof Ref) return son_compatibles(st, ref_exc(t1), t2);
-            else if(t2 instanceof Ref) return son_compatibles(st, t1, ref_exc(t2));
-            else if(t1 instanceof Int && t2 instanceof Int) return true;
+            if(t1 instanceof Ref) return son_compatibles2(st, ref_exc(t1), t2);
+            else if(t2.getT() instanceof Ref) return son_compatibles2(st, t1, ref_exc(t2));
+            else if(t1.getT() instanceof Int && t2.getT() instanceof Int) return true;
             else if(t1 instanceof Real && (t2 instanceof Real || t2 instanceof Int)) return true;
             else if(t1 instanceof Bool && t2 instanceof Bool) return true;
             else if(t1 instanceof String && t2 instanceof String) return true;
-            else if(t1 instanceof Array && t2 instanceof Array) return son_compatibles(st, t1, t2);
+            else if(t1 instanceof Array && t2 instanceof Array) return son_compatibles2(st, t1, t2);
             else if(t1 instanceof Record.getArg0() && t2 instanceof Record.getArg1()) return campos_compatibles(Record.getArg0(), Record.getArg1());
             else if(t1 instanceof Puntero.getTipo() && t2 instanceof Null) return true;
             else if(t1 instanceof Puntero.getTipo1() && t2 instanceof Puntero.getTipo2()) return true;

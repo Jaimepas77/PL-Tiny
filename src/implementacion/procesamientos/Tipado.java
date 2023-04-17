@@ -45,6 +45,12 @@ public class Tipado extends ProcesamientoPorDefecto {
     }
 
     // TODO FALTA HACER decProc
+    /*tipado(decProc(id, LParams, LDecs, LIns)) =
+    tipado(LParams)
+    tipado(LDecs)
+    tipado(LIns)
+    $.tipo = ambos_ok(ambos_ok(LParams.tipo, LDecs.tipo), LIns.tipo)
+    */
 
     @Override
     public void procesa(Int_ tipo) {
@@ -84,7 +90,7 @@ public class Tipado extends ProcesamientoPorDefecto {
         if (!tipo.getTipo()) tipo.setTipo(false);
         else if(tipo.getTam()>=0) tipo.setTipo(true);
         else{
-            // TODO THROW error??
+            // TODO THROW error? --> nooo es false está bien asi 
             tipo.setTipo(false);
         }
     }
@@ -92,7 +98,7 @@ public class Tipado extends ProcesamientoPorDefecto {
     @Override
     public void procesa(Record_ tipo) {
         tipo.getCampos().procesa(this);
-        tipo.setTipo(tipo.getCampos().getT());
+        tipo.setTipo(tipo.getCampos().getTipo());
     }
 
     @Override
@@ -104,13 +110,14 @@ public class Tipado extends ProcesamientoPorDefecto {
     @Override
     public void procesa(Un_Campo campos) {
         campos.getCampo().procesa(this);
-        campos.setTipo(campos.getCampo().getT());
+        campos.setTipo(campos.getCampo().getTipo());
     }
-
+    
+    //TODO no entiendo muy bien campos 
     @Override
     public void procesa(Muchos_Campos campos) {
         campos.getCampo().procesa(this);
-        if(campos.getCampo().getT()){
+        if(campos.getCampo().getTipo()){
             //TODO COMO HACER ESTE IF
             if(!esta_en(Campo.string, Campos)){
                 campos.getT().procesa(this);
@@ -181,7 +188,7 @@ public class Tipado extends ProcesamientoPorDefecto {
         ins.getE1().procesa(this);
         ins.getE2().procesa(this);
         // TODO aux.son_compatibles y es_designador
-        if(aux.son_compatibles(ins.getE1().getT().getTipo(), ins.getE2().getT().getTipo()) && es_designador(ins.getE1())){
+        if(aux.son_compatibles(ins.getE1().getT(), ins.getE2().getT()) && aux.es_designador(ins.getE1())){
             ins.setTipo(true);
         } else{
             if(ins.getE1().getT().getTipo() && ins.getE2().getT().getTipo()){
