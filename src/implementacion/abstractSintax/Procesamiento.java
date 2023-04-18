@@ -84,4 +84,6 @@ public interface Procesamiento { //Interfaz que define los nodos que debe ser ca
 	void procesa(Index e);
 	void procesa(Access e);
 	void procesa(Indir e);
+	void procesa(Ok ok);
+    void procesa(Error_ error_);
 }

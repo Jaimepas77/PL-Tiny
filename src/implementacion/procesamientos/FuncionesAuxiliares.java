@@ -6,81 +6,86 @@ import java.util.Set;
 import implementacion.abstractSintax.SintaxisAbstracta.*;
 
 public class FuncionesAuxiliares {
-    public boolean ambos_ok(boolean val1, boolean val2){
-        return val1 && val2;
+    
+    public Tipo ambos_ok(Tipo val1, Tipo val2){
+        if val1 instanceof Ok && val2 instanceof Ok{
+            return new Ok();
+        }
+        else{
+            return new Error();
+        }
     }
+    
 
-    public E ref_exc(E t){
+    public Tipo ref_exc(Tipo t){
         // TODO NO SÉ SI ESTÁ BIEN
         while(t instanceof Id){
-            t = t.getVinculo();
+            t = t.getVinculo().getT();
         }
-        return t.getT();
+        return t;
     }
     
     // TODO NO SÉ QUÉ PONER EN EL RETURN
-    public boolean tip_relacional1(E e0, E e1){
-        e0.procesa(this);
-        e1.procesa(this);
-        if((ref_exc(e0.getT() instanceof Int) || ref_exc(e0.getT() instanceof Real)) && (ref_exc(e1.getT() instanceof Int) || ref_exc(e1.getT() instanceof Real))) return Bool;
-        else if(ref_exc(e0.getT() instanceof Bool) && ref_exc(e1.getT() instanceof Bool)) return Bool;
+    public Tipo tip_relacional1(E e0, E e1){
+        e0.procesa(Tipado.class);
+        e1.procesa(Tipado.class);
+        if((ref_exc(e0.getT())instanceof Int_ || ref_exc(e0.getT()) instanceof Real_) && (ref_exc(e1.getT() instanceof Int_) || ref_exc(e1.getT()) instanceof Real_)) return new Ok();
+        else if(ref_exc(e0.getT()) instanceof Bool_) && ref_exc(e1.getT()) instanceof Bool_) return new Bool_();
         else{
-            // TODO THROW error??
-            return false;
+            return new Error_();
         }
     }
 
     // TODO NO SÉ QUÉ PONER EN EL RETURN
-    public boolean tip_relacional2(E e0, E e1){
-        e0.procesa(this);
-        e1.procesa(this);
-        if((ref_exc(e0.getT()==Puntero) || ref_exc(e0.getT()==Null)) && (ref_exc(e1.getT()==Puntero) || ref_exc(e1.getT()==Null))) return Bool;
-        else if((ref_exc(e0.getT()==Int) || ref_exc(e0.getT()==Real)) && (ref_exc(e1.getT()==Int) || ref_exc(e1.getT()==Real))) return Bool;
-        else if(ref_exc(e0.getT()==Bool) && ref_exc(e1.getT()==Bool)) return Bool;
+    public Tipo tip_relacional2(E e0, E e1){
+        e0.procesa(Tipado.class);
+        e1.procesa(Tipado.class);
+        if((ref_exc(e0.getT()) instanceof Puntero_) || ref_exc(e0.getT()) instanceof Null)) && (ref_exc(e1.getT()) instanceof Puntero_) || ref_exc(e1.getT()) instanceof Null))) return new Bool_;
+        else if((ref_exc(e0.getT()) instanceof Int_) || ref_exc(e0.getT())instanceof Real_)) && (ref_exc(e1.getT()) instanceof Int) || ref_exc(e1.getT())instanceof Real))) return new Bool_;
+        else if(ref_exc(e0.getT()) instanceof Bool_) && ref_exc(e1.getT()) instanceof Bool)) return new Bool_();
         else{
-            // TODO THROW error??
-            return false;
+            return new Error_();
         }
     }
 
     // TODO NO SÉ QUÉ PONER EN EL RETURN NI QUÉ DEVOLVER EN LA FUNCIÓN
-    public boolean tip_arit(E e0, E e1){
-        e0.procesa(this);
-        e1.procesa(this);
-        if(ref_exc(e0.getT()==Int) && ref_exc(e1.getT()==Real)) return Int;
-        else if(ref_exc(e0.getT()==Bool) && ref_exc(e1.getT()==Bool)) return Real;
+    public Tipo tip_arit(E e0, E e1){
+        e0.procesa(Tipado.class);
+        e1.procesa(Tipado.class);
+        if((ref_exc(e0.getT()) instanceof Int_)&& (ref_exc(e1.getT()) instanceof Real_)) return new Int_();
+        else if((ref_exc(e0.getT()) instanceof Bool_) && (ref_exc(e1.getT()) instanceof Bool_)) return Real_();
         else{
             // TODO THROW error??
-            return false;
+            return Error_();
         }
     }
 
     // TODO NO SÉ QUÉ PONER EN EL RETURN NI QUÉ DEVOLVER EN LA FUNCIÓN
-    public boolean tip_mod(E e0, E e1){
-        e0.procesa(this);
-        e1.procesa(this);
-        if(ref_exc(e0.getT()==Int) && ref_exc(e1.getT()==Int)) return Int;
+    public Tipo tip_mod(E e0, E e1){
+        e0.procesa(Tipado.class);
+        e1.procesa(Tipado.class);
+        if((ref_exc(e0.getT()) instanceof Int_) && (ref_exc(e1.getT()) instanceof Int_)) return new Int_();
         else{
             // TODO THROW error??
-            return false;
+            return Error_();
         }
     }
 
     // TODO NO SÉ QUÉ PONER EN EL RETURN NI QUÉ DEVOLVER EN LA FUNCIÓN
-    public boolean tip_log(E e0, E e1){
-        e0.procesa(this);
-        e1.procesa(this);
-        if(ref_exc(e0.getT()==Bool) && ref_exc(e1.getT()==Bool)) return Bool;
+    public Tipo tip_log(E e0, E e1){
+        e0.procesa(Tipado.class);
+        e1.procesa(Tipado.class);
+        if((ref_exc(e0.getT()) instanceof Bool) && (ref_exc(e1.getT()) instanceof Bool_)) return new Bool_();
         else{
             // TODO THROW error??
-            return false;
+            return Error_();
         }
     }
 
-    public boolean es_designador(E e0){
+    public Tipo es_designador(E e0){
         // TODO EL GETT() NO ESTÁ DEVOLVIENDO LO QUE YO QUIERO YO CREO, ENTONCES NO VA A SER INSTANCEOF DE NADA
-        if(e0.getT() instanceof Id || e0.getT() instanceof Index || e0.getT() instanceof Access || e0.getT() instanceof Indir) return true;
-        else return false;
+        if(e0.getT() instanceof Id || e0.getT() instanceof Index || e0.getT() instanceof Access || e0.getT() instanceof Indir) return new Ok();
+        else return new Error_();
     }
 
     public boolean campos_compatibles(Un_Campo uc1, Un_Campo uc2){
@@ -128,12 +133,12 @@ public class FuncionesAuxiliares {
         }
     }
 
-    public boolean son_compatibles(E t1, E t2){
-        Set<E> st = new HashSet<E>();
+    public boolean son_compatibles(Tipo t1, Tipo t2){
+        Set<Tipo> st = new HashSet<Tipo>();
         return son_compatibles2(st, t1, t2);
     }
 
-    public boolean son_compatibles2(Set<E> st, E t1, E t2){
+    public boolean son_compatibles2(Set<Tipo> st, Tipo t1, Tipo t2){
         // TODO DEBERÍA HACER GETTIPODATOS() Y QUE ME DEVUELVA LA CLASE? CÓMO LO HAGO?
         if(st.contains(t1) && st.contains(t2)){
             return true;
@@ -141,13 +146,13 @@ public class FuncionesAuxiliares {
             st.add(t1);
             st.add(t2);
             // TODO no de debería ser t1, porque no es una clase
-            if(t1 instanceof Ref) return son_compatibles2(st, ref_exc(t1), t2);
-            else if(t2.getT() instanceof Ref) return son_compatibles2(st, t1, ref_exc(t2));
+            if(t1 instanceof Ref_) return son_compatibles2(st, ref_exc(t1), t2);
+            else if(t2.getT() instanceof Ref_) return son_compatibles2(st, t1, ref_exc(t2));
             else if(t1.getT() instanceof Int && t2.getT() instanceof Int) return true;
             else if(t1 instanceof Real && (t2 instanceof Real || t2 instanceof Int)) return true;
-            else if(t1 instanceof Bool && t2 instanceof Bool) return true;
-            else if(t1 instanceof String && t2 instanceof String) return true;
-            else if(t1 instanceof Array && t2 instanceof Array) return son_compatibles2(st, t1, t2);
+            else if(t1 instanceof Bool_ && t2 instanceof Bool_) return true;
+            else if(t1 instanceof String_ && t2 instanceof String_) return true;
+            else if(t1 instanceof Array_ && t2 instanceof Array_) return son_compatibles2(st, t1, t2);
             else if(t1 instanceof Record.getArg0() && t2 instanceof Record.getArg1()) return campos_compatibles(Record.getArg0(), Record.getArg1());
             else if(t1 instanceof Puntero.getTipo() && t2 instanceof Null) return true;
             else if(t1 instanceof Puntero.getTipo1() && t2 instanceof Puntero.getTipo2()) return true;
