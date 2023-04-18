@@ -4,15 +4,16 @@ import java.util.HashSet;
 import java.util.Set;
 
 import implementacion.abstractSintax.SintaxisAbstracta.*;
+import implementacion.abstractSintax.SalidaTipo;
 
 public class FuncionesAuxiliares {
-    
-    public Tipo ambos_ok(Tipo val1, Tipo val2){
-        if val1 instanceof Ok && val2 instanceof Ok{
-            return new Ok();
+
+    public SalidaTipo ambos_ok(SalidaTipo val1, SalidaTipo val2){
+        if val1.OK==SalidaTipo.OK && val2.OK==SalidaTipo.OK{
+            return SalidaTipo.OK;
         }
         else{
-            return new Error();
+            return SalidaTipo.ERROR;
         }
     }
     
