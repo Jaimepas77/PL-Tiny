@@ -91,11 +91,11 @@ public class Tipado extends ProcesamientoPorDefecto {
     @Override
     public void procesa(Array_ tipo) {
         tipo.getT().procesa(this);
-        if (!tipo.getTipo()) tipo.setTipo(false);
+        if (tipo.getTipo()==SalidaTipo.ERROR) tipo.setTipo(SalidaTipo.ERROR);
         else if(tipo.getTam()>=0) tipo.setTipo(SalidaTipo.OK);
         else{
             System.err.println("Error"); // TODO AÑADIR MÁS INFO CON STRINGLOCALIZADO
-            tipo.setTipo(false);
+            tipo.setTipo(SalidaTipo.ERROR);
         }
     }
 
@@ -111,16 +111,17 @@ public class Tipado extends ProcesamientoPorDefecto {
         tipo.setTipo(tipo.getT().getTipo());
     }
 
+    // TODO LOS 3 DE ABAJO
     @Override
     public void procesa(Un_Campo campos) {
-        campos.getCampo().procesa(this);
-        campos.setTipo(campos.getCampo().getTipo());
+        /*campos.getCampo().procesa(this);
+        campos.setTipo(campos.getCampo().getTipo());*/
     }
     
     //TODO no entiendo muy bien campos 
     @Override
     public void procesa(Muchos_Campos campos) {
-        campos.getCampo().procesa(this);
+        /*campos.getCampo().procesa(this);
         if(campos.getCampo().getTipo()){
             //TODO COMO HACER ESTE IF
             if(!esta_en(Campo.string, Campos)){
@@ -130,13 +131,13 @@ public class Tipado extends ProcesamientoPorDefecto {
                 System.err.println("Error"); // TODO AÑADIR MÁS INFO CON STRINGLOCALIZADO
                 campos.setTipo(false);
             }
-        } else campos.setTipo(campos.getCampo().getTipo());
+        } else campos.setTipo(campos.getCampo().getTipo());*/
     }
 
     @Override
     public void procesa(Campo campo) {
-        campo.getT().procesa(this);
-        campo.setTipo(campo.getT().getTipo());
+        /*campo.getT().procesa(this);
+        campo.setTipo(campo.getT().getTipo());*/
     }
 
     @Override
@@ -296,9 +297,10 @@ public class Tipado extends ProcesamientoPorDefecto {
         }
     }
 
+    // TODO
     @Override
     public void procesa(Call_Proc ins) {
-        ins.getE().procesa(this);
+        /*ins.getE().procesa(this);
         ins.getLExp().procesa(this);
         // TODO ESTOS IFS, HACER GETVINCULO() DESDE E??, CÓMO SE HACE ESTO?
         if(E.vinculo instanceof Dec_Proc){
@@ -311,7 +313,7 @@ public class Tipado extends ProcesamientoPorDefecto {
         } else{
             ins.setTipo(SalidaTipo.ERROR);
             System.err.println("Error"); // TODO AÑADIR MÁS INFO CON STRINGLOCALIZADO
-        }
+        }*/
     }
 
     @Override

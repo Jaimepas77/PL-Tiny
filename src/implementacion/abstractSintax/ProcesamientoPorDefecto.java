@@ -199,4 +199,13 @@ public class ProcesamientoPorDefecto implements Procesamiento {
 	@Override
 	public void procesa(Indir e) {}
 
+	@Override
+	public void procesa(Null_ tipo) {}
+
+	@Override
+	public void procesa(Ok ok) {}
+
+	@Override
+	public void procesa(Error_ error_) {}
+
 }

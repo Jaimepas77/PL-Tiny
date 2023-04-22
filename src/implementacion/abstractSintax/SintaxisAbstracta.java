@@ -1,7 +1,5 @@
 package implementacion.abstractSintax;
 
-import implementacion.procesamientos.Vinculacion;
-import implementacion.abstractSintax.SalidaTipo;
 public class SintaxisAbstracta {
 	//Prog
 	public static abstract class Prog  { // Estática porque no hace nada por sí misma
@@ -107,6 +105,7 @@ public class SintaxisAbstracta {
 		}
 		public abstract void procesa(Procesamiento p);
 		public abstract SalidaTipo getTipo();
+		public abstract Tipo getT();
 	}
 
 	public static class Dec_Var extends Dec {
@@ -389,6 +388,29 @@ public class SintaxisAbstracta {
 			this.tipo= tipo; 
 		}
 	}
+	
+	public static class Null_ extends Tipo {
+		private Tipo t;
+		private SalidaTipo tipo; 
+		public Null_() {
+			super();
+		}
+		
+		public Tipo getT() {
+			return t;
+		}
+
+		public void procesa(Procesamiento p) {
+			p.procesa(this);
+		}
+		public SalidaTipo getTipo(){
+			return this.tipo; 
+		}
+		@Override
+		public void setTipo(SalidaTipo tipo) {
+			this.tipo= tipo; 
+		}
+	}
 
 	public static class Ref_ extends Tipo {
 		public String str;
@@ -534,7 +556,7 @@ public class SintaxisAbstracta {
 	public static class Muchos_Campos extends Campos {
 		private Campo campo;
 		private Campos campos;
-		private boolean tipo; 
+		private SalidaTipo tipo; 
 
 		public Muchos_Campos(Campos campos, Campo campo) {
 			super();
@@ -553,12 +575,13 @@ public class SintaxisAbstracta {
 			p.procesa(this);
 		}
 		@Override
-		public boolean getTipo() {
-			return this.campo.getTipo();
+		public SalidaTipo getTipo() {
+			return SalidaTipo.ERROR; // TODO REVISAR ESTO NO ES ASÍ
+			//return this.campo.getTipo();
 		}
 		@Override
-		public void setTipo(boolean tipo) {
-			this.tipo= tipo; 
+		public void setTipo(SalidaTipo tipo) {
+			this.tipo= tipo;
 		}
 	}
 
