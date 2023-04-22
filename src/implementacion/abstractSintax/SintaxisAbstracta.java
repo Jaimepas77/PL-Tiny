@@ -1,17 +1,19 @@
 package implementacion.abstractSintax;
 
 public class SintaxisAbstracta {
-	//Prog
-	public static abstract class Prog  { // Estática porque no hace nada por sí misma
+	// Prog
+	public static abstract class Prog { // Estática porque no hace nada por sí misma
 		public Prog() {
-		}   
-		public abstract void procesa(Procesamiento p); 
+		}
+
+		public abstract void procesa(Procesamiento p);
 	}
 
 	public static class Prog_ extends Prog {
 		private LDecs lDecs;
 		private LIns lIns;
         private SalidaTipo tipo;
+		private int ini;
 		
 		public Prog_(LDecs lDecs, LIns lIns) {
 			super();
@@ -22,6 +24,7 @@ public class SintaxisAbstracta {
 		public LDecs getlDecs() {
 			return lDecs;
 		}
+
 		public LIns getlIns() {
 			return lIns;
 		}
@@ -33,15 +36,24 @@ public class SintaxisAbstracta {
 		}
 
 		public void procesa(Procesamiento p) {
-			p.procesa(this); 
+			p.procesa(this);
+		}
+
+		public int getIni() {
+			return ini;
+		}
+
+		public void setIni(int ini) {
+			this.ini = ini;
 		}
 	}
 
-	//LDecs
+	// LDecs
 	public static abstract class LDecs {
 		private SalidaTipo tipo;
         public LDecs() {
 		}
+
 		public abstract void procesa(Procesamiento p);
 		public SalidaTipo getTipo() {
 			return tipo;
@@ -68,6 +80,7 @@ public class SintaxisAbstracta {
 			super();
 			this.dec = dec;
 		}
+
 		public Dec getDec() {
 			return dec;
 		}
@@ -90,6 +103,7 @@ public class SintaxisAbstracta {
 		public LDecs getDecs() {
 			return decs;
 		}
+
 		public Dec getDec() {
 			return dec;
 		}
@@ -99,10 +113,11 @@ public class SintaxisAbstracta {
 		}
 	}
 
-	//Dec
+	// Dec
 	public static abstract class Dec {
 		public Dec() {
 		}
+
 		public abstract void procesa(Procesamiento p);
 		public abstract SalidaTipo getTipo();
 		public abstract Tipo getT();
@@ -124,18 +139,22 @@ public class SintaxisAbstracta {
 		public String getStr() {
 			return str;
 		}
+
 		public Tipo getT() {
 			return t;
 		}
 		public int getDir() {
 			return dir;
 		}
+
 		public void setDir(int dir) {
 			this.dir = dir;
 		}
+
 		public int getNivel() {
 			return nivel;
 		}
+
 		public void setNivel(int nivel) {
 			this.nivel = nivel;
 		}
@@ -165,6 +184,7 @@ public class SintaxisAbstracta {
 		public String getStr() {
 			return str;
 		}
+
 		public Tipo getT() {
 			return t;
 		}
@@ -190,6 +210,8 @@ public class SintaxisAbstracta {
 		private int tamDatos;
 		private Tipo t;
 		private SalidaTipo tipo;
+		private int ini;
+		private int sig;
 
 		public Dec_Proc(String str, LParams lParams, LDecs lDecs, LIns lIns) {
 			super();
@@ -202,24 +224,30 @@ public class SintaxisAbstracta {
 		public String getStr() {
 			return str;
 		}
+
 		public LParams getlParams() {
 			return lParams;
 		}
+
 		public LDecs getlDecs() {
 			return lDecs;
 		}
+
 		public LIns getlIns() {
 			return lIns;
 		}
 		public int getNivel() {
 			return nivel;
 		}
+
 		public void setNivel(int nivel) {
 			this.nivel = nivel;
 		}
+
 		public int getTamDatos() {
 			return tamDatos;
 		}
+
 		public void setTamDatos(int tamDatos) {
 			this.tamDatos = tamDatos;
 		}
@@ -235,9 +263,24 @@ public class SintaxisAbstracta {
 		public SalidaTipo getTipo() {
 			return tipo;
 		}
+		public int getIni() {
+			return ini;
+		}
+
+		public void setIni(int ini) {
+			this.ini = ini;
+		}
+
+		public int getSig() {
+			return sig;
+		}
+
+		public void setSig(int sig) {
+			this.sig = sig;
+		}
 	}
 
-	//Tipo
+	// Tipo
 	public static abstract class Tipo {
 		private int tam = -1;//-1 = null
 		private SalidaTipo tipo;
@@ -245,10 +288,13 @@ public class SintaxisAbstracta {
 
 		public Tipo() {
 		}
+
 		public abstract void procesa(Procesamiento p);
+
 		public int getTam() {
 			return tam;
 		}
+
 		public void setTam(int tam) {
 			this.tam = tam;
 		}
@@ -269,6 +315,7 @@ public class SintaxisAbstracta {
         public Error_() {
 			super();
 		}
+
 		public void procesa(Procesamiento p) {
 			p.procesa(this);
 		}
@@ -416,10 +463,17 @@ public class SintaxisAbstracta {
 		public String str;
 		private Tipo t;
 		private SalidaTipo tipo; 
+		private Dec vinculo;
+
 		public Ref_(String str) {
 			super();
 			this.str = str;
 		}
+
+		public void setVinculo(Dec vinculo) {
+			this.vinculo = vinculo;
+		}
+
 		public void procesa(Procesamiento p) {
 			p.procesa(this);
 		}
@@ -453,6 +507,7 @@ public class SintaxisAbstracta {
 		public String getStr() {
 			return str;
 		}
+
 		public Tipo getT() {
 			return t;
 		}
@@ -496,6 +551,8 @@ public class SintaxisAbstracta {
 	public static class Puntero_ extends Tipo {
 		public Tipo t;
 		private SalidaTipo tipo; 
+		private Dec vinculo;
+
 		public Puntero_(Tipo t) {
 			super();
 			this.t = t;
@@ -505,9 +562,6 @@ public class SintaxisAbstracta {
 			return t;
 		}
 
-		public void procesa(Procesamiento p) {
-			p.procesa(this);
-		}
 		public SalidaTipo getTipo(){
 			return this.tipo; 
 		}
@@ -515,9 +569,20 @@ public class SintaxisAbstracta {
 		public void setTipo(SalidaTipo tipo) {
 			this.tipo= tipo; 
 		}
+		public Dec getVinculo() {
+			return vinculo;
+		}
+
+		public void setVinculo(Dec vinculo) {
+			this.vinculo = vinculo;
+		}
+
+		public void procesa(Procesamiento p) {
+			p.procesa(this);
+		}
 	}
 
-	//Campos
+	// Campos
 	public static abstract class Campos {
 		public Campos() {
 		}
@@ -567,6 +632,7 @@ public class SintaxisAbstracta {
 		public Campos getCampos() {
 			return campos;
 		}
+
 		public Campo getCampo() {
 			return campo;
 		}
@@ -600,12 +666,14 @@ public class SintaxisAbstracta {
 		public String getStr() {
 			return str;
 		}
+
 		public Tipo getT() {
 			return t;
 		}
 		public int getDespl() {
 			return despl;
 		}
+
 		public void setDespl(int despl) {
 			this.despl = despl;
 		}
@@ -621,11 +689,12 @@ public class SintaxisAbstracta {
 		}
 	}
 
-	//LParams
+	// LParams
 	public static abstract class LParams {
 		private SalidaTipo t;
 		public LParams() {
 		}
+
 		public abstract void procesa(Procesamiento p);
 		public SalidaTipo getT() {
 			return t;
@@ -652,13 +721,16 @@ public class SintaxisAbstracta {
 
 	public static class Un_Param extends LParams {
 		private Param param;
+
 		public Un_Param(Param param) {
 			super();
 			this.param = param;
 		}
+
 		public Param getParam() {
 			return param;
 		}
+
 		public void procesa(Procesamiento p) {
 			p.procesa(this);
 		}
@@ -667,27 +739,35 @@ public class SintaxisAbstracta {
 	public static class Muchos_Params extends LParams {
 		private LParams lParams;
 		private Param param;
+
 		public Muchos_Params(LParams lParams, Param param) {
 			super();
 			this.lParams = lParams;
 			this.param = param;
 		}
+
 		public LParams getParams() {
 			return lParams;
 		}
+
 		public Param getParam() {
 			return param;
 		}
+
 		public void procesa(Procesamiento p) {
 			p.procesa(this);
 		}
 	}
-	//Param
+
+	// Param
 	public static abstract class Param {
 		private Tipo t;
 		private SalidaTipo tipo;
+		private int dir;
+		private int nivel;
 		public Param() {
 		}
+
 		public abstract void procesa(Procesamiento p);
         public Tipo getT() {
 			return t;
@@ -698,85 +778,104 @@ public class SintaxisAbstracta {
 		public void setTipo(SalidaTipo tipo) {
 			this.tipo = tipo;
 		}
+		public int getDir() {
+			return dir;
+		}
+
+		public void setDir(int dir) {
+			this.dir = dir;
+		}
+
+		public int getNivel() {
+			return nivel;
+		}
+
+		public void setNivel(int nivel) {
+			this.nivel = nivel;
+		}
 	}
 
 	public static class Param_Ref extends Param {
 		private String str;
 		private Tipo t;
-		private int dir;
-		private int nivel;
+
 		public Param_Ref(String str, Tipo t) {
 			super();
 			this.str = str;
 			this.t = t;
 		}
+
 		public String getStr() {
 			return str;
 		}
+
 		public Tipo getT() {
 			return t;
 		}
+
 		public void procesa(Procesamiento p) {
 			p.procesa(this);
 		}
-		public int getDir() {
-			return dir;
-		}
-		public void setDir(int dir) {
-			this.dir = dir;
-		}
-		public int getNivel() {
-			return nivel;
-		}
-		public void setNivel(int nivel) {
-			this.nivel = nivel;
-		}
-	}	
+	}
 
 	public static class Param_Val extends Param {
 		private String str;
 		private Tipo t;
-		private int dir;
-		private int nivel;
+		private Dec vinculo;
+
 		public Param_Val(String str, Tipo t) {
 			super();
 			this.str = str;
 			this.t = t;
 		}
+
 		public String getStr() {
 			return str;
 		}
+
 		public Tipo getT() {
 			return t;
 		}
+
 		public void procesa(Procesamiento p) {
 			p.procesa(this);
 		}
-		public int getDir() {
-			return dir;
-		}
-		public void setDir(int dir) {
-			this.dir = dir;
-		}
-		public int getNivel() {
-			return nivel;
-		}
-		public void setNivel(int nivel) {
-			this.nivel = nivel;
+
+		public Dec getVinculo() {
+			return vinculo;
 		}
 	}
 
-	//LIns
+	// LIns
 	public static abstract class LIns {
 		private SalidaTipo tipo;
+		private int ini;
+		private int sig;
+
 		public LIns() {
 		}
+
 		public abstract void procesa(Procesamiento p);
 		public SalidaTipo getTipo() {
 			return tipo;
 		}
 		public void setTipo(SalidaTipo tipo) {
 			this.tipo = tipo;
+		}
+		public int getIni() {
+			return ini;
+		}
+
+		public void setIni(int ini) {
+			this.ini = ini;
+		}
+
+		public int getSig() {
+			return sig;
+		}
+
+		public void setSig(int sig) {
+			this.sig = sig;
 		}
 	}
 
@@ -788,46 +887,75 @@ public class SintaxisAbstracta {
 		public void procesa(Procesamiento p) {
 			p.procesa(this);
 		}
-	}	
+	}
 
 	public static class Una_Ins extends LIns {
 		private Ins ins;
+		private int ini;
+		private int sig;
+
 		public Una_Ins(Ins ins) {
 			super();
 			this.ins = ins;
 		}
+
 		public Ins getIns() {
 			return ins;
 		}
+
 		public void procesa(Procesamiento p) {
 			p.procesa(this);
+		}
+
+		public int getIni() {
+			return ini;
+		}
+
+		public void setIni(int ini) {
+			this.ini = ini;
+		}
+
+		public int getSig() {
+			return sig;
+		}
+
+		public void setSig(int sig) {
+			this.sig = sig;
 		}
 	}
 
 	public static class Muchas_Ins extends LIns {
 		private LIns lIns;
 		private Ins ins;
+
 		public Muchas_Ins(LIns lIns, Ins ins) {
 			super();
 			this.lIns = lIns;
 			this.ins = ins;
 		}
+
 		public LIns getLIns() {
 			return lIns;
 		}
+
 		public Ins getIns() {
 			return ins;
 		}
+
 		public void procesa(Procesamiento p) {
 			p.procesa(this);
 		}
-	}	
+	}
 
-	//Ins
+	// Ins
 	public static abstract class Ins {
 		private SalidaTipo tipo;
+		private int ini;
+		private int sig;
+
 		public Ins() {
 		}
+
 		public abstract void procesa(Procesamiento p);
 		public SalidaTipo getT() {
 			return tipo;
@@ -835,40 +963,65 @@ public class SintaxisAbstracta {
 		public void setTipo(SalidaTipo tipo) {
 			this.tipo = tipo;
 		}
-	}	
+
+		public int getIni() {
+			return ini;
+		}
+
+		public void setIni(int ini) {
+			this.ini = ini;
+		}
+
+		public int getSig() {
+			return sig;
+		}
+
+		public void setSig(int sig) {
+			this.sig = sig;
+		}
+	}
 
 	public static class Asignacion_ extends Ins {
 		private E e1;
 		private E e2;
+
 		public Asignacion_(E e1, E e2) {
 			super();
 			this.e1 = e1;
 			this.e2 = e2;
 		}
+
 		public E getE1() {
 			return e1;
 		}
+
 		public E getE2() {
 			return e2;
-		}		
+		}
+
 		public void procesa(Procesamiento p) {
 			p.procesa(this);
 		}
 	}
+
 	public static class If_Then extends Ins {
 		private E e;
 		private LIns lIns;
+
 		public If_Then(E e, LIns lIns) {
 			super();
 			this.e = e;
 			this.lIns = lIns;
 		}
+
 		public E getE() {
 			return e;
 		}
+
 		public LIns getLIns() {
 			return lIns;
-		}		
+		}
+
 		public void procesa(Procesamiento p) {
 			p.procesa(this);
 		}
@@ -878,53 +1031,66 @@ public class SintaxisAbstracta {
 		private E e;
 		private LIns lIns1;
 		private LIns lIns2;
+
 		public If_Then_Else(E e, LIns lIns1, LIns lIns2) {
 			super();
 			this.e = e;
 			this.lIns1 = lIns1;
 			this.lIns2 = lIns2;
 		}
+
 		public E getE() {
 			return e;
 		}
+
 		public LIns getLIns1() {
 			return lIns1;
-		}		
+		}
+
 		public LIns getLIns2() {
 			return lIns2;
-		}	
+		}
+
 		public void procesa(Procesamiento p) {
 			p.procesa(this);
 		}
-	}	
+	}
 
 	public static class While_ extends Ins {
 		private E e;
 		private LIns lIns;
+
 		public While_(E e, LIns lIns) {
 			super();
 			this.e = e;
 			this.lIns = lIns;
 		}
+
 		public E getE() {
 			return e;
 		}
+
 		public LIns getLIns() {
 			return lIns;
-		}		
+		}
+
 		public void procesa(Procesamiento p) {
 			p.procesa(this);
 		}
 	}
+
 	public static class Read_ extends Ins {
 		private E e;
+
 		public Read_(E e) {
 			super();
 			this.e = e;
 		}
+
 		public E getE() {
 			return e;
-		}	
+		}
+
 		public void procesa(Procesamiento p) {
 			p.procesa(this);
 		}
@@ -932,13 +1098,16 @@ public class SintaxisAbstracta {
 
 	public static class Write_ extends Ins {
 		private E e;
+
 		public Write_(E e) {
 			super();
 			this.e = e;
 		}
+
 		public E getE() {
 			return e;
 		}
+
 		public void procesa(Procesamiento p) {
 			p.procesa(this);
 		}
@@ -947,7 +1116,8 @@ public class SintaxisAbstracta {
 	public static class Nl_ extends Ins {
 		public Nl_() {
 			super();
-		}	
+		}
+
 		public void procesa(Procesamiento p) {
 			p.procesa(this);
 		}
@@ -955,13 +1125,16 @@ public class SintaxisAbstracta {
 
 	public static class New_ extends Ins {
 		private E e;
+
 		public New_(E e) {
 			super();
 			this.e = e;
 		}
+
 		public E getE() {
 			return e;
 		}
+
 		public void procesa(Procesamiento p) {
 			p.procesa(this);
 		}
@@ -969,15 +1142,27 @@ public class SintaxisAbstracta {
 
 	public static class Delete_ extends Ins {
 		private E e;
+		private int sigStop;
+
 		public Delete_(E e) {
 			super();
 			this.e = e;
 		}
+
 		public E getE() {
 			return e;
 		}
+
 		public void procesa(Procesamiento p) {
 			p.procesa(this);
+		}
+
+		public int getSigStop() {
+			return sigStop;
+		}
+
+		public void setSigStop(int sigStop) {
+			this.sigStop = sigStop;
 		}
 	}
 
@@ -995,6 +1180,7 @@ public class SintaxisAbstracta {
 		public E getE() {
 			return e;
 		}
+
 		public LExp getLExp() {
 			return lExp;
 		}
@@ -1010,30 +1196,53 @@ public class SintaxisAbstracta {
 	public static class Ins_Compuesta extends Ins {
 		private LDecs lDecs;
 		private LIns lIns;
+
 		public Ins_Compuesta(LDecs lDecs, LIns lIns) {
 			super();
 			this.lDecs = lDecs;
 			this.lIns = lIns;
 		}
+
 		public LDecs getLDecs() {
 			return lDecs;
 		}
+
 		public LIns getLIns() {
 			return lIns;
-		}		
+		}
+
 		public void procesa(Procesamiento p) {
 			p.procesa(this);
 		}
 	}
 
-	//LExp
+	// LExp
 	public static abstract class LExp {
 		private SalidaTipo tipo;
+		private int ini;
+		private int sig;
+
 		public LExp() {
 		}
+
 		public abstract void procesa(Procesamiento p);
 		public void setTipo(SalidaTipo tipo) {
 			this.tipo = tipo;
+		}
+		public int getIni() {
+			return ini;
+		}
+
+		public void setIni(int ini) {
+			this.ini = ini;
+		}
+
+		public int getSig() {
+			return sig;
+		}
+
+		public void setSig(int sig) {
+			this.sig = sig;
 		}
 	}
 
@@ -1041,6 +1250,7 @@ public class SintaxisAbstracta {
 		public Sin_Expr() {
 			super();
 		}
+
 		public void procesa(Procesamiento p) {
 			p.procesa(this);
 		}
@@ -1048,13 +1258,16 @@ public class SintaxisAbstracta {
 
 	public static class Una_Expr extends LExp {
 		public E e;
+
 		public Una_Expr(E e) {
 			super();
 			this.e = e;
 		}
+
 		public E getE() {
 			return e;
 		}
+
 		public void procesa(Procesamiento p) {
 			p.procesa(this);
 		}
@@ -1063,31 +1276,54 @@ public class SintaxisAbstracta {
 	public static class Muchas_Expr extends LExp {
 		public LExp lExp;
 		public E e;
+
 		public Muchas_Expr(LExp lExp, E e) {
 			super();
 			this.lExp = lExp;
 			this.e = e;
 		}
+
 		public LExp getLExp() {
 			return lExp;
 		}
+
 		public E getE() {
 			return e;
 		}
+
 		public void procesa(Procesamiento p) {
 			p.procesa(this);
 		}
 	}
 
-	//E - Expresión
+	// E - Expresión
 	public static abstract class E {
 		private Tipo tipo;
+		private int ini;
+		private int sig;
+
 		public E() {
 		}
+
 		public abstract void procesa(Procesamiento p);
 		public abstract Tipo getT();
 		public void setT(Tipo tipo) {
 			this.tipo = tipo;
+		}
+		public int getIni() {
+			return ini;
+		}
+
+		public void setIni(int ini) {
+			this.ini = ini;
+		}
+
+		public int getSig() {
+			return sig;
+		}
+
+		public void setSig(int sig) {
+			this.sig = sig;
 		}
 	}
 
@@ -1161,10 +1397,12 @@ public class SintaxisAbstracta {
 
 	public static class Cadena extends E {
 		public String str;
+
 		public Cadena(String str) {
 			super();
 			this.str = str;
 		}
+
 		public String getStr() {
 			return str;
 		}
@@ -1178,16 +1416,28 @@ public class SintaxisAbstracta {
 
 	public static class Id extends E {
 		public String str;
+		private Dec vinculo;
+
 		public Id(String str) {
 			super();
 			this.str = str;
 		}
+
 		public String getStr() {
 			return str;
 		}
 		public Tipo getT() {
 			return new Ok(); 
 		}
+
+		public Dec getVinculo() {
+			return vinculo;
+		}
+
+		public void setVinculo(Dec vinculo) {
+			this.vinculo = vinculo;
+		}
+
 		public void procesa(Procesamiento p) {
 			p.procesa(this);
 		}
@@ -1208,14 +1458,17 @@ public class SintaxisAbstracta {
 	public static abstract class EBinario extends E {
 		public E arg0;
 		public E arg1;
+
 		public EBinario(E arg0, E arg1) {
 			super();
 			this.arg0 = arg0;
 			this.arg1 = arg1;
 		}
+
 		public E getArg0() {
 			return arg0;
 		}
+
 		public E getArg1() {
 			return arg1;
 		}
@@ -1223,16 +1476,18 @@ public class SintaxisAbstracta {
 
 	public static abstract class EUnario extends E {
 		public E arg0;
+
 		public EUnario(E arg0) {
 			super();
 			this.arg0 = arg0;
 		}
+
 		public E getArg0() {
 			return arg0;
 		}
 	}
 
-	//Nivel 0 
+	// Nivel 0
 	private static abstract class ENivel0 extends EBinario {
 		public ENivel0(E arg0, E arg1) {
 			super(arg0, arg1);
@@ -1248,7 +1503,7 @@ public class SintaxisAbstracta {
 		}
 		public void procesa(Procesamiento p) {
 			p.procesa(this);
-		}		
+		}
 	}
 
 	public static class Ble extends ENivel0 {
@@ -1260,7 +1515,7 @@ public class SintaxisAbstracta {
 		}
 		public void procesa(Procesamiento p) {
 			p.procesa(this);
-		}		
+		}
 	}
 
 	public static class Bgt extends ENivel0 {
@@ -1272,7 +1527,7 @@ public class SintaxisAbstracta {
 		}
 		public void procesa(Procesamiento p) {
 			p.procesa(this);
-		}		
+		}
 	}
 
 	public static class Bge extends ENivel0 {
@@ -1284,7 +1539,7 @@ public class SintaxisAbstracta {
 		}
 		public void procesa(Procesamiento p) {
 			p.procesa(this);
-		}		
+		}
 	}
 
 	public static class Beq extends ENivel0 {
@@ -1296,7 +1551,7 @@ public class SintaxisAbstracta {
 		}
 		public void procesa(Procesamiento p) {
 			p.procesa(this);
-		}		
+		}
 	}
 
 	public static class Bne extends ENivel0 {
@@ -1308,10 +1563,10 @@ public class SintaxisAbstracta {
 		}
 		public void procesa(Procesamiento p) {
 			p.procesa(this);
-		}		
+		}
 	}
 
-	//Nivel 1
+	// Nivel 1
 	private static abstract class ENivel1 extends EBinario {
 		public ENivel1(E arg0, E arg1) {
 			super(arg0, arg1);
@@ -1326,8 +1581,8 @@ public class SintaxisAbstracta {
 			return new Real_(); 
 		}
 		public void procesa(Procesamiento p) {
-			p.procesa(this); 
-		}     
+			p.procesa(this);
+		}
 	}
 
 	public static class Resta extends ENivel1 {
@@ -1338,11 +1593,11 @@ public class SintaxisAbstracta {
 			return new Real_(); 
 		}
 		public void procesa(Procesamiento p) {
-			p.procesa(this); 
-		}     
+			p.procesa(this);
+		}
 	}
 
-	//Nivel 2
+	// Nivel 2
 	private static abstract class ENivel2 extends EBinario {
 		public ENivel2(E arg0, E arg1) {
 			super(arg0, arg1);
@@ -1357,8 +1612,8 @@ public class SintaxisAbstracta {
 			return new Bool_(); 
 		}
 		public void procesa(Procesamiento p) {
-			p.procesa(this); 
-		}     
+			p.procesa(this);
+		}
 	}
 
 	public static class Or extends ENivel2 {
@@ -1369,11 +1624,11 @@ public class SintaxisAbstracta {
 			return new Bool_(); 
 		}
 		public void procesa(Procesamiento p) {
-			p.procesa(this); 
-		}     
+			p.procesa(this);
+		}
 	}
 
-	//Nivel 3
+	// Nivel 3
 	private static abstract class ENivel3 extends EBinario {
 		public ENivel3(E arg0, E arg1) {
 			super(arg0, arg1);
@@ -1388,7 +1643,7 @@ public class SintaxisAbstracta {
 			return new Real_(); 
 		}
 		public void procesa(Procesamiento p) {
-			p.procesa(this); 
+			p.procesa(this);
 		}
 	}
 
@@ -1400,7 +1655,7 @@ public class SintaxisAbstracta {
 			return new Real_(); 
 		}
 		public void procesa(Procesamiento p) {
-			p.procesa(this); 
+			p.procesa(this);
 		}
 	}
 
@@ -1412,11 +1667,11 @@ public class SintaxisAbstracta {
 			return new Real_(); 
 		}
 		public void procesa(Procesamiento p) {
-			p.procesa(this); 
-		}     
+			p.procesa(this);
+		}
 	}
 
-	//Nivel 4
+	// Nivel 4
 	private static abstract class ENivel4 extends EUnario {
 		public ENivel4(E arg0) {
 			super(arg0);
@@ -1431,8 +1686,8 @@ public class SintaxisAbstracta {
 			return new Bool_(); 
 		}
 		public void procesa(Procesamiento p) {
-			p.procesa(this); 
-		}     
+			p.procesa(this);
+		}
 	}
 
 	public static class Not extends ENivel4 {
@@ -1443,11 +1698,11 @@ public class SintaxisAbstracta {
 			return new Bool_(); 
 		}
 		public void procesa(Procesamiento p) {
-			p.procesa(this); 
-		}     
+			p.procesa(this);
+		}
 	}
 
-	//Nivel 5
+	// Nivel 5
 	public static class Index extends EBinario {
 		private Tipo tipo; 
 		public Index(E arg0, E arg1) {
@@ -1472,9 +1727,11 @@ public class SintaxisAbstracta {
 			super(arg0);
 			this.str = str;
 		}
+
 		public String getStr() {
 			return str;
 		}
+
 		public void procesa(Procesamiento p) {
 			p.procesa(this);
 		}
@@ -1486,25 +1743,39 @@ public class SintaxisAbstracta {
 
 	public static class Indir extends EUnario {
 		private Tipo tipo; 
+		private int sigStop;
+
 		public Indir(E arg0) {
 			super(arg0);
 		}
+
 		public void procesa(Procesamiento p) {
-			p.procesa(this); 
+			p.procesa(this);
 		}
 		@Override
 		public Tipo getT() {
 			return this.tipo;
 		}
-	}	
 
+		public final int prioridad() {
+			return 5;
+		}
 
-	//Constructores
+		public int getSigStop() {
+			return sigStop;
+		}
+
+		public void setSigStop(int sigStop) {
+			this.sigStop = sigStop;
+		}
+	}
+
+	// Constructores
 	public Prog cProg_(LDecs lDecs, LIns lIns) {
 		return new Prog_(lDecs, lIns);
 	}
 
-	//LDecs
+	// LDecs
 	public LDecs cSin_Decs() {
 		return new Sin_Decs();
 	}
@@ -1512,12 +1783,12 @@ public class SintaxisAbstracta {
 	public LDecs cUna_Dec(Dec dec) {
 		return new Una_Dec(dec);
 	}
-	
+
 	public LDecs cMuchas_Decs(LDecs decs, Dec dec) {
 		return new Muchas_Decs(decs, dec);
 	}
 
-	//Dec
+	// Dec
 	public Dec cDec_Var(String str, Tipo t) {
 		return new Dec_Var(str, t);
 	}
@@ -1530,7 +1801,7 @@ public class SintaxisAbstracta {
 		return new Dec_Proc(str, lParams, lDecs, lIns);
 	}
 
-	//Tipo
+	// Tipo
 	public Tipo cInt_() {
 		return new Int_();
 	}
@@ -1563,7 +1834,7 @@ public class SintaxisAbstracta {
 		return new Puntero_(t);
 	}
 
-	//Campos
+	// Campos
 	public Campos cUn_Campo(Campo campo) {
 		return new Un_Campo(campo);
 	}
@@ -1576,7 +1847,7 @@ public class SintaxisAbstracta {
 		return new Campo(str, t);
 	}
 
-	//LParams
+	// LParams
 	public LParams cSin_Params() {
 		return new Sin_Params();
 	}
@@ -1588,146 +1859,184 @@ public class SintaxisAbstracta {
 	public LParams cMuchos_Params(LParams lParams, Param param) {
 		return new Muchos_Params(lParams, param);
 	}
-	
-	//Param
+
+	// Param
 	public Param cParam_Ref(String str, Tipo t) {
 		return new Param_Ref(str, t);
 	}
-	
+
 	public Param cParam_Val(String str, Tipo t) {
 		return new Param_Val(str, t);
 	}
 
-	//LIns
+	// LIns
 	public LIns cSin_Ins() {
 		return new Sin_Ins();
 	}
+
 	public LIns cUna_Ins(Ins ins) {
 		return new Una_Ins(ins);
 	}
+
 	public LIns cMuchas_Ins(LIns lIns, Ins ins) {
 		return new Muchas_Ins(lIns, ins);
 	}
 
-	//Ins
+	// Ins
 	public Ins cAsignacion_(E e1, E e2) {
 		return new Asignacion_(e1, e2);
 	}
+
 	public Ins cIf_Then(E e, LIns lIns) {
 		return new If_Then(e, lIns);
 	}
+
 	public Ins cIf_Then_Else(E e, LIns lIns1, LIns lIns2) {
 		return new If_Then_Else(e, lIns1, lIns2);
 	}
+
 	public Ins cWhile_(E e, LIns lIns) {
 		return new While_(e, lIns);
 	}
+
 	public Ins cRead_(E e) {
 		return new Read_(e);
 	}
+
 	public Ins cWrite_(E e) {
 		return new Write_(e);
 	}
+
 	public Ins cNl_() {
 		return new Nl_();
 	}
+
 	public Ins cNew_(E e) {
 		return new New_(e);
 	}
+
 	public Ins cDelete_(E e) {
 		return new Delete_(e);
 	}
+
 	public Ins cCall_Proc(E e, LExp lExp) {
 		return new Call_Proc(e, lExp);
 	}
+
 	public Ins cIns_Compuesta(LDecs lDecs, LIns lIns) {
 		return new Ins_Compuesta(lDecs, lIns);
 	}
 
-	//LExp
+	// LExp
 	public LExp cSin_Expr() {
 		return new Sin_Expr();
 	}
+
 	public LExp cUna_Expr(E e) {
 		return new Una_Expr(e);
 	}
+
 	public LExp cMuchas_Expr(LExp lExp, E e) {
 		return new Muchas_Expr(lExp, e);
 	}
 
-	//E - Expresiones
+	// E - Expresiones
 	public E cInt(String str) {
 		return new Int(str);
 	}
+
 	public E cReal(String str) {
 		return new Real(str);
 	}
+
 	public E cTrue() {
 		return new True();
 	}
+
 	public E cFalse() {
 		return new False();
 	}
+
 	public E cCadena(String str) {
 		return new Cadena(str);
 	}
-	public E cId(String str)  {
-		return new Id(str) ;
+
+	public E cId(String str) {
+		return new Id(str);
 	}
+
 	public E cNull() {
 		return new Null();
 	}
+
 	public E cBlt(E arg0, E arg1) {
 		return new Blt(arg0, arg1);
 	}
+
 	public E cBle(E arg0, E arg1) {
 		return new Ble(arg0, arg1);
 	}
+
 	public E cBgt(E arg0, E arg1) {
 		return new Bgt(arg0, arg1);
 	}
+
 	public E cBge(E arg0, E arg1) {
-		return new Bge(arg0, arg1) ;
+		return new Bge(arg0, arg1);
 	}
+
 	public E cBeq(E arg0, E arg1) {
 		return new Beq(arg0, arg1);
 	}
+
 	public E cBne(E arg0, E arg1) {
 		return new Bne(arg0, arg1);
 	}
+
 	public E cSuma(E arg0, E arg1) {
 		return new Suma(arg0, arg1);
 	}
+
 	public E cResta(E arg0, E arg1) {
 		return new Resta(arg0, arg1);
 	}
+
 	public E cAnd(E arg0, E arg1) {
 		return new And(arg0, arg1);
 	}
+
 	public E cOr(E arg0, E arg1) {
 		return new Or(arg0, arg1);
 	}
+
 	public E cMult(E arg0, E arg1) {
 		return new Mult(arg0, arg1);
 	}
+
 	public E cDiv(E arg0, E arg1) {
 		return new Div(arg0, arg1);
 	}
+
 	public E cMod(E arg0, E arg1) {
 		return new Mod(arg0, arg1);
 	}
+
 	public E cNeg(E arg0) {
 		return new Neg(arg0);
 	}
+
 	public E cNot(E arg0) {
 		return new Not(arg0);
 	}
+
 	public E cIndex(E arg0, E arg1) {
 		return new Index(arg0, arg1);
 	}
+
 	public E cAccess(E arg0, String str) {
 		return new Access(arg0, str);
 	}
+
 	public E cIndir(E arg0) {
 		return new Indir(arg0);
 	}

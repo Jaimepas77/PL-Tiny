@@ -10,20 +10,89 @@ public class ejemploPrincipal {
 	public static void main(String[] args) {
 		//Generación del AST
 		Prog prog;
-		prog = astCodigoDeEjemplo();
+//		prog = astCodigoDeEjemplo();
+		prog = astCodigoNl();
+//		prog = astCodigoSumaInt();
+//		prog = astCodigoReadWrite();
 		
 		//Procesamientos
 		prog.procesa(new Vinculacion());
 //		prog.procesa(new Tipado());
 		prog.procesa(new AsignacionEspacio());
 		prog.procesa(new Etiquetado());
-		MaquinaP m = new MaquinaP(20, 15, 40, 3);
-//		prog.procesa(new GenCodigo(m));
+		MaquinaP m = new MaquinaP(20, 15, 20, 3);
+		prog.procesa(new GenCodigo(m));
 		
 		//Ejecución sobre la máquina-p
+		System.out.println("Resultado de ejecución: ");
+//		m.muestraCodigo();	//Para depurar la generación de código
 		m.ejecuta();
+		System.out.println("FIN de ejecución.");
 	}
-
+	
+	private static Prog astCodigoNl() {
+		//Este código puede funcionar tan solo con el etiquetado y la generación de código
+		/*
+		 * var i: int;
+		 * begin
+		 * 	if false then
+		 * 		nl;
+		 * 	else
+		 * 		nl;
+		 * 		nl;
+		 * 	end;
+		 * end.
+		 * */
+		SintaxisAbstracta sa = new SintaxisAbstracta();
+		return sa.cProg_(sa.cUna_Dec(sa.cDec_Var("i", sa.cInt_())),
+				sa.cUna_Ins(sa.cIf_Then_Else(
+						sa.cFalse(),
+						sa.cUna_Ins(
+								sa.cNl_()),
+						sa.cMuchas_Ins(
+								sa.cUna_Ins(
+										sa.cNl_()),
+								sa.cNl_()))));
+	}
+	
+	private static Prog astCodigoSumaInt() {
+		//Este código precisa de todos los procesamientos excepto el etiquetado
+		/*
+		 * var i: int;
+		 * begin
+		 * 	i = 2;
+		 *  i = i + 1;
+		 * end.
+		 * */
+		SintaxisAbstracta sa = new SintaxisAbstracta();
+		return sa.cProg_(sa.cUna_Dec(sa.cDec_Var("i", sa.cInt_())),
+				sa.cMuchas_Ins(
+						sa.cUna_Ins(
+								sa.cAsignacion_(
+										sa.cId("i"),
+										sa.cInt("2"))),
+						sa.cAsignacion_(
+								sa.cId("i"),
+								sa.cSuma(sa.cId("i"), sa.cInt("1")))));
+	}
+	
+	private static Prog astCodigoReadWrite() {
+		//Este código precisa de todos los procesamientos excepto el etiquetado
+		/*
+		 * var text: string;
+		 * begin
+		 * 	read text;
+		 *  write text;
+		 * end.
+		 * */
+		SintaxisAbstracta sa = new SintaxisAbstracta();
+		return sa.cProg_(sa.cUna_Dec(sa.cDec_Var("text", sa.cInt_())),
+				sa.cMuchas_Ins(
+						sa.cUna_Ins(
+								sa.cRead_(sa.cId("text"))),
+						sa.cWrite_(sa.cId("text"))));
+	}
+	
 	private static Prog astCodigoDeEjemplo() {
 		SintaxisAbstracta sa = new SintaxisAbstracta();
 		

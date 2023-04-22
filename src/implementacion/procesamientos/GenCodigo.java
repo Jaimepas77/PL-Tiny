@@ -2,19 +2,22 @@ package implementacion.procesamientos;
 
 import java.util.Stack;
 
-import implementacion.abstractSintax.Procesamiento;
 import implementacion.abstractSintax.ProcesamientoPorDefecto;
 import implementacion.abstractSintax.SintaxisAbstracta.*;
+import implementacion.maquinaP.MaquinaP;
 
-public class Etiquetado extends ProcesamientoPorDefecto {
-	private int etq = 0;
-	private Stack<Dec_Proc> procs = new Stack<>();
+public class GenCodigo extends ProcesamientoPorDefecto {
+	private Stack<Dec_Proc> procs = new Stack<Dec_Proc>();
+	private MaquinaP m;
 	
+	public GenCodigo(MaquinaP m) {
+		this.m = m;
+	}
+
 	@Override
 	public void procesa(Prog_ prog) {
-		prog.setIni(etq);
 		prog.getlIns().procesa(this);
-		etq++;
+		m.ponInstruccion(m.stop());
 		recolectaProcs(prog.getlDecs());
 		while(!procs.empty()) {
 			Dec_Proc p = procs.pop();
@@ -24,11 +27,10 @@ public class Etiquetado extends ProcesamientoPorDefecto {
 
 	@Override
 	public void procesa(Dec_Proc dec) {
-		dec.setIni(etq);
 		dec.getlIns().procesa(this);
-		etq += 2;
+		m.ponInstruccion(m.desactiva(dec.getNivel(), dec.getTamDatos()));
+		m.ponInstruccion(m.irInd());
 		recolectaProcs(dec.getlDecs());
-		dec.setSig(etq);
 	}
 
 	private void recolectaProcs(LDecs lDecs) {
@@ -53,432 +55,436 @@ public class Etiquetado extends ProcesamientoPorDefecto {
 		}
 	}
 	
+	//Instrucciones
 	@Override
 	public void procesa(Sin_Ins lIns) {
-		lIns.setIni(etq);
-		lIns.setSig(etq);
+		//Skip()
 	}
 
 	@Override
 	public void procesa(Una_Ins lIns) {
-		lIns.setIni(etq);
 		lIns.getIns().procesa(this);
-		lIns.setSig(etq);
 	}
 
 	@Override
 	public void procesa(Muchas_Ins lIns) {
-		lIns.setIni(etq);
 		lIns.getLIns().procesa(this);
 		lIns.getIns().procesa(this);
-		lIns.setSig(etq);
 	}
 
 	@Override
 	public void procesa(Asignacion_ ins) {
-		ins.setIni(etq);
 		ins.getE1().procesa(this);
 		ins.getE2().procesa(this);
 		if(ins.getE1().getTipo() instanceof Real_ && ins.getE2().getTipo() instanceof Int_) {
 			if(esDesignador(ins.getE2())) {
-				etq++;
+				m.ponInstruccion(m.apilaInd());
 			}
-			etq += 2;
+			m.ponInstruccion(m.intToReal());
+			m.ponInstruccion(m.desapilaInd());
 		}
 		else {
 			if(esDesignador(ins.getE2())) {//Sí, es redundante, pero se deja así por claridad
-				etq++;
+				m.ponInstruccion(m.mueve(ins.getE2().getTipo().getTam()));
 			}
 			else {
-				etq++;
+				m.ponInstruccion(m.desapilaInd());
 			}
 		}
-		ins.setSig(etq);
 	}
 
 	@Override
 	public void procesa(If_Then ins) {
-		ins.setIni(etq);
 		ins.getE().procesa(this);
 		if(esDesignador(ins.getE())) {
-			etq++;
+			m.ponInstruccion(m.apilaInd());
 		}
-		etq++;
+		m.ponInstruccion(m.irF(ins.getSig()));
 		ins.getLIns().procesa(this);
-		ins.setSig(etq);
 	}
 
 	@Override
 	public void procesa(If_Then_Else ins) {
-		ins.setIni(etq);
 		ins.getE().procesa(this);
 		if(esDesignador(ins.getE())) {
-			etq++;
+			m.ponInstruccion(m.apilaInd());
 		}
-		etq++;
+		m.ponInstruccion(m.irF(ins.getLIns2().getIni()));
 		ins.getLIns1().procesa(this);
-		etq++;
+		m.ponInstruccion(m.irA(ins.getSig()));
 		ins.getLIns2().procesa(this);
-		ins.setSig(etq);
 	}
 
 	@Override
 	public void procesa(While_ ins) {
-		ins.setIni(etq);
 		ins.getE().procesa(this);
 		if(esDesignador(ins.getE())) {
-			etq++;
+			m.ponInstruccion(m.apilaInd());
 		}
-		etq++;
+		m.ponInstruccion(m.irF(ins.getSig()));
 		ins.getLIns().procesa(this);
-		etq++;
-		ins.setSig(etq);
+		m.ponInstruccion(m.irA(ins.getIni()));
 	}
 
 	@Override
 	public void procesa(Read_ ins) {
-		ins.setIni(etq);
 		ins.getE().procesa(this);
-		etq += 2;
-		ins.setSig(etq);
+		if (ins.getE().getTipo() instanceof String_) {
+			m.ponInstruccion(m.readString());
+		}
+		else if (ins.getE().getTipo() instanceof Int_) {
+			m.ponInstruccion(m.readInt());
+		}
+		else if (ins.getE().getTipo() instanceof Real_) {
+			m.ponInstruccion(m.readReal());
+		}
+		else
+			System.out.println("Error inesperado en el tipo de la lectura; error de generación de instrucciones");
+		m.ponInstruccion(m.desapilaInd());
 	}
 
 	@Override
 	public void procesa(Write_ ins) {
-		ins.setIni(etq);
 		ins.getE().procesa(this);
 		if(esDesignador(ins.getE())) {
-			etq++;
+			m.ponInstruccion(m.apilaInd());
 		}
-		etq++;
-		ins.setSig(etq);
+		m.ponInstruccion(m.write());
 	}
 
 	@Override
 	public void procesa(Nl_ ins) {
-		ins.setIni(etq);
-		etq++;
-		ins.setSig(etq);
+		m.ponInstruccion(m.nl());
 	}
 
 	@Override
 	public void procesa(New_ ins) {
-		ins.setIni(etq);
 		ins.getE().procesa(this);
-		etq += 2;
-		ins.setSig(etq);
+		m.ponInstruccion(m.alloc(ins.getE().getTipo().getTam()));
+		m.ponInstruccion(m.desapilaInd());
 	}
 
 	@Override
 	public void procesa(Delete_ ins) {
-		ins.setIni(etq);
 		ins.getE().procesa(this);
-		ins.setSigStop(etq + 5);
-		etq += 6;
-		ins.setSig(etq);
+		m.ponInstruccion(m.dup());
+		m.ponInstruccion(m.apilaInt(-1));
+		m.ponInstruccion(m.beq());
+		m.ponInstruccion(m.irF(ins.getSigStop()));
+		m.ponInstruccion(m.stop());
+		m.ponInstruccion(m.dealloc(ins.getE().getTipo().getTam()));
 	}
 
 	@Override
 	public void procesa(Call_Proc ins) {
-		ins.setIni(etq);
-		etq++;
+		m.ponInstruccion(m.activa(((Dec_Proc)((Id) ins.getE()).getVinculo()).getNivel(), 
+				((Dec_Proc)((Id) ins.getE()).getVinculo()).getTamDatos(), ins.getSig()));
 		//Etiqueta params
-		etiquetaParams(ins.getE().getVinculo().getLParams(), ins.getE().getVinculo().getLExpr());
-		etq += 2;
-		ins.setSig(etq);
+		genCodParams(((Dec_Proc) ((Id) ins.getE()).getVinculo()).getlParams(),
+				ins.getLExp());
+		m.ponInstruccion(m.desapilad(((Dec_Proc)((Id) ins.getE()).getVinculo()).getNivel()));
+		m.ponInstruccion(m.irA((((Dec_Proc)((Id) ins.getE()).getVinculo()).getIni())));
 	}
 
 	@Override
 	public void procesa(Ins_Compuesta ins) {
-		ins.setIni(etq);
 		ins.getLIns().procesa(this);
 		recolectaProcs(ins.getLDecs());
-		ins.setSig(etq);
 	}
 
 	@Override
 	public void procesa(Sin_Expr lExp) {
-		lExp.setIni(etq);
-		lExp.setSig(etq);
+		//skip
 	}
 
 	@Override
 	public void procesa(Una_Expr lExp) {
-		lExp.setIni(etq);
 		lExp.getE().procesa(this);
-		lExp.setSig(etq);
 	}
 
 	@Override
 	public void procesa(Muchas_Expr lExp) {
-		lExp.setIni(etq);
 		lExp.getLExp().procesa(this);
 		lExp.getE().procesa(this);
-		lExp.setSig(etq);
 	}
 
 	@Override
 	public void procesa(Int e) {
-		e.setIni(etq);
-		etq++;
-		e.setSig(etq);
+		m.ponInstruccion(m.apilaInt(Integer.parseInt(e.getStr())));
 	}
 
 	@Override
 	public void procesa(Real e) {
-		e.setIni(etq);
-		etq++;
-		e.setSig(etq);
+		m.ponInstruccion(m.apilaReal(Double.parseDouble(e.getStr())));
 	}
 
 	@Override
 	public void procesa(True e) {
-		e.setIni(etq);
-		etq++;
-		e.setSig(etq);
+		m.ponInstruccion(m.apilaBool(true));
 	}
 
 	@Override
 	public void procesa(False e) {
-		e.setIni(etq);
-		etq++;
-		e.setSig(etq);
+		m.ponInstruccion(m.apilaBool(false));
 	}
 
 	@Override
 	public void procesa(Cadena e) {
-		e.setIni(etq);
-		etq++;
-		e.setSig(etq);
+		m.ponInstruccion(m.apilaString(e.getStr()));
 	}
 
 	@Override
 	public void procesa(Null e) {
-		e.setIni(etq);
-		etq++;
-		e.setSig(etq);
+		m.ponInstruccion(m.apilaInt(-1));
 	}
 
 	@Override
 	public void procesa(Id e) {
-		e.setIni(etq);
-		if(e.getVinculo().nivel == 0) {
-			etq++;
+		if(e.getVinculo().getNivel() == 0) {
+			m.ponInstruccion(m.apilaInt(((Dec_Var) e.getVinculo()).getDir()));
 		}
 		else {
-			etq += 3;
+			m.ponInstruccion(m.apilad( e.getVinculo().getNivel()));
+			m.ponInstruccion(m.apilaInt( e.getVinculo().getDir()));
+			m.ponInstruccion(m.sumaInt());
 			if(e.getVinculo() instanceof Param_Ref) {
-				etq++;
+				m.ponInstruccion(m.apilaInd());
 			}
 		}
-		e.setSig(etq);
 	}
 	
 	//Op relacionales
-	private void etiquetaBinRel(EBinario e) {
-		e.setIni(etq);
+	private void genCodBinRel(EBinario e) {
 		e.getArg0().procesa(this);
 		if(esDesignador(e.getArg0())) {
-			etq++;
+			m.ponInstruccion(m.apilaInd());
 		}
 		e.getArg1().procesa(this);
 		if(esDesignador(e.getArg1())) {
-			etq++;
+			m.ponInstruccion(m.apilaInd());
 		}
-		etq++;
-		e.setSig(etq);
 	}
 
 	@Override
 	public void procesa(Blt e) {
-		etiquetaBinRel(e);
+		genCodBinRel(e);
+		m.ponInstruccion(m.blt());
 	}
 
 	@Override
 	public void procesa(Ble e) {
-		etiquetaBinRel(e);
+		genCodBinRel(e);
+		m.ponInstruccion(m.ble());
 	}
 
 	@Override
 	public void procesa(Bgt e) {
-		etiquetaBinRel(e);
+		genCodBinRel(e);
+		m.ponInstruccion(m.bgt());
 	}
 
 	@Override
 	public void procesa(Bge e) {
-		etiquetaBinRel(e);
+		genCodBinRel(e);
+		m.ponInstruccion(m.bge());
 	}
 
 	@Override
 	public void procesa(Beq e) {
-		etiquetaBinRel(e);
+		genCodBinRel(e);
+		m.ponInstruccion(m.beq());
 	}
 
 	@Override
 	public void procesa(Bne e) {
-		etiquetaBinRel(e);
+		genCodBinRel(e);
+		m.ponInstruccion(m.bne());
 	}
 	
 	//Op aritméticos binarios
-	private void etiquetaBinArit(EBinario e) {
-		e.setIni(etq);
+	private void genCodBinArit(EBinario e) {
 		e.getArg0().procesa(this);
 		if(esDesignador(e.getArg0())) {
-			
-			etq++;
+			m.ponInstruccion(m.apilaInd());
 		}
 		if(e.getTipo() instanceof Real_) {
 			if(e.getArg0().getTipo() instanceof Int_) {
-				etq++;
+				m.ponInstruccion(m.intToReal());
 			}
 		}
 		e.getArg1().procesa(this);
 		if(esDesignador(e.getArg1())) {
-			etq++;
+			m.ponInstruccion(m.apilaInd());
 		}
 		if(e.getTipo() instanceof Real_) {
 			if(e.getArg1().getTipo() instanceof Int_) {
-				etq++;
+				m.ponInstruccion(m.intToReal());
 			}
 		}
-		etq++;
-		e.setSig(etq);
 	}
 
 	@Override
 	public void procesa(Suma e) {
-		etiquetaBinArit(e);
+		genCodBinArit(e);
+		if(e.getTipo() instanceof Real_) {
+			m.ponInstruccion(m.sumaReal());
 		}
+		else {
+			m.ponInstruccion(m.sumaInt());
+		}
+	}
 
 	@Override
 	public void procesa(Resta e) {
-		etiquetaBinArit(e);
+		genCodBinArit(e);
+		if(e.getTipo() instanceof Real_) {
+			m.ponInstruccion(m.restaReal());
+		}
+		else {
+			m.ponInstruccion(m.restaInt());
+		}
 	}
 	
 	@Override
 	public void procesa(Mult e) {
-		etiquetaBinArit(e);
+		genCodBinArit(e);
+		if(e.getTipo() instanceof Real_) {
+			m.ponInstruccion(m.mulReal());
+		}
+		else {
+			m.ponInstruccion(m.mulInt());
+		}
 	}
 
 	@Override
 	public void procesa(Div e) {
-		etiquetaBinArit(e);
+		genCodBinArit(e);
+		if(e.getTipo() instanceof Real_) {
+			m.ponInstruccion(m.divReal());
+		}
+		else {
+			m.ponInstruccion(m.divInt());
+		}
 	}
 
 	@Override
 	public void procesa(Mod e) {
-		etiquetaBinArit(e);
+		genCodBinArit(e);
+		m.ponInstruccion(m.mod());
 	}
 	
 	//Op lógicos binarios
 	private void etiquetaBin(EBinario e) {
-		e.setIni(etq);
 		e.getArg0().procesa(this);
 		if(esDesignador(e.getArg0())) {
-			etq++;
+			m.ponInstruccion(m.apilaInd());
 		}
 		e.getArg1().procesa(this);
 		if(esDesignador(e.getArg1())) {
-			etq++;
+			m.ponInstruccion(m.apilaInd());
 		}
-		etq++;
-		e.setSig(etq);
 	}
 
 	@Override
 	public void procesa(And e) {
 		etiquetaBin(e);
+		m.ponInstruccion(m.and());
 	}
 
 	@Override
 	public void procesa(Or e) {
 		etiquetaBin(e);
+		m.ponInstruccion(m.or());
 	}
 	
 	//Op unarios (infijos) [nivel4]
 	private void etiquetaUn(EUnario e) {
-		e.setIni(etq);
 		e.getArg0().procesa(this);
 		if(esDesignador(e.getArg0())) {
-			etq++;
+			m.ponInstruccion(m.apilaInd());
 		}
-		etq++;
-		e.setSig(etq);
 	}
 
 	@Override
 	public void procesa(Neg e) {
 		etiquetaUn(e);
+		m.ponInstruccion(m.neg());
 	}
 
 	@Override
 	public void procesa(Not e) {
 		etiquetaUn(e);
+		m.ponInstruccion(m.not());
 	}
 
+	//Operadores unarios (sufijos)
 	@Override
 	public void procesa(Index e) {
-		e.setIni(etq);
 		e.getArg0().procesa(this);
 		e.getArg1().procesa(this);
 		if(esDesignador(e.getArg1())) {
-			etq++;
+			m.ponInstruccion(m.apilaInd());
 		}
-		etq += 3;
-		e.setSig(etq);
+		m.ponInstruccion(m.apilaInt(e.getArg0().getTipo().getTam()));
+		m.ponInstruccion(m.mulInt());
+		m.ponInstruccion(m.sumaInt());
 	}
 
 	@Override
 	public void procesa(Access e) {
-		e.setIni(etq);
 		e.getArg0().procesa(this);
-		etq += 2;
-		e.setSig(etq);
+		m.ponInstruccion(m.apilaInt(e.getTipo().getDespl(e.getStr())));
+		m.ponInstruccion(m.sumaInt());
 	}
 
 	@Override
 	public void procesa(Indir e) {
-		e.setIni(etq);
 		e.getArg0().procesa(this);
-		e.setSigStop(etq+5);
-		etq += 6;
-		e.setSig(etq);
+		m.ponInstruccion(m.dup());
+		m.ponInstruccion(m.apilaInt(-1));
+		m.ponInstruccion(m.beq());
+		m.ponInstruccion(m.irF(e.getSigStop()));
+		m.ponInstruccion(m.stop());
+		m.ponInstruccion(m.apilaInd());
 	}
 
-	private void etiquetaParams(LParams lParams, LExp lExp) {
+	private void genCodParams(LParams lParams, LExp lExp) {
 		if(lParams instanceof Sin_Params && lExp instanceof Sin_Expr) {
 			//skip
 		}
 		else if(lParams instanceof Un_Param && lExp instanceof Una_Expr) {
-			etiquetaPaso(((Un_Param) lParams).getParam(), ((Una_Expr) lExp).getE());
+			genCodPaso(((Un_Param) lParams).getParam(), ((Una_Expr) lExp).getE());
 		}
 		else if(lParams instanceof Muchos_Params && lExp instanceof Muchas_Expr) {
-			etiquetaParams(lParams, lExp);
-			etiquetaPaso(((Muchos_Params) lParams).getParam(), ((Una_Expr) lExp).getE());
+			genCodParams(lParams, lExp);
+			genCodPaso(((Muchos_Params) lParams).getParam(), ((Una_Expr) lExp).getE());
 		}
 	}
 	
-	private void etiquetaPaso(Param p, E e) {
-		etq += 3;
+	private void genCodPaso(Param p, E e) {
+		m.ponInstruccion(m.dup());
+		m.ponInstruccion(m.apilaInt(p.getDir()));
+		m.ponInstruccion(m.sumaInt());
 		e.procesa(this);
 		if(p instanceof Param_Val) {
 			if (((Param_Val) p).getT() instanceof Real_ && e.getTipo() instanceof Int_) {
 				if(esDesignador(e)) {
-					etq++;
+					m.ponInstruccion(m.apilaInd());
 				}
-				etq += 2;
+				m.ponInstruccion(m.intToReal());
+				m.ponInstruccion(m.desapilaInd());
 			}
 			else {
 				if(esDesignador(e)) {
-					etq++;
+					m.ponInstruccion(m.mueve(e.getTipo().getTam()));
 				}
 				else {
-					etq++;
+					m.ponInstruccion(m.desapilaInd());
 				}
 			}
 		}
 		else {
-			etq++;
+			m.ponInstruccion(m.desapilaInd());
 		}
 	}
 	

@@ -2,28 +2,25 @@ package implementacion.procesamientos;
 
 import java.util.HashMap;
 
-import implementacion.abstractSintax.Procesamiento;
+import implementacion.abstractSintax.ProcesamientoPorDefecto;
 import implementacion.abstractSintax.SintaxisAbstracta.*;
 
-class Vinculos extends HashMap<String, Dec> {}
+class Vinculos extends HashMap<String, Dec> {
+	Vinculos padre = null;
+}
 
-public class Vinculacion implements Procesamiento {
+public class Vinculacion extends ProcesamientoPorDefecto {
+	private Vinculos ts, ant_ts; //Clave: id; Valor: nodo con la declaración
+	private int pasada;	//Sirve para diferenciar los procesa de la primera y la segunda pasada
 
-	private Vinculos ts;	//Clave: id; Valor: nodo con la declaración
-	private int pasada = 1;	//Sirve para diferenciar los procesa de la primera y la segunda pasada
-	
 	@Override
 	public void procesa(Prog_ prog) {
 		ts = new Vinculos();
+		pasada = 1;
 		prog.getlDecs().procesa(this);
 		pasada = 2;
 		prog.getlDecs().procesa(this);
 		prog.getlIns().procesa(this);
-	}
-
-	@Override
-	public void procesa(Sin_Decs lDecs) {
-		//skip
 	}
 
 	@Override
@@ -41,313 +38,309 @@ public class Vinculacion implements Procesamiento {
 	public void procesa(Dec_Var dec) {
 		dec.getT().procesa(this);
 		if(pasada == 1) {
-			if (valores.containsKey(dec.getStr())) {
-				throw new RuntimeException("Constante ya definida: "+dec.getStr());
-			}
-			else {
-				valores.put(dec.getStr(), dec);
-			}
+			if (ts.containsKey(dec.getStr())) throw new RuntimeException("Constante ya definida: " + dec.getStr());
+			else ts.put(dec.getStr(), dec);
 		}
 	}
 
 	@Override
 	public void procesa(Dec_Tipo dec) {
-		
+		dec.getT().procesa(this);
+		if(pasada == 1) {
+			if (ts.containsKey(dec.getStr())) throw new RuntimeException("Constante ya definida: " + dec.getStr());
+			else ts.put(dec.getStr(), dec);
+		}
 	}
 
 	@Override
 	public void procesa(Dec_Proc dec) {
-		
-	}
+		if(pasada == 1) {
+			if (ts.containsKey(dec.getStr())) throw new RuntimeException("Constante ya definida: " + dec.getStr());
+			else ts.put(dec.getStr(), dec);
+		}
+		ant_ts = ts;
+		// crea_ambito(ts)
+		ts = new Vinculos();
+		ts.padre = ant_ts;
 
-	@Override
-	public void procesa(Int_ tipo) {
-		
-	}
-
-	@Override
-	public void procesa(Real_ tipo) {
-		
-	}
-
-	@Override
-	public void procesa(Bool_ tipo) {
-		
-	}
-
-	@Override
-	public void procesa(String_ tipo) {
-		
+		pasada = 1;
+		dec.getlParams().procesa(this);
+		dec.getlDecs().procesa(this);
+		pasada = 2;
+		dec.getlParams().procesa(this);
+		dec.getlDecs().procesa(this);
+		dec.getlIns().procesa(this);
+		ts = ant_ts;
 	}
 
 	@Override
 	public void procesa(Ref_ tipo) {
-		
+		if(pasada==1){
+			if (ts.containsKey(tipo.getStr())) tipo.setVinculo(ts.get(tipo.getStr()));
+			else throw new RuntimeException("No existe: " + tipo.getStr());
+		}
 	}
 
 	@Override
 	public void procesa(Array_ tipo) {
-		
+		tipo.getT().procesa(this);
 	}
 
 	@Override
 	public void procesa(Record_ tipo) {
-		
+		tipo.getCampos().procesa(this);
 	}
 
 	@Override
 	public void procesa(Puntero_ tipo) {
-		
+		if(pasada==1){
+			if(!(tipo.getT() instanceof Ref_)) tipo.getT().procesa(this);
+		} else if(pasada==2){
+			if(tipo.getT() instanceof Ref_){
+				if (ts.containsKey(((Ref_) tipo.getT()).getStr())){
+					tipo.setVinculo(ts.get(((Ref_) tipo.getT()).getStr()));
+				} else throw new RuntimeException("No existe: " + ((Ref_) tipo.getT()).getStr());
+			} else tipo.getT().procesa(this);
+		}
 	}
 
 	@Override
 	public void procesa(Un_Campo campos) {
-		
+		campos.getCampo().procesa(this);
 	}
 
 	@Override
 	public void procesa(Muchos_Campos campos) {
-		
+		campos.getCampos().procesa(this);
+		campos.getCampo().procesa(this);
 	}
 
 	@Override
 	public void procesa(Campo campo) {
-		
-	}
-
-	@Override
-	public void procesa(Sin_Params lParams) {
-		
+		campo.getT().procesa(this);
 	}
 
 	@Override
 	public void procesa(Un_Param lParams) {
-		
+		lParams.getParam().procesa(this);
 	}
 
 	@Override
 	public void procesa(Muchos_Params lParams) {
-		
+		lParams.getParams().procesa(this);
+		lParams.getParam().procesa(this);
 	}
 
 	@Override
 	public void procesa(Param_Ref param) {
-		
+		param.getT().procesa(this);
 	}
 
 	@Override
 	public void procesa(Param_Val param) {
-		
+		param.getT().procesa(this);
+		if(pasada==1){
+			if (ts.containsKey(param.getStr())) throw new RuntimeException("Constante ya definida: " + param.getStr());
+			else ts.put(param.getStr(), param.getVinculo());
+		}
 	}
-
-	@Override
-	public void procesa(Sin_Ins lIns) {
-		
-	}
-
+	
 	@Override
 	public void procesa(Una_Ins lIns) {
-		
+		lIns.getIns().procesa(this);
 	}
 
 	@Override
 	public void procesa(Muchas_Ins lIns) {
+		lIns.getLIns().procesa(this);
+		lIns.getIns().procesa(this);
 		
 	}
 
 	@Override
 	public void procesa(Asignacion_ ins) {
-		
+		ins.getE1().procesa(this);
+		ins.getE2().procesa(this);
 	}
 
 	@Override
 	public void procesa(If_Then ins) {
-		
+		ins.getE().procesa(this);
+		ins.getLIns().procesa(this);
 	}
 
 	@Override
 	public void procesa(If_Then_Else ins) {
-		
+		ins.getE().procesa(this);
+		ins.getLIns1().procesa(this);
+		ins.getLIns2().procesa(this);
 	}
 
 	@Override
 	public void procesa(While_ ins) {
-		
+		ins.getE().procesa(this);
+		ins.getLIns().procesa(this);		
 	}
 
 	@Override
 	public void procesa(Read_ ins) {
-		
+		ins.getE().procesa(this);
 	}
 
 	@Override
 	public void procesa(Write_ ins) {
-		
-	}
-
-	@Override
-	public void procesa(Nl_ ins) {
-		
+		ins.getE().procesa(this);
 	}
 
 	@Override
 	public void procesa(New_ ins) {
-		
+		ins.getE().procesa(this);
 	}
 
 	@Override
 	public void procesa(Delete_ ins) {
-		
+		ins.getE().procesa(this);
 	}
 
 	@Override
 	public void procesa(Call_Proc ins) {
-		
+		ins.getE().procesa(this);
+		ins.getLExp().procesa(this);
 	}
 
 	@Override
 	public void procesa(Ins_Compuesta ins) {
-		
-	}
+		ant_ts = ts;
+		// crea_ambito(ts)
+		ts = new Vinculos();
+		ts.padre = ant_ts;
 
-	@Override
-	public void procesa(Sin_Expr lExp) {
-		
+		pasada = 1;
+		ins.getLDecs().procesa(this);
+		pasada = 2;
+		ins.getLDecs().procesa(this);
+		ins.getLIns().procesa(this);
+		ts = ant_ts;
 	}
 
 	@Override
 	public void procesa(Una_Expr lExp) {
-		
+		lExp.getE().procesa(this);
 	}
 
 	@Override
 	public void procesa(Muchas_Expr lExp) {
-		
-	}
-
-	@Override
-	public void procesa(Int e) {
-		
-	}
-
-	@Override
-	public void procesa(Real e) {
-		
-	}
-
-	@Override
-	public void procesa(True e) {
-		
-	}
-
-	@Override
-	public void procesa(False e) {
-		
-	}
-
-	@Override
-	public void procesa(Cadena e) {
-		
+		lExp.getLExp().procesa(this);
+		lExp.getE().procesa(this);
 	}
 
 	@Override
 	public void procesa(Id e) {
-		
-	}
-
-	@Override
-	public void procesa(Null e) {
-		
+		if (ts.containsKey(e.getStr())) e.setVinculo(ts.get(e.getStr()));
+		else throw new RuntimeException("No existe: " + e.getStr());
 	}
 
 	@Override
 	public void procesa(Blt e) {
-		
+		e.getArg0().procesa(this);
+		e.getArg1().procesa(this);
 	}
 
 	@Override
 	public void procesa(Ble e) {
-		
+		e.getArg0().procesa(this);
+		e.getArg1().procesa(this);		
 	}
 
 	@Override
 	public void procesa(Bgt e) {
-		
+		e.getArg0().procesa(this);
+		e.getArg1().procesa(this);		
 	}
 
 	@Override
 	public void procesa(Bge e) {
-		
+		e.getArg0().procesa(this);
+		e.getArg1().procesa(this);		
 	}
 
 	@Override
 	public void procesa(Beq e) {
-		
+		e.getArg0().procesa(this);
+		e.getArg1().procesa(this);		
 	}
 
 	@Override
 	public void procesa(Bne e) {
-		
+		e.getArg0().procesa(this);
+		e.getArg1().procesa(this);		
 	}
 
 	@Override
 	public void procesa(Suma e) {
-		
+		e.getArg0().procesa(this);
+		e.getArg1().procesa(this);		
 	}
 
 	@Override
 	public void procesa(Resta e) {
-		
+		e.getArg0().procesa(this);
+		e.getArg1().procesa(this);		
 	}
 
 	@Override
 	public void procesa(And e) {
-		
+		e.getArg0().procesa(this);
+		e.getArg1().procesa(this);		
 	}
 
 	@Override
 	public void procesa(Or e) {
-		
+		e.getArg0().procesa(this);
+		e.getArg1().procesa(this);		
 	}
 
 	@Override
 	public void procesa(Mult e) {
-		
+		e.getArg0().procesa(this);
+		e.getArg1().procesa(this);		
 	}
 
 	@Override
 	public void procesa(Div e) {
-		
+		e.getArg0().procesa(this);
+		e.getArg1().procesa(this);		
 	}
 
 	@Override
 	public void procesa(Mod e) {
-		
+		e.getArg0().procesa(this);
+		e.getArg1().procesa(this);		
 	}
 
 	@Override
 	public void procesa(Neg e) {
-		
+		e.getArg0().procesa(this);
 	}
 
 	@Override
 	public void procesa(Not e) {
-		
+		e.getArg0().procesa(this);		
 	}
 
 	@Override
 	public void procesa(Index e) {
-		
+		e.getArg0().procesa(this);
+		e.getArg1().procesa(this);			
 	}
 
 	@Override
 	public void procesa(Access e) {
-		
+		e.getArg0().procesa(this);		
 	}
 
 	@Override
 	public void procesa(Indir e) {
-		
+		e.getArg0().procesa(this);		
 	}
-
 }
