@@ -370,7 +370,13 @@ public class Tipado extends ProcesamientoPorDefecto {
 
     @Override
     public void procesa(Id e) {
-        //TODO
+    	if(e.getVinculo() instanceof Vinculable) {
+    		e.setT(e.getVinculo().getT());	
+    	}
+    	else {
+    		System.out.println("Error en vinculación de Id");
+    		e.setT(new Error_());
+    	}
     }
 
     @Override
@@ -499,8 +505,8 @@ public class Tipado extends ProcesamientoPorDefecto {
 
     @Override
     public void procesa(Dec_Proc dec) {
-        dec.getlParams().procesa(this);
-		dec.getlDecs().procesa(this);
-		dec.getlIns().procesa(this);
+        dec.getLParams().procesa(this);
+		dec.getLDecs().procesa(this);
+		dec.getLIns().procesa(this);
     }   
 }

@@ -27,10 +27,10 @@ public class GenCodigo extends ProcesamientoPorDefecto {
 
 	@Override
 	public void procesa(Dec_Proc dec) {
-		dec.getlIns().procesa(this);
+		dec.getLIns().procesa(this);
 		m.ponInstruccion(m.desactiva(dec.getNivel(), dec.getTamDatos()));
 		m.ponInstruccion(m.irInd());
-		recolectaProcs(dec.getlDecs());
+		recolectaProcs(dec.getLDecs());
 	}
 
 	private void recolectaProcs(LDecs lDecs) {
@@ -180,7 +180,7 @@ public class GenCodigo extends ProcesamientoPorDefecto {
 		m.ponInstruccion(m.activa(((Dec_Proc)((Id) ins.getE()).getVinculo()).getNivel(), 
 				((Dec_Proc)((Id) ins.getE()).getVinculo()).getTamDatos(), ins.getSig()));
 		//Etiqueta params
-		genCodParams(((Dec_Proc) ((Id) ins.getE()).getVinculo()).getlParams(),
+		genCodParams(((Dec_Proc) ((Id) ins.getE()).getVinculo()).getLParams(),
 				ins.getLExp());
 		m.ponInstruccion(m.desapilad(((Dec_Proc)((Id) ins.getE()).getVinculo()).getNivel()));
 		m.ponInstruccion(m.irA((((Dec_Proc)((Id) ins.getE()).getVinculo()).getIni())));

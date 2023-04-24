@@ -5,7 +5,8 @@ import java.util.HashMap;
 import implementacion.abstractSintax.ProcesamientoPorDefecto;
 import implementacion.abstractSintax.SintaxisAbstracta.*;
 
-class Vinculos extends HashMap<String, Dec> {
+@SuppressWarnings("serial")
+class Vinculos extends HashMap<String, Vinculable> {
 	Vinculos padre = null;
 }
 
@@ -64,12 +65,12 @@ public class Vinculacion extends ProcesamientoPorDefecto {
 		ts.padre = ant_ts;
 
 		pasada = 1;
-		dec.getlParams().procesa(this);
-		dec.getlDecs().procesa(this);
+		dec.getLParams().procesa(this);
+		dec.getLDecs().procesa(this);
 		pasada = 2;
-		dec.getlParams().procesa(this);
-		dec.getlDecs().procesa(this);
-		dec.getlIns().procesa(this);
+		dec.getLParams().procesa(this);
+		dec.getLDecs().procesa(this);
+		dec.getLIns().procesa(this);
 		ts = ant_ts;
 	}
 
@@ -98,7 +99,7 @@ public class Vinculacion extends ProcesamientoPorDefecto {
 		} else if(pasada==2){
 			if(tipo.getT() instanceof Ref_){
 				if (ts.containsKey(((Ref_) tipo.getT()).getStr())){
-					tipo.setVinculo(ts.get(((Ref_) tipo.getT()).getStr()));
+					((Ref_) tipo.getT()).setVinculo(ts.get(((Ref_) tipo.getT()).getStr()));
 				} else throw new RuntimeException("No existe: " + ((Ref_) tipo.getT()).getStr());
 			} else tipo.getT().procesa(this);
 		}
@@ -141,7 +142,7 @@ public class Vinculacion extends ProcesamientoPorDefecto {
 		param.getT().procesa(this);
 		if(pasada==1){
 			if (ts.containsKey(param.getStr())) throw new RuntimeException("Constante ya definida: " + param.getStr());
-			else ts.put(param.getStr(), param.getVinculo());
+			else ts.put(param.getStr(), param);
 		}
 	}
 	

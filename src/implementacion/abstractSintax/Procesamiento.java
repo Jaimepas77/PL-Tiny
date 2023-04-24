@@ -17,7 +17,6 @@ public interface Procesamiento { //Interfaz que define los nodos que debe ser ca
 	void procesa(Real_ tipo);
 	void procesa(Bool_ tipo);
 	void procesa(String_ tipo);
-	void procesa(Null_ tipo);
 	void procesa(Ref_ tipo);
 	void procesa(Array_ tipo);
 	void procesa(Record_ tipo);

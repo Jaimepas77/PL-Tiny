@@ -25,9 +25,9 @@ public class Etiquetado extends ProcesamientoPorDefecto {
 	@Override
 	public void procesa(Dec_Proc dec) {
 		dec.setIni(etq);
-		dec.getlIns().procesa(this);
+		dec.getLIns().procesa(this);
 		etq += 2;
-		recolectaProcs(dec.getlDecs());
+		recolectaProcs(dec.getLDecs());
 		dec.setSig(etq);
 	}
 
@@ -79,7 +79,7 @@ public class Etiquetado extends ProcesamientoPorDefecto {
 		ins.setIni(etq);
 		ins.getE1().procesa(this);
 		ins.getE2().procesa(this);
-		if(ins.getE1().getTipo() instanceof Real_ && ins.getE2().getTipo() instanceof Int_) {
+		if(ins.getE1().getT() instanceof Real_ && ins.getE2().getT() instanceof Int_) {
 			if(esDesignador(ins.getE2())) {
 				etq++;
 			}
@@ -183,7 +183,7 @@ public class Etiquetado extends ProcesamientoPorDefecto {
 		ins.setIni(etq);
 		etq++;
 		//Etiqueta params
-		etiquetaParams(ins.getE().getVinculo().getLParams(), ins.getE().getVinculo().getLExpr());
+		etiquetaParams(( (Dec_Proc) ((Id) ins.getE()).getVinculo()).getLParams(), ins.getLExp());
 		etq += 2;
 		ins.setSig(etq);
 	}
@@ -262,7 +262,7 @@ public class Etiquetado extends ProcesamientoPorDefecto {
 	@Override
 	public void procesa(Id e) {
 		e.setIni(etq);
-		if(e.getVinculo().nivel == 0) {
+		if(e.getVinculo().getNivel() == 0) {
 			etq++;
 		}
 		else {
@@ -327,8 +327,8 @@ public class Etiquetado extends ProcesamientoPorDefecto {
 			
 			etq++;
 		}
-		if(e.getTipo() instanceof Real_) {
-			if(e.getArg0().getTipo() instanceof Int_) {
+		if(e.getT() instanceof Real_) {
+			if(e.getArg0().getT() instanceof Int_) {
 				etq++;
 			}
 		}
@@ -336,8 +336,8 @@ public class Etiquetado extends ProcesamientoPorDefecto {
 		if(esDesignador(e.getArg1())) {
 			etq++;
 		}
-		if(e.getTipo() instanceof Real_) {
-			if(e.getArg1().getTipo() instanceof Int_) {
+		if(e.getT() instanceof Real_) {
+			if(e.getArg1().getT() instanceof Int_) {
 				etq++;
 			}
 		}
@@ -462,7 +462,7 @@ public class Etiquetado extends ProcesamientoPorDefecto {
 		etq += 3;
 		e.procesa(this);
 		if(p instanceof Param_Val) {
-			if (((Param_Val) p).getT() instanceof Real_ && e.getTipo() instanceof Int_) {
+			if (((Param_Val) p).getT() instanceof Real_ && e.getT() instanceof Int_) {
 				if(esDesignador(e)) {
 					etq++;
 				}

@@ -17,7 +17,7 @@ public class FuncionesAuxiliares {
 
     public Tipo ref_exc(Tipo t){
         while(t instanceof Ref_){
-            t = t.getVinculo().getT();
+            t = (((Ref_) t).getVinculo()).getT();
         }
         return t;
     }
@@ -36,7 +36,7 @@ public class FuncionesAuxiliares {
     public Tipo tip_relacional2(E e0, E e1){
         e0.procesa(t);
         e1.procesa(t);
-        if((ref_exc(e0.getT()) instanceof Puntero_ || ref_exc(e0.getT()) instanceof Null_) && (ref_exc(e1.getT()) instanceof Puntero_ || ref_exc(e1.getT()) instanceof Null_)) return new Bool_();
+        if((ref_exc(e0.getT()) instanceof Puntero_) && (ref_exc(e1.getT()) instanceof Puntero_)) return new Bool_();
         else if((ref_exc(e0.getT()) instanceof Int_ || ref_exc(e0.getT())instanceof Real_) && (ref_exc(e1.getT()) instanceof Int_ || ref_exc(e1.getT())instanceof Real_)) return new Bool_();
         else if(ref_exc(e0.getT()) instanceof Bool_ && ref_exc(e1.getT()) instanceof Bool_) return new Bool_();
         else{
@@ -145,8 +145,8 @@ public class FuncionesAuxiliares {
             else if(t1 instanceof Array_ && t2 instanceof Array_) return son_compatibles2(st, t1, t2);
             // TODO ESTE ELSE IF REHACER CUANDO ESTÉ LO DE CAMPOS BIEN
             //else if(t1 instanceof Record_.getArg0() && t2 instanceof Record_.getArg1()) return campos_compatibles(Record_.getArg0(), Record_.getArg1());
-            else if(t1 instanceof Puntero_ && t2 instanceof Null_) return true;
-            else if(t1 instanceof Puntero_  && t2 instanceof Puntero_) return true;
+            else if(t1 instanceof Puntero_ && t2 == null) return true;
+            else if(t1 instanceof Puntero_  && t2 instanceof Puntero_) return son_compatibles2(st, ((Puntero_) t1).getT(), ((Puntero_) t2).getT());
             else return false;
         }
     }

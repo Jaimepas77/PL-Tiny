@@ -1,9 +1,9 @@
 package implementacion.procesamientos;
 
-import implementacion.abstractSintax.Procesamiento;
+import implementacion.abstractSintax.ProcesamientoPorDefecto;
 import implementacion.abstractSintax.SintaxisAbstracta.*;
 
-public class AsignacionEspacio implements Procesamiento {
+public class AsignacionEspacio extends ProcesamientoPorDefecto {
 	private int dir = 0;
 	private int nivel = 0;
 	private int pasada = 1;//Variable a usar cuando se quiere procesar un nodo en dos pasadas (indica en cual estamos)
@@ -50,9 +50,9 @@ public class AsignacionEspacio implements Procesamiento {
 		
 		dec.setNivel(nivel);
 		dir = 0;//Dirs relativas para el procedimiento
-		dec.getlParams().procesa(this);
-		dec.getlDecs().procesa(this);
-		dec.getlIns().procesa(this);
+		dec.getLParams().procesa(this);
+		dec.getLDecs().procesa(this);
+		dec.getLIns().procesa(this);
 		dec.setTamDatos(dir);//Espacio ocupado
 		
 		dir = antDir;
@@ -135,7 +135,7 @@ public class AsignacionEspacio implements Procesamiento {
 	@Override
 	public void procesa(Ref_ tipo) {
 		if(pasada == 1)
-			tipo.setTam(tipo.getVinculo().getT().getTam());
+			tipo.setTam(((Dec) tipo.getVinculo()).getT().getTam());
 		else
 			;//skip
 	}
@@ -173,8 +173,8 @@ public class AsignacionEspacio implements Procesamiento {
 		}
 		else {
 			if(tipo.getT() instanceof Ref_) {
-				tipo.getVinculo().getT().procesa(this);
-				tipo.setTam(tipo.getVinculo().getT().getTam());
+				asignaEspacioTipo(((Ref_) tipo.getT()).getVinculo().getT());
+				tipo.getT().setTam(((Ref_) tipo.getT()).getVinculo().getT().getTam());
 			}
 			else 
 				tipo.getT().procesa(this);
