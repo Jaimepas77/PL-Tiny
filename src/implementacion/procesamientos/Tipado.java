@@ -1,21 +1,17 @@
 package implementacion.procesamientos;
 
-import java.lang.reflect.Array;
-
 import implementacion.abstractSintax.ProcesamientoPorDefecto;
 import implementacion.abstractSintax.SalidaTipo;
 import implementacion.abstractSintax.SintaxisAbstracta.*;
 import implementacion.abstractSintax.SintaxisAbstracta.Error_;
-import implementacion.procesamientos.FuncionesAuxiliares;
 
 public class Tipado extends ProcesamientoPorDefecto {
-    FuncionesAuxiliares aux = new FuncionesAuxiliares();
 
     @Override
     public void procesa(Prog_ prog) {
         prog.getlDecs().procesa(this);
 		prog.getlIns().procesa(this);
-        prog.setTipo(aux.ambos_ok(prog.getlDecs().getTipo(), prog.getlIns().getTipo()));
+        prog.setTipo(Util.ambos_ok(prog.getlDecs().getTipo(), prog.getlIns().getTipo()));
     }
 
     @Override
@@ -33,7 +29,7 @@ public class Tipado extends ProcesamientoPorDefecto {
     public void procesa(Muchas_Decs lDecs) {
         lDecs.getDecs().procesa(this);
 		lDecs.getDec().procesa(this);
-        lDecs.setTipo(aux.ambos_ok(lDecs.getDecs().getTipo(), lDecs.getDec().getTipo()));
+        lDecs.setTipo(Util.ambos_ok(lDecs.getDecs().getTipo(), lDecs.getDec().getTipo()));
     }
 
     @Override
@@ -155,7 +151,7 @@ public class Tipado extends ProcesamientoPorDefecto {
     public void procesa(Muchos_Params lParams) {
         lParams.getParams().procesa(this);
         lParams.getParam().procesa(this);
-        lParams.setTipo(aux.ambos_ok(lParams.getParams().getT(), lParams.getParam().getTipo()));
+        lParams.setTipo(Util.ambos_ok(lParams.getParams().getT(), lParams.getParam().getTipo()));
     }
 
     @Override
@@ -185,14 +181,14 @@ public class Tipado extends ProcesamientoPorDefecto {
     public void procesa(Muchas_Ins lIns) {
         lIns.getLIns().procesa(this);
         lIns.getIns().procesa(this);
-        lIns.setTipo(aux.ambos_ok(lIns.getIns().getT(), lIns.getIns().getT()));
+        lIns.setTipo(Util.ambos_ok(lIns.getIns().getT(), lIns.getIns().getT()));
     }
 
     @Override
     public void procesa(Asignacion_ ins) {
         ins.getE1().procesa(this);
         ins.getE2().procesa(this);
-        if(aux.son_compatibles(ins.getE1().getT(), ins.getE2().getT()) && aux.es_designador(ins.getE1())instanceof Ok  ){
+        if(Util.son_compatibles(ins.getE1().getT(), ins.getE2().getT()) && Util.es_designador(ins.getE1())){
             ins.setTipo(SalidaTipo.OK);
         } else{
             if(ins.getE1().getT() instanceof Error_ && ins.getE2().getT() instanceof Error_){
@@ -206,7 +202,7 @@ public class Tipado extends ProcesamientoPorDefecto {
     public void procesa(If_Then ins) {
         ins.getE().procesa(this);
         ins.getLIns().procesa(this);
-        if(aux.son_compatibles(ins.getE().getT(), new Bool_()) || aux.son_compatibles(ins.getE().getT(), new Bool_())){
+        if(Util.son_compatibles(ins.getE().getT(), new Bool_()) || Util.son_compatibles(ins.getE().getT(), new Bool_())){
             ins.setTipo(ins.getLIns().getTipo());
         } else{
             ins.setTipo(SalidaTipo.ERROR);
@@ -219,8 +215,8 @@ public class Tipado extends ProcesamientoPorDefecto {
         ins.getE().procesa(this);
         ins.getLIns1().procesa(this);
         ins.getLIns2().procesa(this);
-        if(aux.son_compatibles(ins.getE().getT(), new Bool_()) || aux.son_compatibles(ins.getE().getT(), new Bool_())){
-            ins.setTipo(aux.ambos_ok(ins.getLIns1().getTipo(), ins.getLIns2().getTipo()));
+        if(Util.son_compatibles(ins.getE().getT(), new Bool_()) || Util.son_compatibles(ins.getE().getT(), new Bool_())){
+            ins.setTipo(Util.ambos_ok(ins.getLIns1().getTipo(), ins.getLIns2().getTipo()));
         } else{
             ins.setTipo(SalidaTipo.ERROR);
             System.err.println("Error"); // TODO AÑADIR MÁS INFO CON STRINGLOCALIZADO
@@ -231,7 +227,7 @@ public class Tipado extends ProcesamientoPorDefecto {
     public void procesa(While_ ins) {
         ins.getE().procesa(this);
         ins.getLIns().procesa(this);
-        if(aux.son_compatibles(ins.getE().getT(), new Bool_()) || aux.son_compatibles(ins.getE().getT(), new Bool_())){
+        if(Util.son_compatibles(ins.getE().getT(), new Bool_()) || Util.son_compatibles(ins.getE().getT(), new Bool_())){
             ins.setTipo(ins.getLIns().getTipo());
         } else{
             ins.setTipo(SalidaTipo.ERROR);
@@ -242,8 +238,8 @@ public class Tipado extends ProcesamientoPorDefecto {
     @Override
     public void procesa(Read_ ins) {
         ins.getE().procesa(this);
-        if ((((aux.ref_exc(ins.getE().getT()) instanceof Int_) || (aux.ref_exc(ins.getE().getT()) instanceof Real_) ||
-        (aux.ref_exc(ins.getE().getT()) instanceof String_))) && (aux.es_designador(ins.getE()) instanceof Ok)){
+        if ((((Util.ref_exc(ins.getE().getT()) instanceof Int_) || (Util.ref_exc(ins.getE().getT()) instanceof Real_) ||
+        (Util.ref_exc(ins.getE().getT()) instanceof String_))) && (Util.es_designador(ins.getE()))){
             ins.setTipo(SalidaTipo.OK);
         } else{
             ins.setTipo(SalidaTipo.ERROR);
@@ -254,8 +250,8 @@ public class Tipado extends ProcesamientoPorDefecto {
     @Override
     public void procesa(Write_ ins) {
         ins.getE().procesa(this);
-        if((aux.ref_exc(ins.getE().getT()) instanceof Int_) || (aux.ref_exc(ins.getE().getT()) instanceof Real_) ||
-        (aux.ref_exc(ins.getE().getT()) instanceof Bool_) || (aux.ref_exc(ins.getE().getT()) instanceof String_)){
+        if((Util.ref_exc(ins.getE().getT()) instanceof Int_) || (Util.ref_exc(ins.getE().getT()) instanceof Real_) ||
+        (Util.ref_exc(ins.getE().getT()) instanceof Bool_) || (Util.ref_exc(ins.getE().getT()) instanceof String_)){
             ins.setTipo(SalidaTipo.OK);
         } else{
             ins.setTipo(SalidaTipo.ERROR);
@@ -271,12 +267,12 @@ public class Tipado extends ProcesamientoPorDefecto {
     @Override
     public void procesa(New_ ins) {
         ins.getE().procesa(this);
-        if(aux.ref_exc(ins.getE().getT()) instanceof Puntero_){
+        if(Util.ref_exc(ins.getE().getT()) instanceof Puntero_){
             ins.setTipo(SalidaTipo.OK);
         } else{
             ins.setTipo(SalidaTipo.ERROR);
             // TODO PONER OR CON LOS TIPOS?!
-            if(!(aux.ref_exc(ins.getE().getT()) instanceof Error_)){
+            if(!(Util.ref_exc(ins.getE().getT()) instanceof Error_)){
                 System.err.println("Error"); // TODO AÑADIR MÁS INFO CON STRINGLOCALIZADO
             }
         }
@@ -285,12 +281,12 @@ public class Tipado extends ProcesamientoPorDefecto {
     @Override
     public void procesa(Delete_ ins) {
         ins.getE().procesa(this);
-        if(aux.ref_exc(ins.getE().getT()) instanceof Puntero_){
+        if(Util.ref_exc(ins.getE().getT()) instanceof Puntero_){
             ins.setTipo(SalidaTipo.OK);
         } else{
             ins.setTipo(SalidaTipo.ERROR);
             // TODO PONER OR CON LOS TIPOS?!
-            if(!(aux.ref_exc(ins.getE().getT()) instanceof Error_)){
+            if(!(Util.ref_exc(ins.getE().getT()) instanceof Error_)){
                 System.err.println("Error"); // TODO AÑADIR MÁS INFO CON STRINGLOCALIZADO
             }
            
@@ -305,7 +301,7 @@ public class Tipado extends ProcesamientoPorDefecto {
         // TODO ESTOS IFS, HACER GETVINCULO() DESDE E??, CÓMO SE HACE ESTO?
         if(E.vinculo instanceof Dec_Proc){
             if(num_elems(ins.getLParams()) == num_elems(ins.getLExp())){
-                ins.setTipo(aux.check_params3(ins.getLExp(), ins.getLParams()));
+                ins.setTipo(Util.check_params3(ins.getLExp(), ins.getLParams()));
             } else{
                 ins.setTipo(SalidaTipo.ERROR);
                 System.err.println("Error"); // TODO AÑADIR MÁS INFO CON STRINGLOCALIZADO
@@ -340,7 +336,7 @@ public class Tipado extends ProcesamientoPorDefecto {
         lExp.getLExp().procesa(this);
         lExp.getE().procesa(this);
         //TODO VER CÓMO HACER ESTO
-        //lExp.setTipo(aux.ambos_ok(lExp.getLExp(), lExp.getE().getT()));
+        //lExp.setTipo(Util.ambos_ok(lExp.getLExp(), lExp.getE().getT()));
     }
 
     @Override
@@ -386,72 +382,72 @@ public class Tipado extends ProcesamientoPorDefecto {
 
     @Override
     public void procesa(Blt e) {
-        e.setT(aux.tip_relacional1(e.getArg0(), e.getArg1()));
+        e.setT(Util.tip_relacional1(e.getArg0(), e.getArg1(), this));
     }
 
     @Override
     public void procesa(Ble e) {
-        e.setT(aux.tip_relacional1(e.getArg0(), e.getArg1()));
+        e.setT(Util.tip_relacional1(e.getArg0(), e.getArg1(), this));
     }
 
     @Override
     public void procesa(Bgt e) {
-        e.setT(aux.tip_relacional1(e.getArg0(), e.getArg1()));
+        e.setT(Util.tip_relacional1(e.getArg0(), e.getArg1(), this));
     }
 
     @Override
     public void procesa(Bge e) {
-        e.setT(aux.tip_relacional1(e.getArg0(), e.getArg1()));
+        e.setT(Util.tip_relacional1(e.getArg0(), e.getArg1(), this));
     }
 
     @Override
     public void procesa(Beq e) {
-        e.setT(aux.tip_relacional2(e.getArg0(), e.getArg1()));
+        e.setT(Util.tip_relacional2(e.getArg0(), e.getArg1(), this));
     }
 
     @Override
     public void procesa(Bne e) {
-        e.setT(aux.tip_relacional2(e.getArg0(), e.getArg1()));
+        e.setT(Util.tip_relacional2(e.getArg0(), e.getArg1(), this));
     }
 
     @Override
     public void procesa(Suma e) {
-        e.setT(aux.tip_arit(e.getArg0(), e.getArg1()));
+        e.setT(Util.tip_arit(e.getArg0(), e.getArg1(), this));
     }
 
     @Override
     public void procesa(Resta e) {
-        e.setT(aux.tip_arit(e.getArg0(), e.getArg1()));
+        e.setT(Util.tip_arit(e.getArg0(), e.getArg1(), this));
     }
 
     @Override
     public void procesa(Mult e) {
-        e.setT(aux.tip_arit(e.getArg0(), e.getArg1()));
+        e.setT(Util.tip_arit(e.getArg0(), e.getArg1(), this));
     }
 
     @Override
     public void procesa(Div e) {
-        e.setT(aux.tip_arit(e.getArg0(), e.getArg1()));
+        e.setT(Util.tip_arit(e.getArg0(), e.getArg1(), this));
     }
 
     @Override
     public void procesa(Mod e) {
-        e.setT(aux.tip_mod(e.getArg0(), e.getArg1()));
+        e.setT(Util.tip_mod(e.getArg0(), e.getArg1(), this));
     }
 
     @Override
     public void procesa(And e) {
-        e.setT(aux.tip_log(e.getArg0(), e.getArg1()));
+        e.setT(Util.tip_log(e.getArg0(), e.getArg1(), this));
     }
 
     @Override
     public void procesa(Or e) {
-        e.setT(aux.tip_log(e.getArg0(), e.getArg1()));
+        e.setT(Util.tip_log(e.getArg0(), e.getArg1(), this));
     }
 
     @Override
     public void procesa(Not e) {
-        if(aux.ref_exc(e.getArg0().getT()) instanceof Bool_){
+        if(Util.ref_exc(e.getArg0().getT()) instanceof Bool_){
             e.setT(new Bool_());
         } else{
             e.setT(new Error_());
@@ -461,9 +457,9 @@ public class Tipado extends ProcesamientoPorDefecto {
 
     @Override
     public void procesa(Neg e) {
-        if(aux.ref_exc(e.getArg0().getT()) instanceof Int_){
+        if(Util.ref_exc(e.getArg0().getT()) instanceof Int_){
             e.setT(new Int_());
-        } else if(aux.ref_exc(e.getArg0().getT()) instanceof Real_ ){
+        } else if(Util.ref_exc(e.getArg0().getT()) instanceof Real_ ){
             e.setT(new Real_());
             System.err.println("Error"); // TODO AÑADIR MÁS INFO CON STRINGLOCALIZADO
         } else{
@@ -476,12 +472,12 @@ public class Tipado extends ProcesamientoPorDefecto {
     public void procesa(Index e) {
         e.getArg0().procesa(this);
         e.getArg1().procesa(this);
-        if(aux.ref_exc(e.getArg0().getT()) instanceof Array_ && aux.ref_exc(e.getArg1().getT()) instanceof Int_){
+        if(Util.ref_exc(e.getArg0().getT()) instanceof Array_ && Util.ref_exc(e.getArg1().getT()) instanceof Int_){
             // TODO $.tipo = array(tam, tipo)
             e.setT(new Array_(null, null));
-        } else if((!(aux.ref_exc(e.getArg0().getT())instanceof Error_)&& !(aux.ref_exc(e.getArg0().getT())instanceof Array_))
-            || ( !(aux.ref_exc(e.getArg0().getT()) instanceof Array_)&& !(aux.ref_exc(e.getArg1().getT())  instanceof Error_) 
-            && !(aux.ref_exc(e.getArg1().getT()) instanceof Int_))){
+        } else if((!(Util.ref_exc(e.getArg0().getT())instanceof Error_)&& !(Util.ref_exc(e.getArg0().getT())instanceof Array_))
+            || ( !(Util.ref_exc(e.getArg0().getT()) instanceof Array_)&& !(Util.ref_exc(e.getArg1().getT())  instanceof Error_) 
+            && !(Util.ref_exc(e.getArg1().getT()) instanceof Int_))){
             e.setT(new Error_());
             System.err.println("Error"); // TODO AÑADIR MÁS INFO CON STRINGLOCALIZADO
         }
@@ -496,9 +492,9 @@ public class Tipado extends ProcesamientoPorDefecto {
     @Override
     public void procesa(Indir e) {
         e.getArg0().procesa(this);
-        if(aux.ref_exc(e.getArg0().getT()) instanceof Puntero_){
+        if(Util.ref_exc(e.getArg0().getT()) instanceof Puntero_){
             e.setT(e.getArg0().getT());
-        } else if(aux.ref_exc(e.getArg0().getT()) instanceof Error_){
+        } else if(Util.ref_exc(e.getArg0().getT()) instanceof Error_){
             e.setT(new Error_());
         }
     }

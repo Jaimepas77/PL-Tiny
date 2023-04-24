@@ -5,6 +5,7 @@ public class SintaxisAbstracta {
 	//Nodo vinculable
 	public interface Vinculable {
 		Tipo getT();
+		int getNivel();
 	}
 	
 	// Prog

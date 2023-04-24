@@ -2,7 +2,6 @@ package implementacion.procesamientos;
 
 import java.util.Stack;
 
-import implementacion.abstractSintax.Procesamiento;
 import implementacion.abstractSintax.ProcesamientoPorDefecto;
 import implementacion.abstractSintax.SintaxisAbstracta.*;
 
@@ -40,7 +39,7 @@ public class Etiquetado extends ProcesamientoPorDefecto {
 		}
 		else if(lDecs instanceof Muchas_Decs) {
 			recolectaProcs(((Muchas_Decs) lDecs).getDecs());
-			recolectaProcs(((Una_Dec) lDecs).getDec());
+			recolectaProcs(((Muchas_Decs) lDecs).getDec());
 		}
 	}
 

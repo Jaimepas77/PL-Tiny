@@ -42,7 +42,7 @@ public class GenCodigo extends ProcesamientoPorDefecto {
 		}
 		else if(lDecs instanceof Muchas_Decs) {
 			recolectaProcs(((Muchas_Decs) lDecs).getDecs());
-			recolectaProcs(((Una_Dec) lDecs).getDec());
+			recolectaProcs(((Muchas_Decs) lDecs).getDec());
 		}
 	}
 
@@ -76,7 +76,7 @@ public class GenCodigo extends ProcesamientoPorDefecto {
 	public void procesa(Asignacion_ ins) {
 		ins.getE1().procesa(this);
 		ins.getE2().procesa(this);
-		if(ins.getE1().getTipo() instanceof Real_ && ins.getE2().getTipo() instanceof Int_) {
+		if(ins.getE1().getT() instanceof Real_ && ins.getE2().getT() instanceof Int_) {
 			if(esDesignador(ins.getE2())) {
 				m.ponInstruccion(m.apilaInd());
 			}
@@ -85,7 +85,7 @@ public class GenCodigo extends ProcesamientoPorDefecto {
 		}
 		else {
 			if(esDesignador(ins.getE2())) {//Sí, es redundante, pero se deja así por claridad
-				m.ponInstruccion(m.mueve(ins.getE2().getTipo().getTam()));
+				m.ponInstruccion(m.mueve(ins.getE2().getT().getTam()));
 			}
 			else {
 				m.ponInstruccion(m.desapilaInd());
@@ -129,13 +129,13 @@ public class GenCodigo extends ProcesamientoPorDefecto {
 	@Override
 	public void procesa(Read_ ins) {
 		ins.getE().procesa(this);
-		if (ins.getE().getTipo() instanceof String_) {
+		if (ins.getE().getT() instanceof String_) {
 			m.ponInstruccion(m.readString());
 		}
-		else if (ins.getE().getTipo() instanceof Int_) {
+		else if (ins.getE().getT() instanceof Int_) {
 			m.ponInstruccion(m.readInt());
 		}
-		else if (ins.getE().getTipo() instanceof Real_) {
+		else if (ins.getE().getT() instanceof Real_) {
 			m.ponInstruccion(m.readReal());
 		}
 		else
@@ -160,7 +160,7 @@ public class GenCodigo extends ProcesamientoPorDefecto {
 	@Override
 	public void procesa(New_ ins) {
 		ins.getE().procesa(this);
-		m.ponInstruccion(m.alloc(ins.getE().getTipo().getTam()));
+		m.ponInstruccion(m.alloc(ins.getE().getT().getTam()));
 		m.ponInstruccion(m.desapilaInd());
 	}
 
@@ -172,7 +172,7 @@ public class GenCodigo extends ProcesamientoPorDefecto {
 		m.ponInstruccion(m.beq());
 		m.ponInstruccion(m.irF(ins.getSigStop()));
 		m.ponInstruccion(m.stop());
-		m.ponInstruccion(m.dealloc(ins.getE().getTipo().getTam()));
+		m.ponInstruccion(m.dealloc(ins.getE().getT().getTam()));
 	}
 
 	@Override
@@ -245,7 +245,10 @@ public class GenCodigo extends ProcesamientoPorDefecto {
 		}
 		else {
 			m.ponInstruccion(m.apilad( e.getVinculo().getNivel()));
-			m.ponInstruccion(m.apilaInt( e.getVinculo().getDir()));
+			if (e.getVinculo() instanceof Dec_Var)
+				m.ponInstruccion(m.apilaInt(((Dec_Var) e.getVinculo()).getDir()));
+			else
+				m.ponInstruccion(m.apilaInt(((Param) e.getVinculo()).getDir()));
 			m.ponInstruccion(m.sumaInt());
 			if(e.getVinculo() instanceof Param_Ref) {
 				m.ponInstruccion(m.apilaInd());
@@ -307,8 +310,8 @@ public class GenCodigo extends ProcesamientoPorDefecto {
 		if(esDesignador(e.getArg0())) {
 			m.ponInstruccion(m.apilaInd());
 		}
-		if(e.getTipo() instanceof Real_) {
-			if(e.getArg0().getTipo() instanceof Int_) {
+		if(e.getT() instanceof Real_) {
+			if(e.getArg0().getT() instanceof Int_) {
 				m.ponInstruccion(m.intToReal());
 			}
 		}
@@ -316,8 +319,8 @@ public class GenCodigo extends ProcesamientoPorDefecto {
 		if(esDesignador(e.getArg1())) {
 			m.ponInstruccion(m.apilaInd());
 		}
-		if(e.getTipo() instanceof Real_) {
-			if(e.getArg1().getTipo() instanceof Int_) {
+		if(e.getT() instanceof Real_) {
+			if(e.getArg1().getT() instanceof Int_) {
 				m.ponInstruccion(m.intToReal());
 			}
 		}
@@ -326,7 +329,7 @@ public class GenCodigo extends ProcesamientoPorDefecto {
 	@Override
 	public void procesa(Suma e) {
 		genCodBinArit(e);
-		if(e.getTipo() instanceof Real_) {
+		if(e.getT() instanceof Real_) {
 			m.ponInstruccion(m.sumaReal());
 		}
 		else {
@@ -337,7 +340,7 @@ public class GenCodigo extends ProcesamientoPorDefecto {
 	@Override
 	public void procesa(Resta e) {
 		genCodBinArit(e);
-		if(e.getTipo() instanceof Real_) {
+		if(e.getT() instanceof Real_) {
 			m.ponInstruccion(m.restaReal());
 		}
 		else {
@@ -348,7 +351,7 @@ public class GenCodigo extends ProcesamientoPorDefecto {
 	@Override
 	public void procesa(Mult e) {
 		genCodBinArit(e);
-		if(e.getTipo() instanceof Real_) {
+		if(e.getT() instanceof Real_) {
 			m.ponInstruccion(m.mulReal());
 		}
 		else {
@@ -359,7 +362,7 @@ public class GenCodigo extends ProcesamientoPorDefecto {
 	@Override
 	public void procesa(Div e) {
 		genCodBinArit(e);
-		if(e.getTipo() instanceof Real_) {
+		if(e.getT() instanceof Real_) {
 			m.ponInstruccion(m.divReal());
 		}
 		else {
@@ -425,7 +428,7 @@ public class GenCodigo extends ProcesamientoPorDefecto {
 		if(esDesignador(e.getArg1())) {
 			m.ponInstruccion(m.apilaInd());
 		}
-		m.ponInstruccion(m.apilaInt(e.getArg0().getTipo().getTam()));
+		m.ponInstruccion(m.apilaInt(e.getArg0().getT().getTam()));
 		m.ponInstruccion(m.mulInt());
 		m.ponInstruccion(m.sumaInt());
 	}
@@ -433,8 +436,20 @@ public class GenCodigo extends ProcesamientoPorDefecto {
 	@Override
 	public void procesa(Access e) {
 		e.getArg0().procesa(this);
-		m.ponInstruccion(m.apilaInt(e.getTipo().getDespl(e.getStr())));
+		m.ponInstruccion(m.apilaInt(buscaDespl((Record_) e.getT(), e.getStr())));
 		m.ponInstruccion(m.sumaInt());
+	}
+
+	private int buscaDespl(Record_ t, String str) {
+		Campos c = t.getCampos();
+		while(c instanceof Muchos_Campos && !((Muchos_Campos) c).getCampo().getStr().equals(str)) {
+			c = ((Muchos_Campos) c).getCampos();
+		}
+		
+		if (c instanceof Muchos_Campos)
+			return ((Muchos_Campos) c).getCampo().getDespl();
+		else
+			return ((Un_Campo) c).getCampo().getDespl();
 	}
 
 	@Override
@@ -467,7 +482,7 @@ public class GenCodigo extends ProcesamientoPorDefecto {
 		m.ponInstruccion(m.sumaInt());
 		e.procesa(this);
 		if(p instanceof Param_Val) {
-			if (((Param_Val) p).getT() instanceof Real_ && e.getTipo() instanceof Int_) {
+			if (((Param_Val) p).getT() instanceof Real_ && e.getT() instanceof Int_) {
 				if(esDesignador(e)) {
 					m.ponInstruccion(m.apilaInd());
 				}
@@ -476,7 +491,7 @@ public class GenCodigo extends ProcesamientoPorDefecto {
 			}
 			else {
 				if(esDesignador(e)) {
-					m.ponInstruccion(m.mueve(e.getTipo().getTam()));
+					m.ponInstruccion(m.mueve(e.getT().getTam()));
 				}
 				else {
 					m.ponInstruccion(m.desapilaInd());

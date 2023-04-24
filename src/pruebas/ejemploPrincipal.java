@@ -10,27 +10,29 @@ public class ejemploPrincipal {
 	public static void main(String[] args) {
 		//Generación del AST
 		Prog prog;
+		//ASTs de códigos de prueba hardcodeados en el orden en que se ha conseguido que funcionen correctamente
+		prog = astCodigoWrite();
+		prog = astCodigoSumaInt();
+		prog = astCodigoReadWrite();
+		prog = astCodigoSumaRealInt();
 //		prog = astCodigoDeEjemplo();
-		prog = astCodigoNl();
-//		prog = astCodigoSumaInt();
-//		prog = astCodigoReadWrite();
 		
 		//Procesamientos
 		prog.procesa(new Vinculacion());
-//		prog.procesa(new Tipado());
+		prog.procesa(new Tipado());
 		prog.procesa(new AsignacionEspacio());
 		prog.procesa(new Etiquetado());
 		MaquinaP m = new MaquinaP(20, 15, 20, 3);
 		prog.procesa(new GenCodigo(m));
 		
 		//Ejecución sobre la máquina-p
-		System.out.println("Resultado de ejecución: ");
+		System.out.println("--Resultado de ejecución: ");
 //		m.muestraCodigo();	//Para depurar la generación de código
 		m.ejecuta();
-		System.out.println("FIN de ejecución.");
+		System.out.println("--FIN de ejecución.");
 	}
 	
-	private static Prog astCodigoNl() {
+	private static Prog astCodigoWrite() {
 		//Este código puede funcionar tan solo con el etiquetado y la generación de código
 		/*
 		 * var i: int;
@@ -38,7 +40,7 @@ public class ejemploPrincipal {
 		 * 	if false then
 		 * 		nl;
 		 * 	else
-		 * 		nl;
+		 * 		write 'Intel y gentes';
 		 * 		nl;
 		 * 	end;
 		 * end.
@@ -51,7 +53,7 @@ public class ejemploPrincipal {
 								sa.cNl_()),
 						sa.cMuchas_Ins(
 								sa.cUna_Ins(
-										sa.cNl_()),
+										sa.cWrite_(sa.cCadena("Intel y gentes"))),
 								sa.cNl_()))));
 	}
 	
@@ -62,18 +64,21 @@ public class ejemploPrincipal {
 		 * begin
 		 * 	i = 2;
 		 *  i = i + 1;
+		 *  write i;
 		 * end.
 		 * */
 		SintaxisAbstracta sa = new SintaxisAbstracta();
 		return sa.cProg_(sa.cUna_Dec(sa.cDec_Var("i", sa.cInt_())),
 				sa.cMuchas_Ins(
-						sa.cUna_Ins(
+						sa.cMuchas_Ins(
+								sa.cUna_Ins(
+										sa.cAsignacion_(
+												sa.cId("i"),
+												sa.cInt("2"))),
 								sa.cAsignacion_(
 										sa.cId("i"),
-										sa.cInt("2"))),
-						sa.cAsignacion_(
-								sa.cId("i"),
-								sa.cSuma(sa.cId("i"), sa.cInt("1")))));
+										sa.cSuma(sa.cId("i"), sa.cInt("1")))),
+						sa.cWrite_(sa.cId("i"))));
 	}
 	
 	private static Prog astCodigoReadWrite() {
@@ -86,11 +91,45 @@ public class ejemploPrincipal {
 		 * end.
 		 * */
 		SintaxisAbstracta sa = new SintaxisAbstracta();
-		return sa.cProg_(sa.cUna_Dec(sa.cDec_Var("text", sa.cInt_())),
+		return sa.cProg_(sa.cUna_Dec(sa.cDec_Var("text", sa.cString_())),
 				sa.cMuchas_Ins(
 						sa.cUna_Ins(
 								sa.cRead_(sa.cId("text"))),
 						sa.cWrite_(sa.cId("text"))));
+	}
+	
+	private static Prog astCodigoSumaRealInt() {
+		//Este código precisa de todos los procesamientos excepto el etiquetado
+		/*
+		 * var i: int;
+		 * var j: real;
+		 * begin
+		 * 	i = 2;
+		 *  j = 4.3;
+		 *  j = i + j;
+		 *  write j;
+		 * end.
+		 * */
+		SintaxisAbstracta sa = new SintaxisAbstracta();
+		return sa.cProg_(
+				sa.cMuchas_Decs(
+						sa.cUna_Dec(
+								sa.cDec_Var("i", sa.cInt_())),
+						sa.cDec_Var("j", sa.cReal_())),
+				sa.cMuchas_Ins(
+						sa.cMuchas_Ins(
+								sa.cMuchas_Ins(
+										sa.cUna_Ins(
+												sa.cAsignacion_(
+														sa.cId("i"),
+														sa.cInt("2"))),
+										sa.cAsignacion_(
+												sa.cId("j"),
+												sa.cReal("4.3"))),
+								sa.cAsignacion_(
+										sa.cId("j"),
+										sa.cSuma(sa.cId("i"), sa.cId("j")))),
+						sa.cWrite_(sa.cId("j"))));
 	}
 	
 	private static Prog astCodigoDeEjemplo() {
