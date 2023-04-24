@@ -16,6 +16,7 @@ public class ejemploPrincipal {
 		prog = astCodigoReadWrite();
 		prog = astCodigoSumaRealInt();
 		prog = astCodigoReadWriteResta();
+		prog = astCodigoBool();
 //		prog = astCodigoDeEjemplo();
 		
 		//Procesamientos
@@ -28,7 +29,7 @@ public class ejemploPrincipal {
 		
 		//Ejecución sobre la máquina-p
 		System.out.println("--Resultado de ejecución: ");
-//		m.muestraCodigo();	//Para depurar la generación de código
+		m.muestraCodigo();	//Para depurar la generación de código
 		m.ejecuta();
 		System.out.println("--FIN de ejecución.");
 	}
@@ -148,6 +149,37 @@ public class ejemploPrincipal {
 						sa.cUna_Ins(
 								sa.cRead_(sa.cId("num"))),
 						sa.cWrite_(sa.cResta(sa.cId("num"), sa.cInt("1")))));
+	}
+	
+	private static Prog astCodigoBool() {
+		//Este código puede funcionar tan solo con el etiquetado y la generación de código
+		/*
+		 * var a: bool;
+		 * begin
+		 * 	a = 3 > 3
+		 * 	if a then
+		 * 		write 'a es true';
+		 * 	else
+		 * 		write 'a es false';
+		 * 		nl;
+		 * 	end;
+		 * end.
+		 * */
+		SintaxisAbstracta sa = new SintaxisAbstracta();
+		return sa.cProg_(sa.cUna_Dec(sa.cDec_Var("a", sa.cBool_())),
+				sa.cMuchas_Ins(
+						sa.cUna_Ins(
+								sa.cAsignacion_(
+										sa.cId("a"),
+										sa.cBgt(sa.cInt("3"), sa.cInt("3")))),
+						sa.cIf_Then_Else(
+								sa.cId("a"),
+								sa.cUna_Ins(
+										sa.cWrite_(sa.cCadena("a es true"))),
+								sa.cMuchas_Ins(
+										sa.cUna_Ins(
+												sa.cWrite_(sa.cCadena("a es false"))),
+										sa.cNl_()))));
 	}
 	
 	private static Prog astCodigoDeEjemplo() {

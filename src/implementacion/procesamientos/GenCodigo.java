@@ -262,22 +262,50 @@ public class GenCodigo extends ProcesamientoPorDefecto {
 		if(esDesignador(e.getArg0())) {
 			m.ponInstruccion(m.apilaInd());
 		}
+		if(e.getArg1().getT() instanceof Real_) {
+			if(e.getArg0().getT() instanceof Int_) {
+				m.ponInstruccion(m.intToReal());
+			}
+		}
 		e.getArg1().procesa(this);
 		if(esDesignador(e.getArg1())) {
 			m.ponInstruccion(m.apilaInd());
+		}
+		if(e.getArg0().getT() instanceof Real_) {
+			if(e.getArg1().getT() instanceof Int_) {
+				m.ponInstruccion(m.intToReal());
+			}
 		}
 	}
 
 	@Override
 	public void procesa(Blt e) {
 		genCodBinRel(e);
-		m.ponInstruccion(m.blt());
+		if(e.getArg0().getT() instanceof Real_ || e.getArg1().getT() instanceof Real_)
+			m.ponInstruccion(m.bltReal());
+		else if(e.getArg0().getT() instanceof Int_)
+			m.ponInstruccion(m.bltInt());
+		else if(e.getArg0().getT() instanceof String_)
+			m.ponInstruccion(m.bltString());
+		else if(e.getArg0().getT() instanceof Bool_)
+			m.ponInstruccion(m.bltBool());
+		else
+			System.out.println("Error de ejecución en operador relativo <: tipo no reconocido.");
 	}
 
 	@Override
 	public void procesa(Ble e) {
 		genCodBinRel(e);
-		m.ponInstruccion(m.ble());
+		if(e.getArg0().getT() instanceof Real_ || e.getArg1().getT() instanceof Real_)
+			m.ponInstruccion(m.bleReal());
+		else if(e.getArg0().getT() instanceof Int_)
+			m.ponInstruccion(m.bleInt());
+		else if(e.getArg0().getT() instanceof String_)
+			m.ponInstruccion(m.bleString());
+		else if(e.getArg0().getT() instanceof Bool_)
+			m.ponInstruccion(m.bleBool());
+		else
+			System.out.println("Error de ejecución en operador relativo <=: tipo no reconocido.");
 	}
 
 	@Override

@@ -222,41 +222,85 @@ public class MaquinaP {
 		} 
 		public String toString() {return "neg";}
 	}
-	private IBlt IBLT;
-	private class IBlt implements Instruccion {
+	private IBltInt IBLTINT;
+	private class IBltInt implements Instruccion {
 		public void ejecuta() {
 			Valor opnd1 = pilaEvaluacion.pop();
 			Valor opnd2 = pilaEvaluacion.pop();
-			if (opnd1 instanceof ValorReal || opnd1 instanceof ValorInt) {
-				pilaEvaluacion.push(new ValorBool(opnd1.valorReal() < opnd2.valorReal()));
-			}
-			else if (opnd1 instanceof ValorBool) {
-				pilaEvaluacion.push(new ValorBool(opnd1.valorBool() == false && opnd2.valorBool() == true));
-			}
-			else if (opnd1 instanceof ValorString) {
-				pilaEvaluacion.push(new ValorBool(opnd1.valorString().compareTo(opnd2.valorString()) < 0) );
-			}
+			pilaEvaluacion.push(new ValorBool(opnd1.valorInt() < opnd2.valorInt()));
 			pc++;
 		} 
-		public String toString() {return "blt";}
+		public String toString() {return "blt_int";}
 	}
-	private IBle IBLE;
-	private class IBle implements Instruccion {
+	private IBltReal IBLTREAL;
+	private class IBltReal implements Instruccion {
 		public void ejecuta() {
 			Valor opnd1 = pilaEvaluacion.pop();
 			Valor opnd2 = pilaEvaluacion.pop();
-			if (opnd1 instanceof ValorReal || opnd1 instanceof ValorInt) {
-				pilaEvaluacion.push(new ValorBool(opnd1.valorReal() <= opnd2.valorReal()));
-			}
-			else if (opnd1 instanceof ValorBool) {
-				pilaEvaluacion.push(new ValorBool(opnd1.valorBool() == false || opnd2.valorBool() == true));
-			}
-			else if (opnd1 instanceof ValorString) {
-				pilaEvaluacion.push(new ValorBool(opnd1.valorString().compareTo(opnd2.valorString()) <= 0) );
-			}
+			pilaEvaluacion.push(new ValorBool(opnd1.valorReal() < opnd2.valorReal()));
 			pc++;
 		} 
-		public String toString() {return "ble";}
+		public String toString() {return "blt_real";}
+	}
+	private IBltString IBLTSTRING;
+	private class IBltString implements Instruccion {
+		public void ejecuta() {
+			Valor opnd1 = pilaEvaluacion.pop();
+			Valor opnd2 = pilaEvaluacion.pop();
+			pilaEvaluacion.push(new ValorBool(opnd1.valorString().compareTo(opnd2.valorString()) < 0));
+			pc++;
+		}
+		public String toString() {return "blt_string";}
+	}
+	private IBltBool IBLTBOOL;
+	private class IBltBool implements Instruccion {
+		public void ejecuta() {
+			Valor opnd1 = pilaEvaluacion.pop();
+			Valor opnd2 = pilaEvaluacion.pop();
+			pilaEvaluacion.push(new ValorBool(opnd1.valorBool() == false && opnd2.valorBool() == true));
+			pc++;
+		} 
+		public String toString() {return "blt_bool";}
+	}
+	private IBleInt IBLEINT;
+	private class IBleInt implements Instruccion {
+		public void ejecuta() {
+			Valor opnd1 = pilaEvaluacion.pop();
+			Valor opnd2 = pilaEvaluacion.pop();
+			pilaEvaluacion.push(new ValorBool(opnd1.valorInt() <= opnd2.valorInt()));
+			pc++;
+		} 
+		public String toString() {return "ble_int";}
+	}
+	private IBleReal IBLEREAL;
+	private class IBleReal implements Instruccion {
+		public void ejecuta() {
+			Valor opnd1 = pilaEvaluacion.pop();
+			Valor opnd2 = pilaEvaluacion.pop();
+			pilaEvaluacion.push(new ValorBool(opnd1.valorReal() <= opnd2.valorReal()));
+			pc++;
+		} 
+		public String toString() {return "ble_real";}
+	}
+	private IBleString IBLESTRING;
+	private class IBleString implements Instruccion {
+		public void ejecuta() {
+			Valor opnd1 = pilaEvaluacion.pop();
+			Valor opnd2 = pilaEvaluacion.pop();
+			pilaEvaluacion.push(new ValorBool(opnd1.valorString().compareTo(opnd2.valorString()) <= 0));
+			pc++;
+		} 
+		public String toString() {return "ble_string";}
+	}
+	private IBleBool IBLEBOOL;
+	private class IBleBool implements Instruccion {
+		public void ejecuta() {
+			Valor opnd1 = pilaEvaluacion.pop();
+			Valor opnd2 = pilaEvaluacion.pop();
+			pilaEvaluacion.push(new ValorBool(opnd1.valorBool() == false || opnd2.valorBool() == true));
+			pc++;
+		} 
+		public String toString() {return "ble_bool";}
 	}
 	private IBgt IBGT;
 	private class IBgt implements Instruccion {
@@ -668,8 +712,14 @@ public class MaquinaP {
 	public Instruccion or() {return IOR;}
 	public Instruccion not() {return INOT;}
 	public Instruccion neg() {return INEG;}
-	public Instruccion blt() {return IBLT;}
-	public Instruccion ble() {return IBLE;}
+	public Instruccion bltInt() {return IBLTINT;}
+	public Instruccion bltReal() {return IBLTREAL;}
+	public Instruccion bltString() {return IBLTSTRING;}
+	public Instruccion bltBool() {return IBLTBOOL;}
+	public Instruccion bleInt() {return IBLEINT;}
+	public Instruccion bleReal() {return IBLEREAL;}
+	public Instruccion bleString() {return IBLESTRING;}
+	public Instruccion bleBool() {return IBLEBOOL;}
 	public Instruccion bgt() {return IBGT;}
 	public Instruccion bge() {return IBGE;}
 	public Instruccion beq() {return IBEQ;}
@@ -730,8 +780,14 @@ public class MaquinaP {
 		INOT = new INot();
 		INEG = new INeg();
 		//RELACIONALES
-		IBLT = new IBlt();
-		IBLE = new IBle();
+		IBLTINT = new IBltInt();
+		IBLTREAL = new IBltReal();
+		IBLTSTRING = new IBltString();
+		IBLTBOOL = new IBltBool();
+		IBLEINT = new IBleInt();
+		IBLEREAL = new IBleReal();
+		IBLESTRING = new IBleString();
+		IBLEBOOL = new IBleBool();
 		IBGT = new IBgt();
 		IBGE = new IBge();
 		IBEQ = new IBeq();

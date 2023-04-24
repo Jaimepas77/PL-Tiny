@@ -280,9 +280,19 @@ public class Etiquetado extends ProcesamientoPorDefecto {
 		if(esDesignador(e.getArg0())) {
 			etq++;
 		}
+		if(e.getArg1().getT() instanceof Real_) {
+			if(e.getArg0().getT() instanceof Int_) {
+				etq++;
+			}
+		}
 		e.getArg1().procesa(this);
 		if(esDesignador(e.getArg1())) {
 			etq++;
+		}
+		if(e.getArg0().getT() instanceof Real_) {
+			if(e.getArg1().getT() instanceof Int_) {
+				etq++;
+			}
 		}
 		etq++;
 		e.setSig(etq);
