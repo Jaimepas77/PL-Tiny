@@ -48,16 +48,24 @@ public class Vinculacion extends ProcesamientoPorDefecto {
 	public void procesa(Dec_Tipo dec) {
 		dec.getT().procesa(this);
 		if(pasada == 1) {
-			if (ts.containsKey(dec.getStr())) throw new RuntimeException("Constante ya definida: " + dec.getStr());
-			else ts.put(dec.getStr(), dec);
+			if (ts.containsKey(dec.getStr())) {
+				throw new RuntimeException("Constante ya definida: " + dec.getStr());
+			}
+			else {
+				ts.put(dec.getStr(), dec);
+			}
 		}
 	}
 
 	@Override
 	public void procesa(Dec_Proc dec) {
 		if(pasada == 1) {
-			if (ts.containsKey(dec.getStr())) throw new RuntimeException("Constante ya definida: " + dec.getStr());
-			else ts.put(dec.getStr(), dec);
+			if (ts.containsKey(dec.getStr())) {
+				throw new RuntimeException("Constante ya definida: " + dec.getStr());
+			}
+			else {
+				ts.put(dec.getStr(), dec);
+			}
 		}
 		ant_ts = ts;
 		// crea_ambito(ts)
@@ -77,8 +85,12 @@ public class Vinculacion extends ProcesamientoPorDefecto {
 	@Override
 	public void procesa(Ref_ tipo) {
 		if(pasada==1){
-			if (ts.containsKey(tipo.getStr())) tipo.setVinculo(ts.get(tipo.getStr()));
-			else throw new RuntimeException("No existe: " + tipo.getStr());
+			if (ts.containsKey(tipo.getStr())) {
+				tipo.setVinculo(ts.get(tipo.getStr()));
+			}
+			else {
+				throw new RuntimeException("No existe: " + tipo.getStr());
+			}
 		}
 	}
 
@@ -96,12 +108,19 @@ public class Vinculacion extends ProcesamientoPorDefecto {
 	public void procesa(Puntero_ tipo) {
 		if(pasada==1){
 			if(!(tipo.getT() instanceof Ref_)) tipo.getT().procesa(this);
-		} else if(pasada==2){
+		} 
+		else if(pasada==2) {
 			if(tipo.getT() instanceof Ref_){
 				if (ts.containsKey(((Ref_) tipo.getT()).getStr())){
 					((Ref_) tipo.getT()).setVinculo(ts.get(((Ref_) tipo.getT()).getStr()));
-				} else throw new RuntimeException("No existe: " + ((Ref_) tipo.getT()).getStr());
-			} else tipo.getT().procesa(this);
+				}
+				else {
+					throw new RuntimeException("No existe: " + ((Ref_) tipo.getT()).getStr());
+				}
+			}
+			else {
+				tipo.getT().procesa(this);
+			}
 		}
 	}
 
@@ -141,8 +160,12 @@ public class Vinculacion extends ProcesamientoPorDefecto {
 	public void procesa(Param_Val param) {
 		param.getT().procesa(this);
 		if(pasada==1){
-			if (ts.containsKey(param.getStr())) throw new RuntimeException("Constante ya definida: " + param.getStr());
-			else ts.put(param.getStr(), param);
+			if (ts.containsKey(param.getStr())) {
+				throw new RuntimeException("Constante ya definida: " + param.getStr());
+			}
+			else {
+				ts.put(param.getStr(), param);
+			}
 		}
 	}
 	
@@ -237,8 +260,10 @@ public class Vinculacion extends ProcesamientoPorDefecto {
 
 	@Override
 	public void procesa(Id e) {
-		if (ts.containsKey(e.getStr())) e.setVinculo(ts.get(e.getStr()));
-		else throw new RuntimeException("No existe: " + e.getStr());
+		if (ts.containsKey(e.getStr())) 
+			e.setVinculo(ts.get(e.getStr()));
+		else 
+			throw new RuntimeException("No existe: " + e.getStr());
 	}
 
 	@Override

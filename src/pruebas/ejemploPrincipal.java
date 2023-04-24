@@ -15,6 +15,7 @@ public class ejemploPrincipal {
 		prog = astCodigoSumaInt();
 		prog = astCodigoReadWrite();
 		prog = astCodigoSumaRealInt();
+		prog = astCodigoReadWriteResta();
 //		prog = astCodigoDeEjemplo();
 		
 		//Procesamientos
@@ -130,6 +131,23 @@ public class ejemploPrincipal {
 										sa.cId("j"),
 										sa.cSuma(sa.cId("i"), sa.cId("j")))),
 						sa.cWrite_(sa.cId("j"))));
+	}
+	
+	private static Prog astCodigoReadWriteResta() {
+		//Este código precisa de todos los procesamientos excepto el etiquetado
+		/*
+		 * var num: real;
+		 * begin
+		 * 	read num;
+		 *  write num-1;
+		 * end.
+		 * */
+		SintaxisAbstracta sa = new SintaxisAbstracta();
+		return sa.cProg_(sa.cUna_Dec(sa.cDec_Var("num", sa.cReal_())),
+				sa.cMuchas_Ins(
+						sa.cUna_Ins(
+								sa.cRead_(sa.cId("num"))),
+						sa.cWrite_(sa.cResta(sa.cId("num"), sa.cInt("1")))));
 	}
 	
 	private static Prog astCodigoDeEjemplo() {

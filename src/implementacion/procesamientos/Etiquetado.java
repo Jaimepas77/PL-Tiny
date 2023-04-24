@@ -482,6 +482,6 @@ public class Etiquetado extends ProcesamientoPorDefecto {
 	}
 	
 	private boolean esDesignador(E e) {
-		return e instanceof Id || e instanceof Indir || e instanceof Access || e instanceof Index;
+		return Util.es_designador(e);
 	}
 }
