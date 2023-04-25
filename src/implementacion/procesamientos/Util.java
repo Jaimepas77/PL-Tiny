@@ -32,8 +32,10 @@ public final class Util {
         	return new Bool_();
         else if(ref_exc(e0.getT()) instanceof Bool_ && ref_exc(e1.getT()) instanceof Bool_)
         	return new Bool_();
+        else if(ref_exc(e0.getT()) instanceof String_ && ref_exc(e1.getT()) instanceof String_)
+        	return new Bool_();
         else{
-        	System.out.println("Error en tipado de operador relacional (tip_relacional1).");
+        	System.err.println("Error en tipado de operador relacional (tip_relacional1).");
             return new Error_();
         }
     }
@@ -48,7 +50,10 @@ public final class Util {
         	return new Bool_();
         else if(ref_exc(e0.getT()) instanceof Bool_ && ref_exc(e1.getT()) instanceof Bool_)
         	return new Bool_();
+        else if(ref_exc(e0.getT()) instanceof String_ && ref_exc(e1.getT()) instanceof String_)
+        	return new Bool_();
         else{
+        	System.err.println("Error en tipado de operador relacional (tip_relacional2).");
             return new Error_();
         }
     }
@@ -62,7 +67,8 @@ public final class Util {
         		&& (ref_exc(e1.getT()) instanceof Int_ || ref_exc(e1.getT()) instanceof Real_))
         	return new Real_();
         else{
-            return new Error_();
+        	System.err.println("Error en tipado de operador aritmético (tip_arit).");
+        	return new Error_();
         }
     }
 
@@ -73,7 +79,8 @@ public final class Util {
         	return new Int_();
         }
         else {
-            return new Error_();
+        	System.err.println("Error en tipado de operador módulo (tip_mod).");
+        	return new Error_();
         }
     }
 
@@ -84,7 +91,8 @@ public final class Util {
         	return new Bool_();
         }
         else {
-            return new Error_();
+        	System.err.println("Error en tipado de operador lógico (tip_log).");
+        	return new Error_();
         }
     }
 

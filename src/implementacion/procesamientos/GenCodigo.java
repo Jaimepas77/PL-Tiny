@@ -245,7 +245,7 @@ public class GenCodigo extends ProcesamientoPorDefecto {
 			m.ponInstruccion(m.apilaInt(((Dec_Var) e.getVinculo()).getDir()));
 		}
 		else {
-			m.ponInstruccion(m.apilad( e.getVinculo().getNivel()));
+			m.ponInstruccion(m.apilad(e.getVinculo().getNivel()));
 			if (e.getVinculo() instanceof Dec_Var)
 				m.ponInstruccion(m.apilaInt(((Dec_Var) e.getVinculo()).getDir()));
 			else
@@ -343,7 +343,7 @@ public class GenCodigo extends ProcesamientoPorDefecto {
 		genCodBinRel(e);
 		if(Util.ref_exc(e.getArg0().getT()) instanceof Real_ || Util.ref_exc(e.getArg1().getT()) instanceof Real_)
 			m.ponInstruccion(m.beqReal());
-		else if(Util.ref_exc(e.getArg0().getT()) instanceof Int_)
+		else if(Util.ref_exc(e.getArg0().getT()) instanceof Int_ || Util.ref_exc(e.getArg0().getT()) instanceof Puntero_)
 			m.ponInstruccion(m.beqInt());
 		else if(Util.ref_exc(e.getArg0().getT()) instanceof String_)
 			m.ponInstruccion(m.beqString());
@@ -358,7 +358,7 @@ public class GenCodigo extends ProcesamientoPorDefecto {
 		genCodBinRel(e);
 		if(Util.ref_exc(e.getArg0().getT()) instanceof Real_ || Util.ref_exc(e.getArg1().getT()) instanceof Real_)
 			m.ponInstruccion(m.bneReal());
-		else if(Util.ref_exc(e.getArg0().getT()) instanceof Int_)
+		else if(Util.ref_exc(e.getArg0().getT()) instanceof Int_ || Util.ref_exc(e.getArg0().getT()) instanceof Puntero_)
 			m.ponInstruccion(m.bneInt());
 		else if(Util.ref_exc(e.getArg0().getT()) instanceof String_)
 			m.ponInstruccion(m.bneString());

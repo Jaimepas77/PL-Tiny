@@ -549,7 +549,6 @@ public class MaquinaP {
 	private IReadReal IREADREAL;
 	private class IReadReal implements Instruccion {
 		public void ejecuta() {
-			Scanner s = new Scanner(System.in);
 			pilaEvaluacion.push(new ValorReal(s.nextDouble()));
 			pc++;
 		} 
@@ -921,6 +920,7 @@ public class MaquinaP {
 		s = new Scanner(System.in);
 		while(pc != codigoP.size()) {
 			codigoP.get(pc).ejecuta();
+			System.err.println(pc);//TODO - borrar
 		} 
 		s.close();
 	}

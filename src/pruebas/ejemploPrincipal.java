@@ -27,6 +27,7 @@ public class ejemploPrincipal {
 		prog = astCodigoAsignaRecord();//De momento falla
 		prog = astCodigoDecProc();
 		prog = astCodigoProcSuma();
+		prog = astCodigoProcSumaPlus();
 //		prog = astCodigoDeEjemplo();
 		
 		//Procesamientos
@@ -514,6 +515,56 @@ public class ejemploPrincipal {
 																		sa.cWrite_(sa.cCadena("Sumando..."))),
 																sa.cAsignacion_(sa.cId("ret"), sa.cSuma(sa.cId("ret"), sa.cId("a")))),
 														sa.cNl_())
+												)
+										), 
+								sa.cDec_Var("a", sa.cInt_())),
+						sa.cDec_Var("b", sa.cInt_())),
+				sa.cMuchas_Ins(
+						sa.cMuchas_Ins(
+								sa.cMuchas_Ins(
+										sa.cUna_Ins(
+												sa.cRead_(sa.cId("a"))),
+										sa.cRead_(sa.cId("b"))),
+								sa.cCall_Proc(sa.cId("suma"), sa.cMuchas_Expr(sa.cUna_Expr(sa.cId("a")), sa.cId("b")))),
+						sa.cWrite_(sa.cId("a")))
+				);
+	}
+	
+	private static Prog astCodigoProcSumaPlus() {
+		//Este código precisa de todos los procesamientos excepto el etiquetado
+		/*
+		 * proc suma(var ret: int, a: int)
+		 * 	var b: int;
+		 * begin
+		 * 	write 'Sumando...";
+		 * 	b = 1;
+		 * 	ret = (ret + a) + b;
+		 * end;
+		 * var a: int;
+		 * var b: int;
+		 * begin
+		 * 	read a;
+		 * 	read b;
+		 * 	suma(a, b);
+		 * 	write(a);
+		 * end.
+		 * */
+		SintaxisAbstracta sa = new SintaxisAbstracta();
+		return sa.cProg_(
+				sa.cMuchas_Decs(
+						sa.cMuchas_Decs(
+								sa.cUna_Dec(
+										sa.cDec_Proc("suma", 
+												sa.cMuchos_Params(
+														sa.cUn_Param(sa.cParam_Ref("ret", sa.cInt_())),
+														sa.cParam_Val("a", sa.cInt_())),
+												sa.cUna_Dec(sa.cDec_Var("b", sa.cInt_())),
+												sa.cMuchas_Ins(
+														sa.cMuchas_Ins(
+																sa.cUna_Ins(
+																		sa.cWrite_(sa.cCadena("Sumando..."))),
+																sa.cAsignacion_(sa.cId("b"), sa.cInt("1"))),
+														sa.cAsignacion_(sa.cId("ret"), sa.cSuma(sa.cId("ret"), sa.cSuma(sa.cId("a"), sa.cId("b")))))
 												)
 										), 
 								sa.cDec_Var("a", sa.cInt_())),
