@@ -84,7 +84,8 @@ public class GenCodigo extends ProcesamientoPorDefecto {
 			m.ponInstruccion(m.desapilaInd());
 		}
 		else {
-			if(esDesignador(ins.getE2())) {//Sí, es redundante, pero se deja así por claridad
+			if(esDesignador(ins.getE2())) {
+				//TODO falla en el caso de que se esté copiando un record cuyos campos necesiten conversión de inttoreal.
 				m.ponInstruccion(m.mueve(ins.getE2().getT().getTam()));
 			}
 			else {
@@ -518,12 +519,12 @@ public class GenCodigo extends ProcesamientoPorDefecto {
 	@Override
 	public void procesa(Indir e) {
 		e.getArg0().procesa(this);
+		m.ponInstruccion(m.apilaInd());
 		m.ponInstruccion(m.dup());
 		m.ponInstruccion(m.apilaInt(-1));
 		m.ponInstruccion(m.beqInt());
 		m.ponInstruccion(m.irF(e.getSigStop()));
 		m.ponInstruccion(m.stop());
-		m.ponInstruccion(m.apilaInd());
 	}
 
 	private void genCodParams(LParams lParams, LExp lExp) {

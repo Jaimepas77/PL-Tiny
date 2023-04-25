@@ -449,7 +449,7 @@ public class Etiquetado extends ProcesamientoPorDefecto {
 	public void procesa(Indir e) {
 		e.setIni(etq);
 		e.getArg0().procesa(this);
-		e.setSigStop(etq+5);
+		e.setSigStop(etq+6);
 		etq += 6;
 		e.setSig(etq);
 	}

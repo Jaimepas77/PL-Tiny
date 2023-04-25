@@ -151,25 +151,46 @@ public final class Util {
     public static boolean son_compatibles2(Set<Tipo> st, Tipo t1, Tipo t2){
         if(st.contains(t1) && st.contains(t2)){
             return true;
-        } else{
+        }
+        else {
             st.add(t1);
             st.add(t2);
-            if(t1 instanceof Ref_) return son_compatibles2(st, ref_exc(t1), t2);
-            else if(t2 instanceof Ref_) return son_compatibles2(st, t1, ref_exc(t2));
-            else if(t1 instanceof Int_ && t2 instanceof Int_) return true;
-            else if(t1 instanceof Real_ && (t2 instanceof Real_ || t2 instanceof Int_)) return true;
-            else if(t1 instanceof Bool_ && t2 instanceof Bool_) return true;
-            else if(t1 instanceof String_ && t2 instanceof String_) return true;
-            else if(t1 instanceof Array_ && t2 instanceof Array_) return son_compatibles2(st, t1, t2);
-            // TODO ESTE ELSE IF REHACER CUANDO ESTÉ LO DE CAMPOS BIEN
-            //else if(t1 instanceof Record_.getArg0() && t2 instanceof Record_.getArg1()) return campos_compatibles(Record_.getArg0(), Record_.getArg1());
-            else if(t1 instanceof Puntero_ && t2 == null) return true;
-            else if(t1 instanceof Puntero_  && t2 instanceof Puntero_) return son_compatibles2(st, ((Puntero_) t1).getT(), ((Puntero_) t2).getT());
+            if(t1 instanceof Ref_)
+            	return son_compatibles2(st, ref_exc(t1), t2);
+            else if(t2 instanceof Ref_)
+            	return son_compatibles2(st, t1, ref_exc(t2));
+            else if(t1 instanceof Int_ && t2 instanceof Int_)
+            	return true;
+            else if(t1 instanceof Real_ && (t2 instanceof Real_ || t2 instanceof Int_))
+            	return true;
+            else if(t1 instanceof Bool_ && t2 instanceof Bool_)
+            	return true;
+            else if(t1 instanceof String_ && t2 instanceof String_)
+            	return true;
+            else if(t1 instanceof Array_ && t2 instanceof Array_)
+            	return son_compatibles2(st, t1, t2);
+            else if(t1 instanceof Record_ && t2 instanceof Record_)
+            	return campos_compatibles(((Record_)t1).getCampos(), ((Record_)t2).getCampos());
+            else if(t1 instanceof Puntero_  && t2 instanceof Puntero_)
+            	return ((Puntero_)t2).getT() == null || son_compatibles2(st, ((Puntero_) t1).getT(), ((Puntero_) t2).getT());
             else return false;
         }
     }
     
-    public static Vinculable valor_de_id(Vinculos ts, String id) {
+    private static boolean campos_compatibles(Campos campos1, Campos campos2) {
+		if (campos1 instanceof Un_Campo && campos2 instanceof Un_Campo) {
+			return son_compatibles(((Un_Campo) campos1).getCampo().getT(), ((Un_Campo) campos2).getCampo().getT());
+		}
+		else if (campos1 instanceof Muchos_Campos && campos2 instanceof Muchos_Campos) {
+			return son_compatibles(((Muchos_Campos) campos1).getCampo().getT(), ((Muchos_Campos) campos2).getCampo().getT())
+					&& campos_compatibles(((Muchos_Campos)campos1).getCampos(), ((Muchos_Campos)campos2).getCampos());
+		}
+		else {
+			return false;
+		}
+	}
+
+	public static Vinculable valor_de_id(Vinculos ts, String id) {
     	while(ts.padre != null) {
     		if (ts.containsKey(id)) 
     			return ts.get(id);

@@ -24,6 +24,7 @@ public class ejemploPrincipal {
 		prog = astCodigoReadWriteArray();
 		prog = astCodigoReadWriteRecord();
 		prog = astCodigoReadWritePuntero();
+		prog = astCodigoAsignaRecord();//De momento falla
 //		prog = astCodigoDeEjemplo();
 		
 		//Procesamientos
@@ -346,7 +347,7 @@ public class ejemploPrincipal {
 		 * 	read casa.puerta;
 		 *  write casa.puerta + 1;
 		 *  read casa.tejado;
-		 *  write casa.tejado * 3;
+		 *  write casa.tejado * casa.puerta;
 		 * end.
 		 * */
 		SintaxisAbstracta sa = new SintaxisAbstracta();
@@ -365,11 +366,11 @@ public class ejemploPrincipal {
 												sa.cRead_(sa.cAccess(sa.cId("casa"), "puerta"))),
 										sa.cWrite_(sa.cSuma(sa.cAccess(sa.cId("casa"), "puerta"), sa.cInt("1")))), 
 								sa.cRead_(sa.cAccess(sa.cId("casa"), "tejado"))), 
-						sa.cWrite_(sa.cMult(sa.cAccess(sa.cId("casa"), "tejado"), sa.cInt("3"))))
+						sa.cWrite_(sa.cMult(sa.cAccess(sa.cId("casa"), "tejado"), sa.cAccess(sa.cId("casa"), "puerta"))))
 				);
 	}
 	
-	private static Prog astCodigoReadWritePuntero() {
+	private static Prog astCodigoReadWritePuntero() {//Tiene que dar error de ejecución
 		/*
 		 * var p: ^string;
 		 * begin
@@ -377,6 +378,7 @@ public class ejemploPrincipal {
 		 * 	read p^;
 		 *  write p^;
 		 *  delete p;
+		 *  p = null;
 		 *  write p^;
 		 * end.
 		 * */
@@ -388,12 +390,63 @@ public class ejemploPrincipal {
 						sa.cMuchas_Ins(
 								sa.cMuchas_Ins(
 										sa.cMuchas_Ins(
-												sa.cUna_Ins(
-														sa.cNew_(sa.cId("p"))),
-												sa.cRead_(sa.cIndir(sa.cId("p")))),
-										sa.cWrite_(sa.cIndir(sa.cId("p")))),
-								sa.cDelete_(sa.cId("p"))),
+												sa.cMuchas_Ins(
+														sa.cUna_Ins(
+																sa.cNew_(sa.cId("p"))),
+														sa.cRead_(sa.cIndir(sa.cId("p")))),
+												sa.cWrite_(sa.cIndir(sa.cId("p")))),
+										sa.cDelete_(sa.cId("p"))), 
+								sa.cAsignacion_(sa.cId("p"), sa.cNull())),
 						sa.cWrite_(sa.cIndir(sa.cId("p"))))
+				);
+	}
+	
+	private static Prog astCodigoAsignaRecord() {//Pendiente de arreglar (conversión inttoreal en asignación de records)
+		/*
+		 * var casa: record
+		 * 				puerta: int;
+		 * 				tejado: real;
+		 * 			end;
+		 * var marquesina: record
+		 * 				puerta: real;
+		 * 				tejado: real;
+		 * 			end;
+		 * begin
+		 * 	read casa.puerta;
+		 *  write casa.puerta + 1;
+		 *  read casa.tejado;
+		 *  marquesina = casa;
+		 *  write marquesina.tejado * marquesina.puerta;
+		 * end.
+		 * */
+		SintaxisAbstracta sa = new SintaxisAbstracta();
+		return sa.cProg_(
+				sa.cMuchas_Decs(
+						sa.cUna_Dec(sa.cDec_Var(
+								"casa", 
+								sa.cRecord_(
+										sa.cMuchos_Campos(
+												sa.cUn_Campo(
+														sa.cCampo("puerta", sa.cInt_())),
+												sa.cCampo("tejado", sa.cReal_()))))), 
+						sa.cDec_Var(
+								"marquesina", 
+								sa.cRecord_(
+										sa.cMuchos_Campos(
+												sa.cUn_Campo(
+														sa.cCampo("puerta", sa.cReal_())),
+												sa.cCampo("tejado", sa.cReal_()))))
+						),
+				sa.cMuchas_Ins(
+						sa.cMuchas_Ins(
+								sa.cMuchas_Ins(
+										sa.cMuchas_Ins(
+												sa.cUna_Ins(
+														sa.cRead_(sa.cAccess(sa.cId("casa"), "puerta"))),
+												sa.cWrite_(sa.cSuma(sa.cAccess(sa.cId("casa"), "puerta"), sa.cInt("1")))), 
+										sa.cRead_(sa.cAccess(sa.cId("casa"), "tejado"))), 
+								sa.cAsignacion_(sa.cId("marquesina"), sa.cId("casa"))), 
+						sa.cWrite_(sa.cMult(sa.cAccess(sa.cId("marquesina"), "tejado"), sa.cAccess(sa.cId("marquesina"), "puerta"))))
 				);
 	}
 
