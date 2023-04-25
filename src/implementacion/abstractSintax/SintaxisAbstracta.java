@@ -362,7 +362,7 @@ public class SintaxisAbstracta {
 	}
 
 	public static class Ref_ extends Tipo {
-		public String str;
+		private String str;
 		private Tipo t;
 		private Vinculable vinculo;
 
@@ -395,7 +395,7 @@ public class SintaxisAbstracta {
 	}
 
 	public static class Array_ extends Tipo {
-		public String str;
+		private String str;
 		public Tipo t;
 		public Array_(String str, Tipo t) {
 			super();
@@ -1145,7 +1145,7 @@ public class SintaxisAbstracta {
 	}
 
 	public static class Int extends E {
-		public String str;
+		private String str;
 
 		public Int(String str) {
 			super();
@@ -1162,7 +1162,7 @@ public class SintaxisAbstracta {
 	}
 
 	public static class Real extends E {
-		public String str;
+		private String str;
 
 		public Real(String str) {
 			super();
@@ -1199,7 +1199,7 @@ public class SintaxisAbstracta {
 	}
 
 	public static class Cadena extends E {
-		public String str;
+		private String str;
 
 		public Cadena(String str) {
 			super();
@@ -1215,7 +1215,7 @@ public class SintaxisAbstracta {
 	}
 
 	public static class Id extends E {
-		public String str;
+		private String str;
 		private Vinculable vinculo;
 
 		public Id(String str) {
@@ -1464,7 +1464,7 @@ public class SintaxisAbstracta {
 	}
 
 	public static class Access extends EUnario {
-		public String str;
+		private String str;
 
 		public Access(E arg0, String str) {
 			super(arg0);

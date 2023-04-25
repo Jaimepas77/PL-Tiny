@@ -76,12 +76,13 @@ public class Tipado extends ProcesamientoPorDefecto {
     public void procesa(Ref_ tipo) {
         //TODO: ESPERO A LA RAMA DE VINCULACION
         // TODO ALGO ASÍ
-        //if(tipo.getVinculo()==tipo.getDec_Tipo().procesa(this)){
-            /*tipo.setTipo(SalidaTipo.OK);
-        } else{
+        if(tipo.getVinculo() instanceof Dec_Tipo){
+            tipo.setTipo(SalidaTipo.OK);
+        } 
+        else {
             System.err.println("Error en el tipado de ref"); // TODO AÑADIR MÁS INFO CON STRINGLOCALIZADO
-            tipo.setTipo(false);
-        }*/
+            tipo.setTipo(SalidaTipo.ERROR);
+        }
     }
 
     @Override
@@ -190,8 +191,9 @@ public class Tipado extends ProcesamientoPorDefecto {
         ins.getE2().procesa(this);
         if(Util.son_compatibles(ins.getE1().getT(), ins.getE2().getT()) && Util.es_designador(ins.getE1())){
             ins.setTipo(SalidaTipo.OK);
-        } else{
-            if(ins.getE1().getT() instanceof Error_ && ins.getE2().getT() instanceof Error_){
+        } 
+        else {
+            if(!(ins.getE1().getT() instanceof Error_) && !(ins.getE2().getT() instanceof Error_)) {
                 System.err.println("Error en el tipado de asignación"); // TODO AÑADIR MÁS INFO CON STRINGLOCALIZADO
             }
             ins.setTipo(SalidaTipo.ERROR);

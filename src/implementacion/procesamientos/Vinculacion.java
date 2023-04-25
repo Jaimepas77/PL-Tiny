@@ -85,12 +85,11 @@ public class Vinculacion extends ProcesamientoPorDefecto {
 	@Override
 	public void procesa(Ref_ tipo) {
 		if(pasada==1){
-			if (ts.containsKey(tipo.getStr())) {
-				tipo.setVinculo(ts.get(tipo.getStr()));
-			}
-			else {
+			Vinculable v = Util.valor_de_id(ts, tipo.getStr());
+			if (v != null) 
+				tipo.setVinculo(v);
+			else 
 				throw new RuntimeException("No existe: " + tipo.getStr());
-			}
 		}
 	}
 
@@ -260,8 +259,9 @@ public class Vinculacion extends ProcesamientoPorDefecto {
 
 	@Override
 	public void procesa(Id e) {
-		if (ts.containsKey(e.getStr())) 
-			e.setVinculo(ts.get(e.getStr()));
+		Vinculable v = Util.valor_de_id(ts, e.getStr());
+		if (v != null) 
+			e.setVinculo(v);
 		else 
 			throw new RuntimeException("No existe: " + e.getStr());
 	}

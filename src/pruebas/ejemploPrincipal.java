@@ -20,6 +20,7 @@ public class ejemploPrincipal {
 		prog = astCodigoReadWriteWhile();
 		prog = astCodigoReadWriteWhileAnd();
 		prog = astCodigoReadWriteNegDivMul();
+		prog = astCodigoWriteTypeSeq();
 //		prog = astCodigoDeEjemplo();
 		
 		//Procesamientos
@@ -253,7 +254,11 @@ public class ejemploPrincipal {
 		 * end.
 		 * */
 		SintaxisAbstracta sa = new SintaxisAbstracta();
-		return sa.cProg_(sa.cUna_Dec(sa.cDec_Var("num", sa.cReal_())),
+		return sa.cProg_(
+				sa.cMuchas_Decs(
+						sa.cUna_Dec(
+								sa.cDec_Tipo("tNum", sa.cReal_())),
+						sa.cDec_Var("num", sa.cRef_("tNum"))),
 				sa.cMuchas_Ins(
 						sa.cUna_Ins(
 								sa.cRead_(sa.cId("num"))),
@@ -267,6 +272,33 @@ public class ejemploPrincipal {
 								)
 						)
 				);
+	}
+	
+	private static Prog astCodigoWriteTypeSeq() {
+		//Este código precisa de todos los procesamientos excepto el etiquetado
+		/*
+		 * type tNum: real;
+		 * begin
+		 * 	seq
+		 * 		var num: tNum;
+		 * 	begin
+		 * 		num = 3;
+		 *  	write num;
+		 *  end;
+		 * end.
+		 * */
+		SintaxisAbstracta sa = new SintaxisAbstracta();
+		return sa.cProg_(
+				sa.cUna_Dec(
+						sa.cDec_Tipo("tNum", sa.cReal_())),
+				sa.cUna_Ins(
+						sa.cIns_Compuesta(
+								sa.cUna_Dec(
+										sa.cDec_Var("num", sa.cRef_("tNum"))),
+								sa.cMuchas_Ins(
+										sa.cUna_Ins(
+												sa.cAsignacion_(sa.cId("num"), sa.cInt("3"))),
+										sa.cWrite_(sa.cId("num"))))));
 	}
 
 	private static Prog astCodigoDeEjemplo() {

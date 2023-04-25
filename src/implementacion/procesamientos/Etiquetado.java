@@ -78,7 +78,7 @@ public class Etiquetado extends ProcesamientoPorDefecto {
 		ins.setIni(etq);
 		ins.getE1().procesa(this);
 		ins.getE2().procesa(this);
-		if(ins.getE1().getT() instanceof Real_ && ins.getE2().getT() instanceof Int_) {
+		if(Util.ref_exc(ins.getE1().getT()) instanceof Real_ && Util.ref_exc(ins.getE2().getT()) instanceof Int_) {
 			if(esDesignador(ins.getE2())) {
 				etq++;
 			}
@@ -280,8 +280,8 @@ public class Etiquetado extends ProcesamientoPorDefecto {
 		if(esDesignador(e.getArg0())) {
 			etq++;
 		}
-		if(e.getArg1().getT() instanceof Real_) {
-			if(e.getArg0().getT() instanceof Int_) {
+		if(Util.ref_exc(e.getArg1().getT()) instanceof Real_) {
+			if(Util.ref_exc(e.getArg0().getT()) instanceof Int_) {
 				etq++;
 			}
 		}
@@ -289,8 +289,8 @@ public class Etiquetado extends ProcesamientoPorDefecto {
 		if(esDesignador(e.getArg1())) {
 			etq++;
 		}
-		if(e.getArg0().getT() instanceof Real_) {
-			if(e.getArg1().getT() instanceof Int_) {
+		if(Util.ref_exc(e.getArg0().getT()) instanceof Real_) {
+			if(Util.ref_exc(e.getArg1().getT()) instanceof Int_) {
 				etq++;
 			}
 		}
@@ -336,8 +336,8 @@ public class Etiquetado extends ProcesamientoPorDefecto {
 			
 			etq++;
 		}
-		if(e.getT() instanceof Real_) {
-			if(e.getArg0().getT() instanceof Int_) {
+		if(Util.ref_exc(e.getT()) instanceof Real_) {
+			if(Util.ref_exc(e.getArg0().getT()) instanceof Int_) {
 				etq++;
 			}
 		}
@@ -345,8 +345,8 @@ public class Etiquetado extends ProcesamientoPorDefecto {
 		if(esDesignador(e.getArg1())) {
 			etq++;
 		}
-		if(e.getT() instanceof Real_) {
-			if(e.getArg1().getT() instanceof Int_) {
+		if(Util.ref_exc(e.getT()) instanceof Real_) {
+			if(Util.ref_exc(e.getArg1().getT()) instanceof Int_) {
 				etq++;
 			}
 		}
@@ -471,7 +471,7 @@ public class Etiquetado extends ProcesamientoPorDefecto {
 		etq += 3;
 		e.procesa(this);
 		if(p instanceof Param_Val) {
-			if (((Param_Val) p).getT() instanceof Real_ && e.getT() instanceof Int_) {
+			if (Util.ref_exc(((Param_Val) p).getT()) instanceof Real_ && Util.ref_exc(e.getT()) instanceof Int_) {
 				if(esDesignador(e)) {
 					etq++;
 				}

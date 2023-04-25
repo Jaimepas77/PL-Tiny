@@ -76,7 +76,7 @@ public class GenCodigo extends ProcesamientoPorDefecto {
 	public void procesa(Asignacion_ ins) {
 		ins.getE1().procesa(this);
 		ins.getE2().procesa(this);
-		if(ins.getE1().getT() instanceof Real_ && ins.getE2().getT() instanceof Int_) {
+		if(Util.ref_exc(ins.getE1().getT()) instanceof Real_ && Util.ref_exc(ins.getE2().getT()) instanceof Int_) {
 			if(esDesignador(ins.getE2())) {
 				m.ponInstruccion(m.apilaInd());
 			}
@@ -129,13 +129,13 @@ public class GenCodigo extends ProcesamientoPorDefecto {
 	@Override
 	public void procesa(Read_ ins) {
 		ins.getE().procesa(this);
-		if (ins.getE().getT() instanceof String_) {
+		if (Util.ref_exc(ins.getE().getT()) instanceof String_) {
 			m.ponInstruccion(m.readString());
 		}
-		else if (ins.getE().getT() instanceof Int_) {
+		else if (Util.ref_exc(ins.getE().getT()) instanceof Int_) {
 			m.ponInstruccion(m.readInt());
 		}
-		else if (ins.getE().getT() instanceof Real_) {
+		else if (Util.ref_exc(ins.getE().getT()) instanceof Real_) {
 			m.ponInstruccion(m.readReal());
 		}
 		else
@@ -262,8 +262,8 @@ public class GenCodigo extends ProcesamientoPorDefecto {
 		if(esDesignador(e.getArg0())) {
 			m.ponInstruccion(m.apilaInd());
 		}
-		if(e.getArg1().getT() instanceof Real_) {
-			if(e.getArg0().getT() instanceof Int_) {
+		if(Util.ref_exc(e.getArg1().getT()) instanceof Real_) {
+			if(Util.ref_exc(e.getArg0().getT()) instanceof Int_) {
 				m.ponInstruccion(m.intToReal());
 			}
 		}
@@ -271,8 +271,8 @@ public class GenCodigo extends ProcesamientoPorDefecto {
 		if(esDesignador(e.getArg1())) {
 			m.ponInstruccion(m.apilaInd());
 		}
-		if(e.getArg0().getT() instanceof Real_) {
-			if(e.getArg1().getT() instanceof Int_) {
+		if(Util.ref_exc(e.getArg0().getT()) instanceof Real_) {
+			if(Util.ref_exc(e.getArg1().getT()) instanceof Int_) {
 				m.ponInstruccion(m.intToReal());
 			}
 		}
@@ -281,13 +281,13 @@ public class GenCodigo extends ProcesamientoPorDefecto {
 	@Override
 	public void procesa(Blt e) {
 		genCodBinRel(e);
-		if(e.getArg0().getT() instanceof Real_ || e.getArg1().getT() instanceof Real_)
+		if(Util.ref_exc(e.getArg0().getT()) instanceof Real_ || Util.ref_exc(e.getArg1().getT()) instanceof Real_)
 			m.ponInstruccion(m.bltReal());
-		else if(e.getArg0().getT() instanceof Int_)
+		else if(Util.ref_exc(e.getArg0().getT()) instanceof Int_)
 			m.ponInstruccion(m.bltInt());
-		else if(e.getArg0().getT() instanceof String_)
+		else if(Util.ref_exc(e.getArg0().getT()) instanceof String_)
 			m.ponInstruccion(m.bltString());
-		else if(e.getArg0().getT() instanceof Bool_)
+		else if(Util.ref_exc(e.getArg0().getT()) instanceof Bool_)
 			m.ponInstruccion(m.bltBool());
 		else
 			System.out.println("Error de ejecución en operador relativo <: tipo no reconocido.");
@@ -296,13 +296,13 @@ public class GenCodigo extends ProcesamientoPorDefecto {
 	@Override
 	public void procesa(Ble e) {
 		genCodBinRel(e);
-		if(e.getArg0().getT() instanceof Real_ || e.getArg1().getT() instanceof Real_)
+		if(Util.ref_exc(e.getArg0().getT()) instanceof Real_ || Util.ref_exc(e.getArg1().getT()) instanceof Real_)
 			m.ponInstruccion(m.bleReal());
-		else if(e.getArg0().getT() instanceof Int_)
+		else if(Util.ref_exc(e.getArg0().getT()) instanceof Int_)
 			m.ponInstruccion(m.bleInt());
-		else if(e.getArg0().getT() instanceof String_)
+		else if(Util.ref_exc(e.getArg0().getT()) instanceof String_)
 			m.ponInstruccion(m.bleString());
-		else if(e.getArg0().getT() instanceof Bool_)
+		else if(Util.ref_exc(e.getArg0().getT()) instanceof Bool_)
 			m.ponInstruccion(m.bleBool());
 		else
 			System.out.println("Error de ejecución en operador relativo <=: tipo no reconocido.");
@@ -311,13 +311,13 @@ public class GenCodigo extends ProcesamientoPorDefecto {
 	@Override
 	public void procesa(Bgt e) {
 		genCodBinRel(e);
-		if(e.getArg0().getT() instanceof Real_ || e.getArg1().getT() instanceof Real_)
+		if(Util.ref_exc(e.getArg0().getT()) instanceof Real_ || Util.ref_exc(e.getArg1().getT()) instanceof Real_)
 			m.ponInstruccion(m.bgtReal());
-		else if(e.getArg0().getT() instanceof Int_)
+		else if(Util.ref_exc(e.getArg0().getT()) instanceof Int_)
 			m.ponInstruccion(m.bgtInt());
-		else if(e.getArg0().getT() instanceof String_)
+		else if(Util.ref_exc(e.getArg0().getT()) instanceof String_)
 			m.ponInstruccion(m.bgtString());
-		else if(e.getArg0().getT() instanceof Bool_)
+		else if(Util.ref_exc(e.getArg0().getT()) instanceof Bool_)
 			m.ponInstruccion(m.bgtBool());
 		else
 			System.out.println("Error de ejecución en operador relativo >: tipo no reconocido.");	}
@@ -325,13 +325,13 @@ public class GenCodigo extends ProcesamientoPorDefecto {
 	@Override
 	public void procesa(Bge e) {
 		genCodBinRel(e);
-		if(e.getArg0().getT() instanceof Real_ || e.getArg1().getT() instanceof Real_)
+		if(Util.ref_exc(e.getArg0().getT()) instanceof Real_ || Util.ref_exc(e.getArg1().getT()) instanceof Real_)
 			m.ponInstruccion(m.bgeReal());
-		else if(e.getArg0().getT() instanceof Int_)
+		else if(Util.ref_exc(e.getArg0().getT()) instanceof Int_)
 			m.ponInstruccion(m.bgeInt());
-		else if(e.getArg0().getT() instanceof String_)
+		else if(Util.ref_exc(e.getArg0().getT()) instanceof String_)
 			m.ponInstruccion(m.bgeString());
-		else if(e.getArg0().getT() instanceof Bool_)
+		else if(Util.ref_exc(e.getArg0().getT()) instanceof Bool_)
 			m.ponInstruccion(m.bgeBool());
 		else
 			System.out.println("Error de ejecución en operador relativo >=: tipo no reconocido.");
@@ -340,13 +340,13 @@ public class GenCodigo extends ProcesamientoPorDefecto {
 	@Override
 	public void procesa(Beq e) {
 		genCodBinRel(e);
-		if(e.getArg0().getT() instanceof Real_ || e.getArg1().getT() instanceof Real_)
+		if(Util.ref_exc(e.getArg0().getT()) instanceof Real_ || Util.ref_exc(e.getArg1().getT()) instanceof Real_)
 			m.ponInstruccion(m.beqReal());
-		else if(e.getArg0().getT() instanceof Int_)
+		else if(Util.ref_exc(e.getArg0().getT()) instanceof Int_)
 			m.ponInstruccion(m.beqInt());
-		else if(e.getArg0().getT() instanceof String_)
+		else if(Util.ref_exc(e.getArg0().getT()) instanceof String_)
 			m.ponInstruccion(m.beqString());
-		else if(e.getArg0().getT() instanceof Bool_)
+		else if(Util.ref_exc(e.getArg0().getT()) instanceof Bool_)
 			m.ponInstruccion(m.beqBool());
 		else
 			System.out.println("Error de ejecución en operador relativo ==: tipo no reconocido.");
@@ -355,13 +355,13 @@ public class GenCodigo extends ProcesamientoPorDefecto {
 	@Override
 	public void procesa(Bne e) {
 		genCodBinRel(e);
-		if(e.getArg0().getT() instanceof Real_ || e.getArg1().getT() instanceof Real_)
+		if(Util.ref_exc(e.getArg0().getT()) instanceof Real_ || Util.ref_exc(e.getArg1().getT()) instanceof Real_)
 			m.ponInstruccion(m.bneReal());
-		else if(e.getArg0().getT() instanceof Int_)
+		else if(Util.ref_exc(e.getArg0().getT()) instanceof Int_)
 			m.ponInstruccion(m.bneInt());
-		else if(e.getArg0().getT() instanceof String_)
+		else if(Util.ref_exc(e.getArg0().getT()) instanceof String_)
 			m.ponInstruccion(m.bneString());
-		else if(e.getArg0().getT() instanceof Bool_)
+		else if(Util.ref_exc(e.getArg0().getT()) instanceof Bool_)
 			m.ponInstruccion(m.bneBool());
 		else
 			System.out.println("Error de ejecución en operador relativo !=: tipo no reconocido.");
@@ -373,8 +373,8 @@ public class GenCodigo extends ProcesamientoPorDefecto {
 		if(esDesignador(e.getArg0())) {
 			m.ponInstruccion(m.apilaInd());
 		}
-		if(e.getT() instanceof Real_) {
-			if(e.getArg0().getT() instanceof Int_) {
+		if(Util.ref_exc(e.getT()) instanceof Real_) {
+			if(Util.ref_exc(e.getArg0().getT()) instanceof Int_) {
 				m.ponInstruccion(m.intToReal());
 			}
 		}
@@ -382,8 +382,8 @@ public class GenCodigo extends ProcesamientoPorDefecto {
 		if(esDesignador(e.getArg1())) {
 			m.ponInstruccion(m.apilaInd());
 		}
-		if(e.getT() instanceof Real_) {
-			if(e.getArg1().getT() instanceof Int_) {
+		if(Util.ref_exc(e.getT()) instanceof Real_) {
+			if(Util.ref_exc(e.getArg1().getT()) instanceof Int_) {
 				m.ponInstruccion(m.intToReal());
 			}
 		}
@@ -392,7 +392,7 @@ public class GenCodigo extends ProcesamientoPorDefecto {
 	@Override
 	public void procesa(Suma e) {
 		genCodBinArit(e);
-		if(e.getT() instanceof Real_) {
+		if(Util.ref_exc(e.getT()) instanceof Real_) {
 			m.ponInstruccion(m.sumaReal());
 		}
 		else {
@@ -403,7 +403,7 @@ public class GenCodigo extends ProcesamientoPorDefecto {
 	@Override
 	public void procesa(Resta e) {
 		genCodBinArit(e);
-		if(e.getT() instanceof Real_) {
+		if(Util.ref_exc(e.getT()) instanceof Real_) {
 			m.ponInstruccion(m.restaReal());
 		}
 		else {
@@ -414,7 +414,7 @@ public class GenCodigo extends ProcesamientoPorDefecto {
 	@Override
 	public void procesa(Mult e) {
 		genCodBinArit(e);
-		if(e.getT() instanceof Real_) {
+		if(Util.ref_exc(e.getT()) instanceof Real_) {
 			m.ponInstruccion(m.mulReal());
 		}
 		else {
@@ -425,7 +425,7 @@ public class GenCodigo extends ProcesamientoPorDefecto {
 	@Override
 	public void procesa(Div e) {
 		genCodBinArit(e);
-		if(e.getT() instanceof Real_) {
+		if(Util.ref_exc(e.getT()) instanceof Real_) {
 			m.ponInstruccion(m.divReal());
 		}
 		else {
@@ -545,7 +545,7 @@ public class GenCodigo extends ProcesamientoPorDefecto {
 		m.ponInstruccion(m.sumaInt());
 		e.procesa(this);
 		if(p instanceof Param_Val) {
-			if (((Param_Val) p).getT() instanceof Real_ && e.getT() instanceof Int_) {
+			if (Util.ref_exc(((Param_Val) p).getT()) instanceof Real_ && Util.ref_exc(e.getT()) instanceof Int_) {
 				if(esDesignador(e)) {
 					m.ponInstruccion(m.apilaInd());
 				}

@@ -168,4 +168,13 @@ public final class Util {
             else return false;
         }
     }
+    
+    public static Vinculable valor_de_id(Vinculos ts, String id) {
+    	while(ts.padre != null) {
+    		if (ts.containsKey(id)) 
+    			return ts.get(id);
+    		ts = ts.padre;
+    	}
+    	return ts.get(id);
+    }
 }
