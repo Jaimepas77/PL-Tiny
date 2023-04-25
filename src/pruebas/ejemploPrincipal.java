@@ -21,6 +21,7 @@ public class ejemploPrincipal {
 		prog = astCodigoReadWriteWhileAnd();
 		prog = astCodigoReadWriteNegDivMul();
 		prog = astCodigoWriteTypeSeq();
+		prog = astCodigoReadWriteArray();
 //		prog = astCodigoDeEjemplo();
 		
 		//Procesamientos
@@ -39,7 +40,6 @@ public class ejemploPrincipal {
 	}
 	
 	private static Prog astCodigoWrite() {
-		//Este código puede funcionar tan solo con el etiquetado y la generación de código
 		/*
 		 * var i: int;
 		 * begin
@@ -156,7 +156,6 @@ public class ejemploPrincipal {
 	}
 	
 	private static Prog astCodigoBool() {
-		//Este código puede funcionar tan solo con el etiquetado y la generación de código
 		/*
 		 * var a: bool;
 		 * begin
@@ -187,7 +186,6 @@ public class ejemploPrincipal {
 	}
 	
 	private static Prog astCodigoReadWriteWhile() {
-		//Este código precisa de todos los procesamientos excepto el etiquetado
 		/*
 		 * var num: real;
 		 * begin
@@ -215,7 +213,6 @@ public class ejemploPrincipal {
 	}
 	
 	private static Prog astCodigoReadWriteWhileAnd() {
-		//Este código precisa de todos los procesamientos excepto el etiquetado
 		/*
 		 * var num: int;
 		 * begin
@@ -245,7 +242,6 @@ public class ejemploPrincipal {
 	}
 	
 	private static Prog astCodigoReadWriteNegDivMul() {
-		//Este código precisa de todos los procesamientos excepto el etiquetado
 		/*
 		 * var num: real;
 		 * begin
@@ -299,6 +295,40 @@ public class ejemploPrincipal {
 										sa.cUna_Ins(
 												sa.cAsignacion_(sa.cId("num"), sa.cInt("3"))),
 										sa.cWrite_(sa.cId("num"))))));
+	}
+	
+	private static Prog astCodigoReadWriteArray() {
+		/*
+		 * var num: real;
+		 * var v: array [3] of int;
+		 * begin
+		 * 	num = 3;
+		 * 	while not (num <= 0) then
+		 * 		num = num - 1;
+		 *  	write num;
+		 *  	nl;
+		 *  end;
+		 * end.
+		 * */
+		SintaxisAbstracta sa = new SintaxisAbstracta();
+		return sa.cProg_(
+				sa.cMuchas_Decs(
+						sa.cUna_Dec(
+								sa.cDec_Var("num", sa.cInt_())),
+						sa.cDec_Var("v", sa.cArray_("3", sa.cInt_()))),
+				sa.cMuchas_Ins(
+						sa.cUna_Ins(
+								sa.cAsignacion_(sa.cId("num"), sa.cInt("3"))),
+						sa.cWhile_(
+								sa.cNot(sa.cBle(sa.cId("num"), sa.cInt("0"))),
+								sa.cMuchas_Ins(
+										sa.cMuchas_Ins(
+												sa.cMuchas_Ins(
+														sa.cUna_Ins(
+																sa.cAsignacion_(sa.cId("num"), sa.cResta(sa.cId("num"), sa.cInt("1")))),
+														sa.cRead_(sa.cIndex(sa.cId("v"), sa.cId("num")))),
+												sa.cWrite_(sa.cIndex(sa.cId("v"), sa.cId("num")))),
+										sa.cNl_()))));
 	}
 
 	private static Prog astCodigoDeEjemplo() {

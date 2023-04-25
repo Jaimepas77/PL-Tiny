@@ -77,6 +77,8 @@ public class MaquinaP {
 			return String.valueOf(valor);
 		}
 	}
+	
+	Scanner s;
 
 	private List<Instruccion> codigoP;	//Lista de instrucciones en c�digo-p
 	private Stack<Valor> pilaEvaluacion;	//Pila de evaluación
@@ -531,9 +533,7 @@ public class MaquinaP {
 	private IReadString IREADSTRING;
 	private class IReadString implements Instruccion {
 		public void ejecuta() {
-			Scanner s = new Scanner(System.in);
 			pilaEvaluacion.push(new ValorString(s.nextLine()));
-			s.close();
 			pc++;
 		} 
 		public String toString() {return "readString";}
@@ -541,9 +541,7 @@ public class MaquinaP {
 	private IReadInt IREADINT;
 	private class IReadInt implements Instruccion {
 		public void ejecuta() {
-			Scanner s = new Scanner(System.in);
 			pilaEvaluacion.push(new ValorInt(s.nextInt()));
-			s.close();
 			pc++;
 		} 
 		public String toString() {return "readInt";}
@@ -553,7 +551,6 @@ public class MaquinaP {
 		public void ejecuta() {
 			Scanner s = new Scanner(System.in);
 			pilaEvaluacion.push(new ValorReal(s.nextDouble()));
-			s.close();
 			pc++;
 		} 
 		public String toString() {return "readReal";}
@@ -921,9 +918,11 @@ public class MaquinaP {
 		gestorMemoriaDinamica = new GestorMemoriaDinamica(tamdatos+tampila,(tamdatos+tampila+tamheap)-1);
 	}
 	public void ejecuta() {
+		s = new Scanner(System.in);
 		while(pc != codigoP.size()) {
 			codigoP.get(pc).ejecuta();
 		} 
+		s.close();
 	}
 	public void muestraCodigo() {
 		System.out.println("CodigoP");

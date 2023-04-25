@@ -3,7 +3,6 @@ package implementacion.procesamientos;
 import implementacion.abstractSintax.ProcesamientoPorDefecto;
 import implementacion.abstractSintax.SalidaTipo;
 import implementacion.abstractSintax.SintaxisAbstracta.*;
-import implementacion.abstractSintax.SintaxisAbstracta.Error_;
 
 public class Tipado extends ProcesamientoPorDefecto {
 
@@ -88,9 +87,11 @@ public class Tipado extends ProcesamientoPorDefecto {
     @Override
     public void procesa(Array_ tipo) {
         tipo.getT().procesa(this);
-        if (tipo.getTipo()==SalidaTipo.ERROR) tipo.setTipo(SalidaTipo.ERROR);
-        else if(tipo.getTam()>=0) tipo.setTipo(SalidaTipo.OK);
-        else{
+        if (tipo.getTipo() == SalidaTipo.ERROR)
+        	tipo.setTipo(SalidaTipo.ERROR);
+        else if(Integer.parseInt(tipo.getStr()) >= 0) 
+        	tipo.setTipo(SalidaTipo.OK);
+        else {
             System.err.println("Error en el tipado de array_"); // TODO AÑADIR MÁS INFO CON STRINGLOCALIZADO
             tipo.setTipo(SalidaTipo.ERROR);
         }
@@ -240,10 +241,15 @@ public class Tipado extends ProcesamientoPorDefecto {
     @Override
     public void procesa(Read_ ins) {
         ins.getE().procesa(this);
-        if ((((Util.ref_exc(ins.getE().getT()) instanceof Int_) || (Util.ref_exc(ins.getE().getT()) instanceof Real_) ||
-        (Util.ref_exc(ins.getE().getT()) instanceof String_))) && (Util.es_designador(ins.getE()))){
+        if (((Util.ref_exc(ins.getE().getT()) instanceof Int_ || 
+        		Util.ref_exc(ins.getE().getT()) instanceof Real_ || 
+        		Util.ref_exc(ins.getE().getT()) instanceof String_)) 
+        		&& 
+        		(Util.es_designador(ins.getE()))) 
+        {
             ins.setTipo(SalidaTipo.OK);
-        } else{
+        } 
+        else {
             ins.setTipo(SalidaTipo.ERROR);
             System.err.println("Error en el tipado de read"); // TODO AÑADIR MÁS INFO CON STRINGLOCALIZADO
         }
@@ -475,12 +481,12 @@ public class Tipado extends ProcesamientoPorDefecto {
     public void procesa(Index e) {
         e.getArg0().procesa(this);
         e.getArg1().procesa(this);
-        if(Util.ref_exc(e.getArg0().getT()) instanceof Array_ && Util.ref_exc(e.getArg1().getT()) instanceof Int_){
-            // TODO $.tipo = array(tam, tipo)
-            e.setT(new Array_(null, null));
+        if(Util.ref_exc(e.getArg0().getT()) instanceof Array_ && Util.ref_exc(e.getArg1().getT()) instanceof Int_) {
+            e.setT(((Array_) Util.ref_exc(e.getArg0().getT())).getT());
         }
-        else if((!(Util.ref_exc(e.getArg0().getT())instanceof Error_)&& !(Util.ref_exc(e.getArg0().getT())instanceof Array_))
-            || ( !(Util.ref_exc(e.getArg0().getT()) instanceof Array_)&& !(Util.ref_exc(e.getArg1().getT())  instanceof Error_) 
+        else if((!(Util.ref_exc(e.getArg0().getT()) instanceof Error_) && !(Util.ref_exc(e.getArg0().getT()) instanceof Array_))
+            || 
+            ( (Util.ref_exc(e.getArg0().getT()) instanceof Array_) && !(Util.ref_exc(e.getArg1().getT())  instanceof Error_) 
             && !(Util.ref_exc(e.getArg1().getT()) instanceof Int_))){
             e.setT(new Error_());
             System.err.println("Error en el tipado de index"); // TODO AÑADIR MÁS INFO CON STRINGLOCALIZADO
