@@ -302,77 +302,165 @@ public class MaquinaP {
 		} 
 		public String toString() {return "ble_bool";}
 	}
-	private IBgt IBGT;
-	private class IBgt implements Instruccion {
+	private IBgtInt IBGTINT;
+	private class IBgtInt implements Instruccion {
 		public void ejecuta() {
 			Valor opnd1 = pilaEvaluacion.pop();
 			Valor opnd2 = pilaEvaluacion.pop();
-			if (opnd1 instanceof ValorReal || opnd1 instanceof ValorInt) {
-				pilaEvaluacion.push(new ValorBool(opnd1.valorReal() > opnd2.valorReal()));
-			}
-			else if (opnd1 instanceof ValorBool) {
-				pilaEvaluacion.push(new ValorBool(opnd1.valorBool() == true && opnd2.valorBool() == false));
-			}
-			else if (opnd1 instanceof ValorString) {
-				pilaEvaluacion.push(new ValorBool(opnd1.valorString().compareTo(opnd2.valorString()) > 0) );
-			}
+			pilaEvaluacion.push(new ValorBool(opnd1.valorInt() > opnd2.valorInt()));
 			pc++;
 		} 
-		public String toString() {return "bgt";}
+		public String toString() {return "bgt_int";}
 	}
-	private IBge IBGE;
-	private class IBge implements Instruccion {
+	private IBgtReal IBGTREAL;
+	private class IBgtReal implements Instruccion {
 		public void ejecuta() {
 			Valor opnd1 = pilaEvaluacion.pop();
 			Valor opnd2 = pilaEvaluacion.pop();
-			if (opnd1 instanceof ValorReal || opnd1 instanceof ValorInt) {
-				pilaEvaluacion.push(new ValorBool(opnd1.valorReal() >= opnd2.valorReal()));
-			}
-			else if (opnd1 instanceof ValorBool) {
-				pilaEvaluacion.push(new ValorBool(opnd1.valorBool() == true || opnd2.valorBool() == false));
-			}
-			else if (opnd1 instanceof ValorString) {
-				pilaEvaluacion.push(new ValorBool(opnd1.valorString().compareTo(opnd2.valorString()) >= 0) );
-			}
+			pilaEvaluacion.push(new ValorBool(opnd1.valorReal() > opnd2.valorReal()));
 			pc++;
 		} 
-		public String toString() {return "bge";}
+		public String toString() {return "bgt_real";}
 	}
-	private IBeq IBEQ;
-	private class IBeq implements Instruccion {
+	private IBgtString IBGTSTRING;
+	private class IBgtString implements Instruccion {
 		public void ejecuta() {
 			Valor opnd1 = pilaEvaluacion.pop();
 			Valor opnd2 = pilaEvaluacion.pop();
-			if (opnd1 instanceof ValorReal || opnd1 instanceof ValorInt) {
-				pilaEvaluacion.push(new ValorBool(opnd1.valorReal() == opnd2.valorReal()));
-			}
-			else if (opnd1 instanceof ValorBool) {
-				pilaEvaluacion.push(new ValorBool(opnd1.valorBool() == opnd2.valorBool()));
-			}
-			else if (opnd1 instanceof ValorString) {
-				pilaEvaluacion.push(new ValorBool(opnd1.valorString().compareTo(opnd2.valorString()) == 0) );
-			}
+			pilaEvaluacion.push(new ValorBool(opnd1.valorString().compareTo(opnd2.valorString()) > 0) );
 			pc++;
 		} 
-		public String toString() {return "beq";}
+		public String toString() {return "bgt_string";}
 	}
-	private IBne IBNE;
-	private class IBne implements Instruccion {
+	private IBgtBool IBGTBOOL;
+	private class IBgtBool implements Instruccion {
 		public void ejecuta() {
 			Valor opnd1 = pilaEvaluacion.pop();
 			Valor opnd2 = pilaEvaluacion.pop();
-			if (opnd1 instanceof ValorReal || opnd1 instanceof ValorInt) {
-				pilaEvaluacion.push(new ValorBool(opnd1.valorReal() != opnd2.valorReal()));
-			}
-			else if (opnd1 instanceof ValorBool) {
-				pilaEvaluacion.push(new ValorBool(opnd1.valorBool() != opnd2.valorBool()));
-			}
-			else if (opnd1 instanceof ValorString) {
-				pilaEvaluacion.push(new ValorBool(opnd1.valorString().compareTo(opnd2.valorString()) != 0) );
-			}
+			pilaEvaluacion.push(new ValorBool(opnd1.valorBool() == true && opnd2.valorBool() == false));
 			pc++;
 		} 
-		public String toString() {return "bne";}
+		public String toString() {return "bgt_bool";}
+	}
+	private IBgeInt IBGEINT;
+	private class IBgeInt implements Instruccion {
+		public void ejecuta() {
+			Valor opnd1 = pilaEvaluacion.pop();
+			Valor opnd2 = pilaEvaluacion.pop();
+			pilaEvaluacion.push(new ValorBool(opnd1.valorInt() >= opnd2.valorInt()));
+			pc++;
+		} 
+		public String toString() {return "bge_int";}
+	}
+	private IBgeReal IBGEREAL;
+	private class IBgeReal implements Instruccion {
+		public void ejecuta() {
+			Valor opnd1 = pilaEvaluacion.pop();
+			Valor opnd2 = pilaEvaluacion.pop();
+			pilaEvaluacion.push(new ValorBool(opnd1.valorReal() >= opnd2.valorReal()));
+			pc++;
+		} 
+		public String toString() {return "bge_real";}
+	}
+	private IBgeString IBGESTRING;
+	private class IBgeString implements Instruccion {
+		public void ejecuta() {
+			Valor opnd1 = pilaEvaluacion.pop();
+			Valor opnd2 = pilaEvaluacion.pop();
+			pilaEvaluacion.push(new ValorBool(opnd1.valorString().compareTo(opnd2.valorString()) >= 0) );
+			pc++;
+		} 
+		public String toString() {return "bge_string";}
+	}
+	private IBgeBool IBGEBOOL;
+	private class IBgeBool implements Instruccion {
+		public void ejecuta() {
+			Valor opnd1 = pilaEvaluacion.pop();
+			Valor opnd2 = pilaEvaluacion.pop();
+			pilaEvaluacion.push(new ValorBool(opnd1.valorBool() == true || opnd2.valorBool() == false));
+			pc++;
+		} 
+		public String toString() {return "bge_bool";}
+	}
+	private IBeqInt IBEQINT;
+	private class IBeqInt implements Instruccion {
+		public void ejecuta() {
+			Valor opnd1 = pilaEvaluacion.pop();
+			Valor opnd2 = pilaEvaluacion.pop();
+			pilaEvaluacion.push(new ValorBool(opnd1.valorInt() == opnd2.valorInt()));
+			pc++;
+		} 
+		public String toString() {return "beq_int";}
+	}
+	private IBeqReal IBEQREAL;
+	private class IBeqReal implements Instruccion {
+		public void ejecuta() {
+			Valor opnd1 = pilaEvaluacion.pop();
+			Valor opnd2 = pilaEvaluacion.pop();
+			pilaEvaluacion.push(new ValorBool(opnd1.valorReal() == opnd2.valorReal()));
+			pc++;
+		} 
+		public String toString() {return "beq_real";}
+	}
+	private IBeqString IBEQSTRING;
+	private class IBeqString implements Instruccion {
+		public void ejecuta() {
+			Valor opnd1 = pilaEvaluacion.pop();
+			Valor opnd2 = pilaEvaluacion.pop();
+			pilaEvaluacion.push(new ValorBool(opnd1.valorString().compareTo(opnd2.valorString()) == 0) );
+			pc++;
+		} 
+		public String toString() {return "beq_string";}
+	}
+	private IBeqBool IBEQBOOL;
+	private class IBeqBool implements Instruccion {
+		public void ejecuta() {
+			Valor opnd1 = pilaEvaluacion.pop();
+			Valor opnd2 = pilaEvaluacion.pop();
+			pilaEvaluacion.push(new ValorBool(opnd1.valorBool() == opnd2.valorBool()));
+			pc++;
+		} 
+		public String toString() {return "beq_bool";}
+	}
+	private IBneInt IBNEINT;
+	private class IBneInt implements Instruccion {
+		public void ejecuta() {
+			Valor opnd1 = pilaEvaluacion.pop();
+			Valor opnd2 = pilaEvaluacion.pop();
+			pilaEvaluacion.push(new ValorBool(opnd1.valorInt() != opnd2.valorInt()));
+			pc++;
+		} 
+		public String toString() {return "bne_int";}
+	}
+	private IBneReal IBNEREAL;
+	private class IBneReal implements Instruccion {
+		public void ejecuta() {
+			Valor opnd1 = pilaEvaluacion.pop();
+			Valor opnd2 = pilaEvaluacion.pop();
+			pilaEvaluacion.push(new ValorBool(opnd1.valorReal() != opnd2.valorReal()));
+			pc++;
+		} 
+		public String toString() {return "bne_real";}
+	}
+	private IBneString IBNESTRING;
+	private class IBneString implements Instruccion {
+		public void ejecuta() {
+			Valor opnd1 = pilaEvaluacion.pop();
+			Valor opnd2 = pilaEvaluacion.pop();
+			pilaEvaluacion.push(new ValorBool(opnd1.valorString().compareTo(opnd2.valorString()) != 0) );
+			pc++;
+		} 
+		public String toString() {return "bne_string";}
+	}
+	private IBneBool IBNEBOOL;
+	private class IBneBool implements Instruccion {
+		public void ejecuta() {
+			Valor opnd1 = pilaEvaluacion.pop();
+			Valor opnd2 = pilaEvaluacion.pop();
+			pilaEvaluacion.push(new ValorBool(opnd1.valorBool() != opnd2.valorBool()));
+			pc++;
+		} 
+		public String toString() {return "bne_bool";}
 	}
 
 	private IRealToInt IREALTOINT;//No se usa en Tiny
@@ -720,10 +808,22 @@ public class MaquinaP {
 	public Instruccion bleReal() {return IBLEREAL;}
 	public Instruccion bleString() {return IBLESTRING;}
 	public Instruccion bleBool() {return IBLEBOOL;}
-	public Instruccion bgt() {return IBGT;}
-	public Instruccion bge() {return IBGE;}
-	public Instruccion beq() {return IBEQ;}
-	public Instruccion bne() {return IBNE;}
+	public Instruccion bgtInt() {return IBGTINT;}
+	public Instruccion bgtReal() {return IBGTREAL;}
+	public Instruccion bgtString() {return IBGTSTRING;}
+	public Instruccion bgtBool() {return IBGTBOOL;}
+	public Instruccion bgeInt() {return IBGEINT;}
+	public Instruccion bgeReal() {return IBGEREAL;}
+	public Instruccion bgeString() {return IBGESTRING;}
+	public Instruccion bgeBool() {return IBGEBOOL;}
+	public Instruccion beqInt() {return IBEQINT;}
+	public Instruccion beqReal() {return IBEQREAL;}
+	public Instruccion beqString() {return IBEQSTRING;}
+	public Instruccion beqBool() {return IBEQBOOL;}
+	public Instruccion bneInt() {return IBNEINT;}
+	public Instruccion bneReal() {return IBNEREAL;}
+	public Instruccion bneString() {return IBNESTRING;}
+	public Instruccion bneBool() {return IBNEBOOL;}
 	public Instruccion realToInt() {return IREALTOINT;}
 	public Instruccion intToReal() {return IINTTOREAL;}
 	public Instruccion apilaInt(int val) {return new IApilaInt(val);}
@@ -788,10 +888,22 @@ public class MaquinaP {
 		IBLEREAL = new IBleReal();
 		IBLESTRING = new IBleString();
 		IBLEBOOL = new IBleBool();
-		IBGT = new IBgt();
-		IBGE = new IBge();
-		IBEQ = new IBeq();
-		IBNE = new IBne();
+		IBGTINT = new IBgtInt();
+		IBGTREAL = new IBgtReal();
+		IBGTSTRING = new IBgtString();
+		IBGTBOOL = new IBgtBool();
+		IBGEINT = new IBgeInt();
+		IBGEREAL = new IBgeReal();
+		IBGESTRING = new IBgeString();
+		IBGEBOOL = new IBgeBool();
+		IBEQINT = new IBeqInt();
+		IBEQREAL = new IBeqReal();
+		IBEQSTRING = new IBeqString();
+		IBEQBOOL = new IBeqBool();
+		IBNEINT = new IBneInt();
+		IBNEREAL = new IBneReal();
+		IBNESTRING = new IBneString();
+		IBNEBOOL = new IBneBool();
 
 		IREALTOINT = new IRealToInt();
 		IINTTOREAL = new IIntToReal();

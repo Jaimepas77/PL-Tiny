@@ -156,7 +156,7 @@ public class ejemploPrincipal {
 		/*
 		 * var a: bool;
 		 * begin
-		 * 	a = 3 > 3
+		 * 	a = 3 != 3.0
 		 * 	if a then
 		 * 		write 'a es true';
 		 * 	else
@@ -171,7 +171,7 @@ public class ejemploPrincipal {
 						sa.cUna_Ins(
 								sa.cAsignacion_(
 										sa.cId("a"),
-										sa.cBgt(sa.cInt("3"), sa.cInt("3")))),
+										sa.cBne(sa.cInt("3"), sa.cReal("3.0")))),
 						sa.cIf_Then_Else(
 								sa.cId("a"),
 								sa.cUna_Ins(
