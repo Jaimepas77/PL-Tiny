@@ -25,7 +25,7 @@ public class ejemploPrincipal {
 		prog = astCodigoReadWriteRecord();
 		prog = astCodigoReadWritePuntero();
 		prog = astCodigoAsignaRecord();//De momento falla
-//		prog = astCodigoDeEjemplo();
+		prog = astCodigoDeEjemplo();
 		
 		//Procesamientos
 		prog.procesa(new Vinculacion());

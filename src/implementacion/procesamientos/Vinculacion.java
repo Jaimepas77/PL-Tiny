@@ -66,20 +66,21 @@ public class Vinculacion extends ProcesamientoPorDefecto {
 			else {
 				ts.put(dec.getStr(), dec);
 			}
-		}
-		ant_ts = ts;
-		// crea_ambito(ts)
-		ts = new Vinculos();
-		ts.padre = ant_ts;
+			ant_ts = ts;
+			// crea_ambito(ts)
+			ts = new Vinculos();
+			ts.padre = ant_ts;
 
-		pasada = 1;
-		dec.getLParams().procesa(this);
-		dec.getLDecs().procesa(this);
-		pasada = 2;
-		dec.getLParams().procesa(this);
-		dec.getLDecs().procesa(this);
-		dec.getLIns().procesa(this);
-		ts = ant_ts;
+			pasada = 1;
+			dec.getLParams().procesa(this);
+			dec.getLDecs().procesa(this);
+			pasada = 2;
+			dec.getLParams().procesa(this);
+			dec.getLDecs().procesa(this);
+			dec.getLIns().procesa(this);
+			ts = ant_ts;
+			pasada = 1;
+		}
 	}
 
 	@Override
@@ -153,6 +154,14 @@ public class Vinculacion extends ProcesamientoPorDefecto {
 	@Override
 	public void procesa(Param_Ref param) {
 		param.getT().procesa(this);
+		if(pasada==1){
+			if (ts.containsKey(param.getStr())) {
+				throw new RuntimeException("Constante ya definida: " + param.getStr());
+			}
+			else {
+				ts.put(param.getStr(), param);
+			}
+		}
 	}
 
 	@Override

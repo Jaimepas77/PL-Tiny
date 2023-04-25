@@ -278,6 +278,10 @@ public class SintaxisAbstracta {
 		public void setSig(int sig) {
 			this.sig = sig;
 		}
+
+		public void setTipo(SalidaTipo tipo) {
+			this.tipo = tipo;
+		}
 	}
 
 	// Tipo

@@ -43,13 +43,13 @@ public class Tipado extends ProcesamientoPorDefecto {
         dec.setTipo(dec.getT().getTipo());
     }
 
-    // TODO FALTA HACER decProc
-    /*tipado(decProc(id, LParams, LDecs, LIns)) =
-    tipado(LParams)
-    tipado(LDecs)
-    tipado(LIns)
-    $.tipo = ambos_ok(ambos_ok(LParams.tipo, LDecs.tipo), LIns.tipo)
-    */
+    @Override
+    public void procesa(Dec_Proc dec) {
+    	dec.getLParams().procesa(this);
+    	dec.getLDecs().procesa(this);
+    	dec.getLIns().procesa(this);
+    	dec.setTipo(Util.ambos_ok(Util.ambos_ok(dec.getLParams().getT(), dec.getLDecs().getTipo()), dec.getLIns().getTipo()));
+    }    
 
     @Override
     public void procesa(Int_ tipo) {
@@ -301,23 +301,23 @@ public class Tipado extends ProcesamientoPorDefecto {
         }
     }
 
-    // TODO
     @Override
     public void procesa(Call_Proc ins) {
-        /*ins.getE().procesa(this);
+        ins.getE().procesa(this);
         ins.getLExp().procesa(this);
-        // TODO ESTOS IFS, HACER GETVINCULO() DESDE E??, CÓMO SE HACE ESTO?
-        if(E.vinculo instanceof Dec_Proc){
-            if(num_elems(ins.getLParams()) == num_elems(ins.getLExp())){
-                ins.setTipo(Util.check_params3(ins.getLExp(), ins.getLParams()));
-            } else{
+        if(((Id)ins.getE()).getVinculo() instanceof Dec_Proc){
+            if(Util.num_elems(ins.getLParams()) == Util.num_elems(ins.getLExp())){
+                ins.setTipo(Util.check_params(ins.getLExp(), ins.getLParams(), this));
+            }
+            else {
                 ins.setTipo(SalidaTipo.ERROR);
                 System.err.println("Error en el tipado de call_proc (los params no encajan con la def del proc)"); // TODO AÑADIR MÁS INFO CON STRINGLOCALIZADO
             }
-        } else{
+        }
+        else {
             ins.setTipo(SalidaTipo.ERROR);
             System.err.println("Error en el tipado de call proc (identificador no válido)"); // TODO AÑADIR MÁS INFO CON STRINGLOCALIZADO
-        }*/
+        }
     }
 
     @Override
@@ -335,16 +335,24 @@ public class Tipado extends ProcesamientoPorDefecto {
     @Override
     public void procesa(Una_Expr lExp) {
         lExp.getE().procesa(this);
-        //TODO VER CÓMO HACER ESTO
-        lExp.setTipo(lExp.getE().getT().getTipo());
+        if(!(lExp.getE().getT() instanceof Error_)) {
+        	lExp.setTipo(SalidaTipo.OK);
+        }
+        else {
+        	lExp.setTipo(SalidaTipo.ERROR);
+        }
     }
 
     @Override
     public void procesa(Muchas_Expr lExp) {
         lExp.getLExp().procesa(this);
         lExp.getE().procesa(this);
-        //TODO VER CÓMO HACER ESTO
-        //lExp.setTipo(Util.ambos_ok(lExp.getLExp(), lExp.getE().getT()));
+        if(!(lExp.getE().getT() instanceof Error_) && lExp.getLExp().getTipo() == SalidaTipo.OK) {
+        	lExp.setTipo(SalidaTipo.OK);
+        }
+        else {
+        	lExp.setTipo(SalidaTipo.ERROR);
+        }
     }
 
     @Override
@@ -517,7 +525,7 @@ public class Tipado extends ProcesamientoPorDefecto {
     public void procesa(Indir e) {
         e.getArg0().procesa(this);
         if(Util.ref_exc(e.getArg0().getT()) instanceof Puntero_){
-            e.setT(((Puntero_)e.getArg0().getT()).getT());
+            e.setT(((Puntero_)Util.ref_exc(e.getArg0().getT())).getT());
         }
         else {
         	if(Util.ref_exc(e.getArg0().getT()) instanceof Error_){
@@ -526,11 +534,4 @@ public class Tipado extends ProcesamientoPorDefecto {
         	e.setT(new Error_());
         }
     }
-
-    @Override
-    public void procesa(Dec_Proc dec) {
-        dec.getLParams().procesa(this);
-		dec.getLDecs().procesa(this);
-		dec.getLIns().procesa(this);
-    }   
 }

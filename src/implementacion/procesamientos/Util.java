@@ -95,54 +95,6 @@ public final class Util {
         	return false;
     }
 
-    // TODO ERROR POR CAMPOS
-    /*public static boolean campos_compatibles(Un_Campo uc1, Un_Campo uc2){
-        return son_compatibles(uc1.getCampo().getT(), uc2.getCampo().getT());
-    }
-    public static boolean campos_compatibles(Muchos_Campos mc1, Muchos_Campos mc2){
-        return son_compatibles(mc1.getCampo().getT(), mc2.getCampo().getT()) && campos_compatibles(mc1.getCampos(), mc2.getCampos());
-    }
-    public static boolean campos_compatibles(Muchos_Campos mc, Un_Campo uc){
-        return false;
-    }
-    public static boolean campos_compatibles(Un_Campo uc, Muchos_Campos mc){
-        return false;
-    }*/
-
-    public static boolean check_params(Sin_Expr se, Sin_Params sp){
-        return true;
-    } 
-    public static boolean check_params(Una_Expr ue, Un_Param up, Procesamiento p){
-        return check_param(ue.getE(), (Param_Ref) up.getParam(), p)==SalidaTipo.OK || check_param(ue.getE(), (Param_Val) up.getParam(), p)==SalidaTipo.OK;
-    } 
-    public static SalidaTipo check_params3(Muchas_Expr me, Muchos_Params mp, Procesamiento p){
-        // TODO NO SÉ SI check_param se refiere al check_param(E e0, Param_Ref paramRef) o al check_param(E e0, Param_Val paramVal) por eso hemos puesto que es uno u otro
-    	SalidaTipo res;
-    	if((check_param(me.getE(), (Param_Ref)mp.getParam(), p)==SalidaTipo.OK || check_param(me.getE(), (Param_Val)mp.getParam(), p)==SalidaTipo.OK)) {
-        	res = SalidaTipo.OK;
-        } else res = SalidaTipo.ERROR;
-    	return ambos_ok(check_params3((Muchas_Expr)me.getLExp(), (Muchos_Params)mp.getParams(), p), res);
-    }
-
-    public static SalidaTipo check_param(E e0, Param_Ref paramRef, Procesamiento p){
-        e0.procesa(p);
-        if (son_compatibles(e0.getT(), paramRef.getT()) && es_designador(e0) &&
-        (!(paramRef.getT() instanceof Real_) || (e0.getT() instanceof Real_ && paramRef.getT() instanceof Real_))){
-            return SalidaTipo.OK;
-         } else{
-            return SalidaTipo.ERROR;
-        }
-    }
-
-    public static SalidaTipo check_param(E e0, Param_Val paramVal, Procesamiento p){
-        e0.procesa(p);
-        if (son_compatibles(e0.getT(), paramVal.getT())){
-            return SalidaTipo.OK;
-         } else{
-            return SalidaTipo.ERROR;
-        }
-    }
-
     public static boolean son_compatibles(Tipo t1, Tipo t2){
         Set<Tipo> st = new HashSet<Tipo>();
         return son_compatibles2(st, t1, t2);
@@ -211,6 +163,77 @@ public final class Util {
 		}
 		else {
 			return null;
+		}
+	}
+
+	public static int num_elems(LParams lParams) {
+		LParams l = lParams;
+		int cont = 0;
+		while(l instanceof Muchos_Params) {
+			cont++;
+			l = ((Muchos_Params) l).getParams();
+		}
+		if(l instanceof Un_Param)
+			cont++;
+		
+		return cont;
+	}
+
+	public static int num_elems(LExp lExp) {
+		LExp l = lExp;
+		int cont = 0;
+		while(l instanceof Muchas_Expr) {
+			cont++;
+			l = ((Muchas_Expr) l).getLExp();
+		}
+		if(l instanceof Una_Expr)
+			cont++;
+		
+		return cont;
+	}
+
+	public static SalidaTipo check_params(LExp lExp, LParams lParams, Procesamiento p) {
+		if(lExp instanceof Sin_Expr && lParams instanceof Sin_Params) {
+			return SalidaTipo.OK;
+		}
+		else if (lExp instanceof Una_Expr && lParams instanceof Un_Param) {
+			return check_param(((Una_Expr)lExp).getE(), ((Un_Param)lParams).getParam(), p);
+		}
+		else if (lExp instanceof Una_Expr && lParams instanceof Un_Param) {
+			return ambos_ok(
+					check_params(((Muchas_Expr)lExp).getLExp(), ((Muchos_Params)lParams).getParams(), p),
+					check_param(((Muchas_Expr)lExp).getE(), ((Muchos_Params)lParams).getParam(), p));
+		}
+		else {
+			System.err.println("Error en check_params");
+			return SalidaTipo.ERROR;
+		}
+	}
+
+	private static SalidaTipo check_param(E e, Param param, Procesamiento p) {
+		e.procesa(p);
+		if(param instanceof Param_Val) {
+			if(Util.son_compatibles(e.getT(), param.getT()) && Util.es_designador(e) 
+				&& (!(param.getT() instanceof Real_) || (e.getT() instanceof Real_ && param.getT() instanceof Real_))) {
+				return SalidaTipo.OK;
+			}
+			else {
+				System.err.println("Error en la correspondencia de parámetros por valor");
+				return SalidaTipo.ERROR;
+			}
+		}
+		else if (param instanceof Param_Ref) {
+			if(Util.son_compatibles(e.getT(), param.getT())) {
+				return SalidaTipo.OK;
+			}
+			else {
+				System.err.println("Error en la correspondencia de parámetros por referencia");
+				return SalidaTipo.ERROR;
+			}
+		}
+		else {
+			System.err.println("Error en check_param");
+			return SalidaTipo.ERROR;
 		}
 	}
 }
