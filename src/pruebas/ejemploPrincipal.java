@@ -18,6 +18,8 @@ public class ejemploPrincipal {
 		prog = astCodigoReadWriteResta();
 		prog = astCodigoBool();
 		prog = astCodigoReadWriteWhile();
+		prog = astCodigoReadWriteWhileAnd();
+		prog = astCodigoReadWriteNegDivMul();
 //		prog = astCodigoDeEjemplo();
 		
 		//Procesamientos
@@ -209,6 +211,62 @@ public class ejemploPrincipal {
 														sa.cAsignacion_(sa.cId("num"), sa.cResta(sa.cId("num"), sa.cInt("1")))),
 												sa.cWrite_(sa.cId("num"))),
 										sa.cNl_()))));
+	}
+	
+	private static Prog astCodigoReadWriteWhileAnd() {
+		//Este código precisa de todos los procesamientos excepto el etiquetado
+		/*
+		 * var num: int;
+		 * begin
+		 * 	read num;
+		 * 	while (not (num <= 0)) and num%5 != 4 then
+		 * 		num = num - 1;
+		 *  	write num;
+		 *  	nl;
+		 *  end;
+		 * end.
+		 * */
+		SintaxisAbstracta sa = new SintaxisAbstracta();
+		return sa.cProg_(sa.cUna_Dec(sa.cDec_Var("num", sa.cInt_())),
+				sa.cMuchas_Ins(
+						sa.cUna_Ins(
+								sa.cRead_(sa.cId("num"))),
+						sa.cWhile_(
+								sa.cAnd(
+										sa.cNot(sa.cBle(sa.cId("num"), sa.cInt("0"))),
+										sa.cBne(sa.cMod(sa.cId("num"), sa.cInt("5")), sa.cInt("4"))),
+								sa.cMuchas_Ins(
+										sa.cMuchas_Ins(
+												sa.cUna_Ins(
+														sa.cAsignacion_(sa.cId("num"), sa.cResta(sa.cId("num"), sa.cInt("1")))),
+												sa.cWrite_(sa.cId("num"))),
+										sa.cNl_()))));
+	}
+	
+	private static Prog astCodigoReadWriteNegDivMul() {
+		//Este código precisa de todos los procesamientos excepto el etiquetado
+		/*
+		 * var num: real;
+		 * begin
+		 * 	read num;
+		 *  write ((-num)/2)*(-num);
+		 * end.
+		 * */
+		SintaxisAbstracta sa = new SintaxisAbstracta();
+		return sa.cProg_(sa.cUna_Dec(sa.cDec_Var("num", sa.cReal_())),
+				sa.cMuchas_Ins(
+						sa.cUna_Ins(
+								sa.cRead_(sa.cId("num"))),
+						sa.cWrite_(
+								sa.cMult(
+										sa.cDiv(
+												sa.cNeg(sa.cId("num")),
+												sa.cInt("2")),
+										sa.cNeg(sa.cId("num"))
+										)
+								)
+						)
+				);
 	}
 
 	private static Prog astCodigoDeEjemplo() {

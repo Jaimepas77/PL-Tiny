@@ -164,7 +164,7 @@ public class MaquinaP {
 	private class IDivReal implements Instruccion {
 		public void ejecuta() {
 			Valor opnd2 = pilaEvaluacion.pop();
-			if(opnd2.valorInt() == 0)
+			if(opnd2.valorReal() == 0)
 				throw new EDivisionPorCero(pc);
 			Valor opnd1 = pilaEvaluacion.pop();
 			pilaEvaluacion.push(new ValorReal(opnd1.valorReal()/opnd2.valorReal()));

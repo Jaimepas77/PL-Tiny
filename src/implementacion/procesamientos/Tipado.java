@@ -458,6 +458,7 @@ public class Tipado extends ProcesamientoPorDefecto {
 
     @Override
     public void procesa(Neg e) {
+    	e.getArg0().procesa(this);
         if(Util.ref_exc(e.getArg0().getT()) instanceof Int_){
             e.setT(new Int_());
         } else if(Util.ref_exc(e.getArg0().getT()) instanceof Real_ ){
