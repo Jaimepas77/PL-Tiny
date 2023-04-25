@@ -225,8 +225,8 @@ public class MaquinaP {
 	private IBltInt IBLTINT;
 	private class IBltInt implements Instruccion {
 		public void ejecuta() {
-			Valor opnd1 = pilaEvaluacion.pop();
 			Valor opnd2 = pilaEvaluacion.pop();
+			Valor opnd1 = pilaEvaluacion.pop();
 			pilaEvaluacion.push(new ValorBool(opnd1.valorInt() < opnd2.valorInt()));
 			pc++;
 		} 
@@ -235,8 +235,8 @@ public class MaquinaP {
 	private IBltReal IBLTREAL;
 	private class IBltReal implements Instruccion {
 		public void ejecuta() {
-			Valor opnd1 = pilaEvaluacion.pop();
 			Valor opnd2 = pilaEvaluacion.pop();
+			Valor opnd1 = pilaEvaluacion.pop();
 			pilaEvaluacion.push(new ValorBool(opnd1.valorReal() < opnd2.valorReal()));
 			pc++;
 		} 
@@ -245,8 +245,8 @@ public class MaquinaP {
 	private IBltString IBLTSTRING;
 	private class IBltString implements Instruccion {
 		public void ejecuta() {
-			Valor opnd1 = pilaEvaluacion.pop();
 			Valor opnd2 = pilaEvaluacion.pop();
+			Valor opnd1 = pilaEvaluacion.pop();
 			pilaEvaluacion.push(new ValorBool(opnd1.valorString().compareTo(opnd2.valorString()) < 0));
 			pc++;
 		}
@@ -255,8 +255,8 @@ public class MaquinaP {
 	private IBltBool IBLTBOOL;
 	private class IBltBool implements Instruccion {
 		public void ejecuta() {
-			Valor opnd1 = pilaEvaluacion.pop();
 			Valor opnd2 = pilaEvaluacion.pop();
+			Valor opnd1 = pilaEvaluacion.pop();
 			pilaEvaluacion.push(new ValorBool(opnd1.valorBool() == false && opnd2.valorBool() == true));
 			pc++;
 		} 
@@ -265,8 +265,8 @@ public class MaquinaP {
 	private IBleInt IBLEINT;
 	private class IBleInt implements Instruccion {
 		public void ejecuta() {
-			Valor opnd1 = pilaEvaluacion.pop();
 			Valor opnd2 = pilaEvaluacion.pop();
+			Valor opnd1 = pilaEvaluacion.pop();
 			pilaEvaluacion.push(new ValorBool(opnd1.valorInt() <= opnd2.valorInt()));
 			pc++;
 		} 
@@ -275,8 +275,8 @@ public class MaquinaP {
 	private IBleReal IBLEREAL;
 	private class IBleReal implements Instruccion {
 		public void ejecuta() {
-			Valor opnd1 = pilaEvaluacion.pop();
 			Valor opnd2 = pilaEvaluacion.pop();
+			Valor opnd1 = pilaEvaluacion.pop();
 			pilaEvaluacion.push(new ValorBool(opnd1.valorReal() <= opnd2.valorReal()));
 			pc++;
 		} 
@@ -285,8 +285,8 @@ public class MaquinaP {
 	private IBleString IBLESTRING;
 	private class IBleString implements Instruccion {
 		public void ejecuta() {
-			Valor opnd1 = pilaEvaluacion.pop();
 			Valor opnd2 = pilaEvaluacion.pop();
+			Valor opnd1 = pilaEvaluacion.pop();
 			pilaEvaluacion.push(new ValorBool(opnd1.valorString().compareTo(opnd2.valorString()) <= 0));
 			pc++;
 		} 
@@ -295,8 +295,8 @@ public class MaquinaP {
 	private IBleBool IBLEBOOL;
 	private class IBleBool implements Instruccion {
 		public void ejecuta() {
-			Valor opnd1 = pilaEvaluacion.pop();
 			Valor opnd2 = pilaEvaluacion.pop();
+			Valor opnd1 = pilaEvaluacion.pop();
 			pilaEvaluacion.push(new ValorBool(opnd1.valorBool() == false || opnd2.valorBool() == true));
 			pc++;
 		} 
@@ -305,8 +305,8 @@ public class MaquinaP {
 	private IBgtInt IBGTINT;
 	private class IBgtInt implements Instruccion {
 		public void ejecuta() {
-			Valor opnd1 = pilaEvaluacion.pop();
 			Valor opnd2 = pilaEvaluacion.pop();
+			Valor opnd1 = pilaEvaluacion.pop();
 			pilaEvaluacion.push(new ValorBool(opnd1.valorInt() > opnd2.valorInt()));
 			pc++;
 		} 
@@ -315,8 +315,8 @@ public class MaquinaP {
 	private IBgtReal IBGTREAL;
 	private class IBgtReal implements Instruccion {
 		public void ejecuta() {
-			Valor opnd1 = pilaEvaluacion.pop();
 			Valor opnd2 = pilaEvaluacion.pop();
+			Valor opnd1 = pilaEvaluacion.pop();
 			pilaEvaluacion.push(new ValorBool(opnd1.valorReal() > opnd2.valorReal()));
 			pc++;
 		} 
@@ -325,8 +325,8 @@ public class MaquinaP {
 	private IBgtString IBGTSTRING;
 	private class IBgtString implements Instruccion {
 		public void ejecuta() {
-			Valor opnd1 = pilaEvaluacion.pop();
 			Valor opnd2 = pilaEvaluacion.pop();
+			Valor opnd1 = pilaEvaluacion.pop();
 			pilaEvaluacion.push(new ValorBool(opnd1.valorString().compareTo(opnd2.valorString()) > 0) );
 			pc++;
 		} 
@@ -335,8 +335,8 @@ public class MaquinaP {
 	private IBgtBool IBGTBOOL;
 	private class IBgtBool implements Instruccion {
 		public void ejecuta() {
-			Valor opnd1 = pilaEvaluacion.pop();
 			Valor opnd2 = pilaEvaluacion.pop();
+			Valor opnd1 = pilaEvaluacion.pop();
 			pilaEvaluacion.push(new ValorBool(opnd1.valorBool() == true && opnd2.valorBool() == false));
 			pc++;
 		} 
@@ -345,8 +345,8 @@ public class MaquinaP {
 	private IBgeInt IBGEINT;
 	private class IBgeInt implements Instruccion {
 		public void ejecuta() {
-			Valor opnd1 = pilaEvaluacion.pop();
 			Valor opnd2 = pilaEvaluacion.pop();
+			Valor opnd1 = pilaEvaluacion.pop();
 			pilaEvaluacion.push(new ValorBool(opnd1.valorInt() >= opnd2.valorInt()));
 			pc++;
 		} 
@@ -355,8 +355,8 @@ public class MaquinaP {
 	private IBgeReal IBGEREAL;
 	private class IBgeReal implements Instruccion {
 		public void ejecuta() {
-			Valor opnd1 = pilaEvaluacion.pop();
 			Valor opnd2 = pilaEvaluacion.pop();
+			Valor opnd1 = pilaEvaluacion.pop();
 			pilaEvaluacion.push(new ValorBool(opnd1.valorReal() >= opnd2.valorReal()));
 			pc++;
 		} 
@@ -365,8 +365,8 @@ public class MaquinaP {
 	private IBgeString IBGESTRING;
 	private class IBgeString implements Instruccion {
 		public void ejecuta() {
-			Valor opnd1 = pilaEvaluacion.pop();
 			Valor opnd2 = pilaEvaluacion.pop();
+			Valor opnd1 = pilaEvaluacion.pop();
 			pilaEvaluacion.push(new ValorBool(opnd1.valorString().compareTo(opnd2.valorString()) >= 0) );
 			pc++;
 		} 
@@ -375,8 +375,8 @@ public class MaquinaP {
 	private IBgeBool IBGEBOOL;
 	private class IBgeBool implements Instruccion {
 		public void ejecuta() {
-			Valor opnd1 = pilaEvaluacion.pop();
 			Valor opnd2 = pilaEvaluacion.pop();
+			Valor opnd1 = pilaEvaluacion.pop();
 			pilaEvaluacion.push(new ValorBool(opnd1.valorBool() == true || opnd2.valorBool() == false));
 			pc++;
 		} 
@@ -385,8 +385,8 @@ public class MaquinaP {
 	private IBeqInt IBEQINT;
 	private class IBeqInt implements Instruccion {
 		public void ejecuta() {
-			Valor opnd1 = pilaEvaluacion.pop();
 			Valor opnd2 = pilaEvaluacion.pop();
+			Valor opnd1 = pilaEvaluacion.pop();
 			pilaEvaluacion.push(new ValorBool(opnd1.valorInt() == opnd2.valorInt()));
 			pc++;
 		} 
@@ -395,8 +395,8 @@ public class MaquinaP {
 	private IBeqReal IBEQREAL;
 	private class IBeqReal implements Instruccion {
 		public void ejecuta() {
-			Valor opnd1 = pilaEvaluacion.pop();
 			Valor opnd2 = pilaEvaluacion.pop();
+			Valor opnd1 = pilaEvaluacion.pop();
 			pilaEvaluacion.push(new ValorBool(opnd1.valorReal() == opnd2.valorReal()));
 			pc++;
 		} 
@@ -405,8 +405,8 @@ public class MaquinaP {
 	private IBeqString IBEQSTRING;
 	private class IBeqString implements Instruccion {
 		public void ejecuta() {
-			Valor opnd1 = pilaEvaluacion.pop();
 			Valor opnd2 = pilaEvaluacion.pop();
+			Valor opnd1 = pilaEvaluacion.pop();
 			pilaEvaluacion.push(new ValorBool(opnd1.valorString().compareTo(opnd2.valorString()) == 0) );
 			pc++;
 		} 
@@ -415,8 +415,8 @@ public class MaquinaP {
 	private IBeqBool IBEQBOOL;
 	private class IBeqBool implements Instruccion {
 		public void ejecuta() {
-			Valor opnd1 = pilaEvaluacion.pop();
 			Valor opnd2 = pilaEvaluacion.pop();
+			Valor opnd1 = pilaEvaluacion.pop();
 			pilaEvaluacion.push(new ValorBool(opnd1.valorBool() == opnd2.valorBool()));
 			pc++;
 		} 
@@ -425,8 +425,8 @@ public class MaquinaP {
 	private IBneInt IBNEINT;
 	private class IBneInt implements Instruccion {
 		public void ejecuta() {
-			Valor opnd1 = pilaEvaluacion.pop();
 			Valor opnd2 = pilaEvaluacion.pop();
+			Valor opnd1 = pilaEvaluacion.pop();
 			pilaEvaluacion.push(new ValorBool(opnd1.valorInt() != opnd2.valorInt()));
 			pc++;
 		} 
@@ -435,8 +435,8 @@ public class MaquinaP {
 	private IBneReal IBNEREAL;
 	private class IBneReal implements Instruccion {
 		public void ejecuta() {
-			Valor opnd1 = pilaEvaluacion.pop();
 			Valor opnd2 = pilaEvaluacion.pop();
+			Valor opnd1 = pilaEvaluacion.pop();
 			pilaEvaluacion.push(new ValorBool(opnd1.valorReal() != opnd2.valorReal()));
 			pc++;
 		} 
@@ -445,8 +445,8 @@ public class MaquinaP {
 	private IBneString IBNESTRING;
 	private class IBneString implements Instruccion {
 		public void ejecuta() {
-			Valor opnd1 = pilaEvaluacion.pop();
 			Valor opnd2 = pilaEvaluacion.pop();
+			Valor opnd1 = pilaEvaluacion.pop();
 			pilaEvaluacion.push(new ValorBool(opnd1.valorString().compareTo(opnd2.valorString()) != 0) );
 			pc++;
 		} 
@@ -455,8 +455,8 @@ public class MaquinaP {
 	private IBneBool IBNEBOOL;
 	private class IBneBool implements Instruccion {
 		public void ejecuta() {
-			Valor opnd1 = pilaEvaluacion.pop();
 			Valor opnd2 = pilaEvaluacion.pop();
+			Valor opnd1 = pilaEvaluacion.pop();
 			pilaEvaluacion.push(new ValorBool(opnd1.valorBool() != opnd2.valorBool()));
 			pc++;
 		} 

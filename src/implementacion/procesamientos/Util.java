@@ -29,10 +29,11 @@ public final class Util {
         e1.procesa(p);
         if((ref_exc(e0.getT())instanceof Int_ || ref_exc(e0.getT()) instanceof Real_) 
         		&& (ref_exc(e1.getT()) instanceof Int_ || ref_exc(e1.getT()) instanceof Real_))
-        	return new Ok();
+        	return new Bool_();
         else if(ref_exc(e0.getT()) instanceof Bool_ && ref_exc(e1.getT()) instanceof Bool_)
         	return new Bool_();
         else{
+        	System.out.println("Error en tipado de operador relacional (tip_relacional1).");
             return new Error_();
         }
     }
