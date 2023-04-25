@@ -994,7 +994,6 @@ public class SintaxisAbstracta {
 	public static class Call_Proc extends Ins {
 		private E e;
 		private LExp lExp;
-		private LParams lParams;
 
 		public Call_Proc(E e, LExp lExp) {
 			super();
@@ -1008,9 +1007,6 @@ public class SintaxisAbstracta {
 
 		public LExp getLExp() {
 			return lExp;
-		}
-		public LParams getLParams() {
-			return lParams;
 		}
 		
 		public void procesa(Procesamiento p) {

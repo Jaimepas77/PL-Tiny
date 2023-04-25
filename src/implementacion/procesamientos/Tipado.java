@@ -306,8 +306,8 @@ public class Tipado extends ProcesamientoPorDefecto {
         ins.getE().procesa(this);
         ins.getLExp().procesa(this);
         if(((Id)ins.getE()).getVinculo() instanceof Dec_Proc){
-            if(Util.num_elems(ins.getLParams()) == Util.num_elems(ins.getLExp())){
-                ins.setTipo(Util.check_params(ins.getLExp(), ins.getLParams(), this));
+            if(Util.num_elems(((Dec_Proc)((Id) ins.getE()).getVinculo()).getLParams()) == Util.num_elems(ins.getLExp())){
+                ins.setTipo(Util.check_params(ins.getLExp(), ((Dec_Proc)((Id) ins.getE()).getVinculo()).getLParams(), this));
             }
             else {
                 ins.setTipo(SalidaTipo.ERROR);

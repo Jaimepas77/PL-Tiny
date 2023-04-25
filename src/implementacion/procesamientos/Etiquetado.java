@@ -462,8 +462,8 @@ public class Etiquetado extends ProcesamientoPorDefecto {
 			etiquetaPaso(((Un_Param) lParams).getParam(), ((Una_Expr) lExp).getE());
 		}
 		else if(lParams instanceof Muchos_Params && lExp instanceof Muchas_Expr) {
-			etiquetaParams(lParams, lExp);
-			etiquetaPaso(((Muchos_Params) lParams).getParam(), ((Una_Expr) lExp).getE());
+			etiquetaParams(((Muchos_Params) lParams).getParams(), ((Muchas_Expr) lExp).getLExp());
+			etiquetaPaso(((Muchos_Params) lParams).getParam(), ((Muchas_Expr) lExp).getE());
 		}
 	}
 	

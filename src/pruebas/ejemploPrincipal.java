@@ -25,7 +25,9 @@ public class ejemploPrincipal {
 		prog = astCodigoReadWriteRecord();
 		prog = astCodigoReadWritePuntero();
 		prog = astCodigoAsignaRecord();//De momento falla
-		prog = astCodigoDeEjemplo();
+		prog = astCodigoDecProc();
+		prog = astCodigoProcSuma();
+//		prog = astCodigoDeEjemplo();
 		
 		//Procesamientos
 		prog.procesa(new Vinculacion());
@@ -447,6 +449,83 @@ public class ejemploPrincipal {
 										sa.cRead_(sa.cAccess(sa.cId("casa"), "tejado"))), 
 								sa.cAsignacion_(sa.cId("marquesina"), sa.cId("casa"))), 
 						sa.cWrite_(sa.cMult(sa.cAccess(sa.cId("marquesina"), "tejado"), sa.cAccess(sa.cId("marquesina"), "puerta"))))
+				);
+	}
+	
+	private static Prog astCodigoDecProc() {
+		//Este código precisa de todos los procesamientos excepto el etiquetado
+		/*
+		 * proc saluda(nombre: string)
+		 * begin
+		 * 	write 'saludos ';
+		 * 	write nombre;
+		 * 	nl;
+		 * end;
+		 * begin
+		 * 	saluda('JL');
+		 * end.
+		 * */
+		SintaxisAbstracta sa = new SintaxisAbstracta();
+		return sa.cProg_(
+				sa.cUna_Dec(
+						sa.cDec_Proc("saluda", sa.cUn_Param(sa.cParam_Val("nombre", sa.cString_())), sa.cSin_Decs(),
+								sa.cMuchas_Ins(
+										sa.cMuchas_Ins(
+												sa.cUna_Ins(
+														sa.cWrite_(sa.cCadena("saludos "))),
+												sa.cWrite_(sa.cId("nombre"))),
+										sa.cNl_())
+								)
+						),
+				sa.cUna_Ins(
+						sa.cCall_Proc(sa.cId("saluda"), sa.cUna_Expr(sa.cCadena("JL")))));
+	}
+	
+	private static Prog astCodigoProcSuma() {
+		//Este código precisa de todos los procesamientos excepto el etiquetado
+		/*
+		 * proc suma(var ret: int, a: int)
+		 * begin
+		 * 	write 'Sumando...";
+		 * 	ret = ret + a;
+		 * 	nl;
+		 * end;
+		 * var a: int;
+		 * var b: int;
+		 * begin
+		 * 	read a;
+		 * 	read b;
+		 * 	suma(a, b);
+		 * 	write(a);
+		 * end.
+		 * */
+		SintaxisAbstracta sa = new SintaxisAbstracta();
+		return sa.cProg_(
+				sa.cMuchas_Decs(
+						sa.cMuchas_Decs(
+								sa.cUna_Dec(
+										sa.cDec_Proc("suma", 
+												sa.cMuchos_Params(
+														sa.cUn_Param(sa.cParam_Ref("ret", sa.cInt_())),
+														sa.cParam_Val("a", sa.cInt_())) , sa.cSin_Decs(),
+												sa.cMuchas_Ins(
+														sa.cMuchas_Ins(
+																sa.cUna_Ins(
+																		sa.cWrite_(sa.cCadena("Sumando..."))),
+																sa.cAsignacion_(sa.cId("ret"), sa.cSuma(sa.cId("ret"), sa.cId("a")))),
+														sa.cNl_())
+												)
+										), 
+								sa.cDec_Var("a", sa.cInt_())),
+						sa.cDec_Var("b", sa.cInt_())),
+				sa.cMuchas_Ins(
+						sa.cMuchas_Ins(
+								sa.cMuchas_Ins(
+										sa.cUna_Ins(
+												sa.cRead_(sa.cId("a"))),
+										sa.cRead_(sa.cId("b"))),
+								sa.cCall_Proc(sa.cId("suma"), sa.cMuchas_Expr(sa.cUna_Expr(sa.cId("a")), sa.cId("b")))),
+						sa.cWrite_(sa.cId("a")))
 				);
 	}
 

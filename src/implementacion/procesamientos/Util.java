@@ -199,7 +199,7 @@ public final class Util {
 		else if (lExp instanceof Una_Expr && lParams instanceof Un_Param) {
 			return check_param(((Una_Expr)lExp).getE(), ((Un_Param)lParams).getParam(), p);
 		}
-		else if (lExp instanceof Una_Expr && lParams instanceof Un_Param) {
+		else if (lExp instanceof Muchas_Expr && lParams instanceof Muchos_Params) {
 			return ambos_ok(
 					check_params(((Muchas_Expr)lExp).getLExp(), ((Muchos_Params)lParams).getParams(), p),
 					check_param(((Muchas_Expr)lExp).getE(), ((Muchos_Params)lParams).getParam(), p));
@@ -212,22 +212,22 @@ public final class Util {
 
 	private static SalidaTipo check_param(E e, Param param, Procesamiento p) {
 		e.procesa(p);
-		if(param instanceof Param_Val) {
+		if(param instanceof Param_Ref) {
 			if(Util.son_compatibles(e.getT(), param.getT()) && Util.es_designador(e) 
 				&& (!(param.getT() instanceof Real_) || (e.getT() instanceof Real_ && param.getT() instanceof Real_))) {
 				return SalidaTipo.OK;
 			}
 			else {
-				System.err.println("Error en la correspondencia de parámetros por valor");
+				System.err.println("Error en la correspondencia de parámetros por referencia");
 				return SalidaTipo.ERROR;
 			}
 		}
-		else if (param instanceof Param_Ref) {
+		else if (param instanceof Param_Val) {
 			if(Util.son_compatibles(e.getT(), param.getT())) {
 				return SalidaTipo.OK;
 			}
 			else {
-				System.err.println("Error en la correspondencia de parámetros por referencia");
+				System.err.println("Error en la correspondencia de parámetros por valor");
 				return SalidaTipo.ERROR;
 			}
 		}

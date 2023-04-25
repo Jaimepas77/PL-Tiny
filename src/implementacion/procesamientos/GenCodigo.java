@@ -180,7 +180,7 @@ public class GenCodigo extends ProcesamientoPorDefecto {
 	public void procesa(Call_Proc ins) {
 		m.ponInstruccion(m.activa(((Dec_Proc)((Id) ins.getE()).getVinculo()).getNivel(), 
 				((Dec_Proc)((Id) ins.getE()).getVinculo()).getTamDatos(), ins.getSig()));
-		//Etiqueta params
+		//GenCod params
 		genCodParams(((Dec_Proc) ((Id) ins.getE()).getVinculo()).getLParams(),
 				ins.getLExp());
 		m.ponInstruccion(m.desapilad(((Dec_Proc)((Id) ins.getE()).getVinculo()).getNivel()));
@@ -535,8 +535,8 @@ public class GenCodigo extends ProcesamientoPorDefecto {
 			genCodPaso(((Un_Param) lParams).getParam(), ((Una_Expr) lExp).getE());
 		}
 		else if(lParams instanceof Muchos_Params && lExp instanceof Muchas_Expr) {
-			genCodParams(lParams, lExp);
-			genCodPaso(((Muchos_Params) lParams).getParam(), ((Una_Expr) lExp).getE());
+			genCodParams(((Muchos_Params) lParams).getParams(), ((Muchas_Expr) lExp).getLExp());
+			genCodPaso(((Muchos_Params) lParams).getParam(), ((Muchas_Expr) lExp).getE());
 		}
 	}
 	
