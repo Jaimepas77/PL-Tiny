@@ -106,16 +106,16 @@ public class Vinculacion extends ProcesamientoPorDefecto {
 	@Override
 	public void procesa(Puntero_ tipo) {
 		if(pasada==1){
-			if(!(tipo.getT() instanceof Ref_)) tipo.getT().procesa(this);
+			if(!(tipo.getT() instanceof Ref_))
+				tipo.getT().procesa(this);
 		} 
 		else if(pasada==2) {
-			if(tipo.getT() instanceof Ref_){
-				if (ts.containsKey(((Ref_) tipo.getT()).getStr())){
-					((Ref_) tipo.getT()).setVinculo(ts.get(((Ref_) tipo.getT()).getStr()));
-				}
-				else {
+			if(tipo.getT() instanceof Ref_) {
+				Vinculable v = Util.valor_de_id(ts, ((Ref_) tipo.getT()).getStr());
+				if (v != null) 
+					((Ref_) tipo.getT()).setVinculo(v);
+				else 
 					throw new RuntimeException("No existe: " + ((Ref_) tipo.getT()).getStr());
-				}
 			}
 			else {
 				tipo.getT().procesa(this);

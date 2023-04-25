@@ -23,6 +23,7 @@ public class ejemploPrincipal {
 		prog = astCodigoWriteTypeSeq();
 		prog = astCodigoReadWriteArray();
 		prog = astCodigoReadWriteRecord();
+		prog = astCodigoReadWritePuntero();
 //		prog = astCodigoDeEjemplo();
 		
 		//Procesamientos
@@ -278,6 +279,7 @@ public class ejemploPrincipal {
 		 * begin
 		 * 	seq
 		 * 		var num: tNum;
+		 * 		var ey: string;
 		 * 	begin
 		 * 		num = 3;
 		 *  	write num;
@@ -290,8 +292,10 @@ public class ejemploPrincipal {
 						sa.cDec_Tipo("tNum", sa.cReal_())),
 				sa.cUna_Ins(
 						sa.cIns_Compuesta(
-								sa.cUna_Dec(
-										sa.cDec_Var("num", sa.cRef_("tNum"))),
+								sa.cMuchas_Decs(
+										sa.cUna_Dec(
+												sa.cDec_Var("num", sa.cRef_("tNum"))), 
+										sa.cDec_Var("ey", sa.cString_())),
 								sa.cMuchas_Ins(
 										sa.cUna_Ins(
 												sa.cAsignacion_(sa.cId("num"), sa.cInt("3"))),
@@ -333,7 +337,6 @@ public class ejemploPrincipal {
 	}
 	
 	private static Prog astCodigoReadWriteRecord() {
-		//Este código precisa de todos los procesamientos excepto el etiquetado
 		/*
 		 * var casa: record
 		 * 				puerta: int;
@@ -363,6 +366,34 @@ public class ejemploPrincipal {
 										sa.cWrite_(sa.cSuma(sa.cAccess(sa.cId("casa"), "puerta"), sa.cInt("1")))), 
 								sa.cRead_(sa.cAccess(sa.cId("casa"), "tejado"))), 
 						sa.cWrite_(sa.cMult(sa.cAccess(sa.cId("casa"), "tejado"), sa.cInt("3"))))
+				);
+	}
+	
+	private static Prog astCodigoReadWritePuntero() {
+		/*
+		 * var p: ^string;
+		 * begin
+		 * 	new p;
+		 * 	read p^;
+		 *  write p^;
+		 *  delete p;
+		 *  write p^;
+		 * end.
+		 * */
+		SintaxisAbstracta sa = new SintaxisAbstracta();
+		return sa.cProg_(
+				sa.cUna_Dec(
+						sa.cDec_Var("p", sa.cPuntero_(sa.cString_()))),
+				sa.cMuchas_Ins(
+						sa.cMuchas_Ins(
+								sa.cMuchas_Ins(
+										sa.cMuchas_Ins(
+												sa.cUna_Ins(
+														sa.cNew_(sa.cId("p"))),
+												sa.cRead_(sa.cIndir(sa.cId("p")))),
+										sa.cWrite_(sa.cIndir(sa.cId("p")))),
+								sa.cDelete_(sa.cId("p"))),
+						sa.cWrite_(sa.cIndir(sa.cId("p"))))
 				);
 	}
 
@@ -443,34 +474,43 @@ public class ejemploPrincipal {
 										sa.cAsignacion_(
 												sa.cAccess(sa.cIndir(sa.cId("arbol")), "der"),
 												sa.cNull())),
-								sa.cMuchas_Ins(
-										sa.cMuchas_Ins(
+								sa.cUna_Ins(
+										sa.cIns_Compuesta(
+												sa.cMuchas_Decs(
+														sa.cMuchas_Decs(
+																sa.cUna_Dec(
+																		sa.cDec_Var("padre", sa.cRef_("tArbol"))),
+																sa.cDec_Var("act", sa.cRef_("tArbol"))),
+														sa.cDec_Var("fin", sa.cBool_())),
 												sa.cMuchas_Ins(
-														sa.cUna_Ins(
-																sa.cAsignacion_(sa.cId("fin"), sa.cFalse())),
-														sa.cAsignacion_(sa.cId("act"), sa.cId("arbol"))),
-												sa.cWhile_(sa.cNot(sa.cId("fin")),
 														sa.cMuchas_Ins(
 																sa.cMuchas_Ins(
 																		sa.cUna_Ins(
-																				sa.cAsignacion_(sa.cId("padre"), sa.cId("act"))),
-																		sa.cIf_Then_Else(
-																				sa.cBlt(sa.cAccess(sa.cIndir(sa.cId("act")), "nombre"), sa.cIndex(sa.cAccess(sa.cId("nombres"), "nombres"), sa.cId("i"))),
-																				sa.cUna_Ins(
-																						sa.cAsignacion_(sa.cId("act"), sa.cAccess(sa.cIndir(sa.cId("act")), "der"))),
-																				sa.cUna_Ins(
-																						sa.cIf_Then(
-																								sa.cBgt(sa.cAccess(sa.cIndir(sa.cId("act")), "nombre"), sa.cIndex(sa.cAccess(sa.cId("nombres"), "nombres"),sa.cId("i"))),
-																								sa.cUna_Ins(sa.cAsignacion_(sa.cId("act"), sa.cAccess(sa.cIndir(sa.cId("act")), "izq"))))))),
-																sa.cIf_Then_Else(
-																		sa.cBeq(sa.cId("act"), sa.cNull()),
-																		sa.cUna_Ins(sa.cAsignacion_(sa.cId("fin"), sa.cTrue())),
-																		sa.cUna_Ins(
-																				sa.cIf_Then(
-																						sa.cBeq(sa.cAccess(sa.cIndir(sa.cId("act")), "nombre"), sa.cIndex(sa.cAccess(sa.cId("nombres"), "nombres"), sa.cId("i"))),
+																				sa.cAsignacion_(sa.cId("fin"), sa.cFalse())),
+																		sa.cAsignacion_(sa.cId("act"), sa.cId("arbol"))),
+																sa.cWhile_(sa.cNot(sa.cId("fin")),
+																		sa.cMuchas_Ins(
+																				sa.cMuchas_Ins(
 																						sa.cUna_Ins(
-																								sa.cAsignacion_(sa.cId("fin"), sa.cTrue())))))))),
-										ifThen))));
+																								sa.cAsignacion_(sa.cId("padre"), sa.cId("act"))),
+																						sa.cIf_Then_Else(
+																								sa.cBlt(sa.cAccess(sa.cIndir(sa.cId("act")), "nombre"), sa.cIndex(sa.cAccess(sa.cId("nombres"), "nombres"), sa.cId("i"))),
+																								sa.cUna_Ins(
+																										sa.cAsignacion_(sa.cId("act"), sa.cAccess(sa.cIndir(sa.cId("act")), "der"))),
+																								sa.cUna_Ins(
+																										sa.cIf_Then(
+																												sa.cBgt(sa.cAccess(sa.cIndir(sa.cId("act")), "nombre"), sa.cIndex(sa.cAccess(sa.cId("nombres"), "nombres"),sa.cId("i"))),
+																												sa.cUna_Ins(sa.cAsignacion_(sa.cId("act"), sa.cAccess(sa.cIndir(sa.cId("act")), "izq"))))))),
+																				sa.cIf_Then_Else(
+																						sa.cBeq(sa.cId("act"), sa.cNull()),
+																						sa.cUna_Ins(sa.cAsignacion_(sa.cId("fin"), sa.cTrue())),
+																						sa.cUna_Ins(
+																								sa.cIf_Then(
+																										sa.cBeq(sa.cAccess(sa.cIndir(sa.cId("act")), "nombre"), sa.cIndex(sa.cAccess(sa.cId("nombres"), "nombres"), sa.cId("i"))),
+																										sa.cUna_Ins(
+																												sa.cAsignacion_(sa.cId("fin"), sa.cTrue())))))))),
+														ifThen))
+										))));
 		
 		//AST-ejemplo2.jpg -> todas las listas recursivas de los ASTs dibujados están al revés ERROR!! -> arreglado en el código
 		Dec construyeArbol = sa.cDec_Proc("construye_arbol",

@@ -517,9 +517,13 @@ public class Tipado extends ProcesamientoPorDefecto {
     public void procesa(Indir e) {
         e.getArg0().procesa(this);
         if(Util.ref_exc(e.getArg0().getT()) instanceof Puntero_){
-            e.setT(e.getArg0().getT());
-        } else if(Util.ref_exc(e.getArg0().getT()) instanceof Error_){
-            e.setT(new Error_());
+            e.setT(((Puntero_)e.getArg0().getT()).getT());
+        }
+        else {
+        	if(Util.ref_exc(e.getArg0().getT()) instanceof Error_){
+        		System.out.println("Error en tipado de indir (acceso a puntero)");
+        	}
+        	e.setT(new Error_());
         }
     }
 
