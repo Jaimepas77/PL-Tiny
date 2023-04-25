@@ -73,8 +73,6 @@ public class Tipado extends ProcesamientoPorDefecto {
 
     @Override
     public void procesa(Ref_ tipo) {
-        //TODO: ESPERO A LA RAMA DE VINCULACION
-        // TODO ALGO ASÍ
         if(tipo.getVinculo() instanceof Dec_Tipo){
             tipo.setTipo(SalidaTipo.OK);
         } 
@@ -109,33 +107,35 @@ public class Tipado extends ProcesamientoPorDefecto {
         tipo.setTipo(tipo.getT().getTipo());
     }
 
-    // TODO LOS 3 DE ABAJO
     @Override
     public void procesa(Un_Campo campos) {
-        /*campos.getCampo().procesa(this);
-        campos.setTipo(campos.getCampo().getTipo());*/
+        campos.getCampo().procesa(this);
+        campos.setTipo(campos.getCampo().getTipo());
     }
     
-    //TODO no entiendo muy bien campos 
     @Override
     public void procesa(Muchos_Campos campos) {
-        /*campos.getCampo().procesa(this);
-        if(campos.getCampo().getTipo()){
-            //TODO COMO HACER ESTE IF
-            if(!esta_en(Campo.string, Campos)){
-                campos.getT().procesa(this);
+        campos.getCampo().procesa(this);
+        if(campos.getCampo().getTipo() == SalidaTipo.OK){
+        	Campo c = Util.find_campo(campos.getCampos(), campos.getCampo().getStr());
+            if(c == null){
+                campos.getCampos().procesa(this);
                 campos.setTipo(campos.getCampos().getTipo());
-            } else{
-                System.err.println("Error en el tipado de Muchos_Campos"); // TODO AÑADIR MÁS INFO CON STRINGLOCALIZADO
-                campos.setTipo(false);
             }
-        } else campos.setTipo(campos.getCampo().getTipo());*/
+            else {
+                System.err.println("Error en el tipado de Muchos_Campos"); // TODO AÑADIR MÁS INFO CON STRINGLOCALIZADO
+                campos.setTipo(SalidaTipo.ERROR);
+            }
+        } 
+        else {
+        	campos.setTipo(campos.getCampo().getTipo());
+        }
     }
 
     @Override
     public void procesa(Campo campo) {
-        /*campo.getT().procesa(this);
-        campo.setTipo(campo.getT().getTipo());*/
+        campo.getT().procesa(this);
+        campo.setTipo(campo.getT().getTipo());
     }
 
     @Override
@@ -495,8 +495,22 @@ public class Tipado extends ProcesamientoPorDefecto {
 
     @Override
     public void procesa(Access e) {
-        e.getArg0().procesa(this);
-        // TODO
+    	e.getArg0().procesa(this);
+    	if (Util.ref_exc(e.getArg0().getT()) instanceof Record_) {
+    		Campo c = Util.find_campo(((Record_)Util.ref_exc(e.getArg0().getT())).getCampos(), e.getStr());
+    		if (c != null) {
+    			e.setT(c.getT());
+    		}
+    		else {
+            	e.setT(new Error_());
+    		}
+    	}
+        else {
+        	if(!(Util.ref_exc(e.getArg0().getT()) instanceof Error_)) {
+        		System.out.println("Error en el tipado de acceso a campo.");
+        	}
+        	e.setT(new Error_());
+        }
     }
 
     @Override

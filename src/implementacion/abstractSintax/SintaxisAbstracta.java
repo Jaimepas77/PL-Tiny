@@ -509,6 +509,8 @@ public class SintaxisAbstracta {
 	public static class Campo {
 		private String str;
 		private Tipo t;
+		private SalidaTipo tipo;
+
 		private int despl = 0;//Por defecto es 0
 
 		public Campo(String str, Tipo t) {
@@ -523,6 +525,14 @@ public class SintaxisAbstracta {
 
 		public Tipo getT() {
 			return t;
+		}
+		
+		public SalidaTipo getTipo() {
+			return tipo;
+		}
+
+		public void setTipo(SalidaTipo tipo) {
+			this.tipo = tipo;
 		}
 
 		public int getDespl() {

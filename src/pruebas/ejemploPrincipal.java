@@ -22,6 +22,7 @@ public class ejemploPrincipal {
 		prog = astCodigoReadWriteNegDivMul();
 		prog = astCodigoWriteTypeSeq();
 		prog = astCodigoReadWriteArray();
+		prog = astCodigoReadWriteRecord();
 //		prog = astCodigoDeEjemplo();
 		
 		//Procesamientos
@@ -329,6 +330,40 @@ public class ejemploPrincipal {
 														sa.cRead_(sa.cIndex(sa.cId("v"), sa.cId("num")))),
 												sa.cWrite_(sa.cIndex(sa.cId("v"), sa.cId("num")))),
 										sa.cNl_()))));
+	}
+	
+	private static Prog astCodigoReadWriteRecord() {
+		//Este código precisa de todos los procesamientos excepto el etiquetado
+		/*
+		 * var casa: record
+		 * 				puerta: int;
+		 * 				tejado: real;
+	 * 				end;
+		 * begin
+		 * 	read casa.puerta;
+		 *  write casa.puerta + 1;
+		 *  read casa.tejado;
+		 *  write casa.tejado * 3;
+		 * end.
+		 * */
+		SintaxisAbstracta sa = new SintaxisAbstracta();
+		return sa.cProg_(
+				sa.cUna_Dec(sa.cDec_Var(
+						"casa", 
+						sa.cRecord_(
+								sa.cMuchos_Campos(
+										sa.cUn_Campo(
+												sa.cCampo("puerta", sa.cInt_())),
+										sa.cCampo("tejado", sa.cReal_()))))),
+				sa.cMuchas_Ins(
+						sa.cMuchas_Ins(
+								sa.cMuchas_Ins(
+										sa.cUna_Ins(
+												sa.cRead_(sa.cAccess(sa.cId("casa"), "puerta"))),
+										sa.cWrite_(sa.cSuma(sa.cAccess(sa.cId("casa"), "puerta"), sa.cInt("1")))), 
+								sa.cRead_(sa.cAccess(sa.cId("casa"), "tejado"))), 
+						sa.cWrite_(sa.cMult(sa.cAccess(sa.cId("casa"), "tejado"), sa.cInt("3"))))
+				);
 	}
 
 	private static Prog astCodigoDeEjemplo() {

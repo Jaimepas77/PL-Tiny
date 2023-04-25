@@ -177,4 +177,19 @@ public final class Util {
     	}
     	return ts.get(id);
     }
+
+	public static Campo find_campo(Campos campos, String str) {
+		while(campos instanceof Muchos_Campos) {
+    		if (((Muchos_Campos)campos).getCampo().getStr().equals(str)) 
+    			return ((Muchos_Campos)campos).getCampo();
+    		campos = ((Muchos_Campos)campos).getCampos();
+    	}
+		
+		if(((Un_Campo)campos).getCampo().getStr().equals(str)) {
+			return ((Un_Campo)campos).getCampo();
+		}
+		else {
+			return null;
+		}
+	}
 }

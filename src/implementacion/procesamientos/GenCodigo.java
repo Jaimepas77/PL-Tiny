@@ -499,7 +499,7 @@ public class GenCodigo extends ProcesamientoPorDefecto {
 	@Override
 	public void procesa(Access e) {
 		e.getArg0().procesa(this);
-		m.ponInstruccion(m.apilaInt(buscaDespl((Record_) e.getT(), e.getStr())));
+		m.ponInstruccion(m.apilaInt(buscaDespl((Record_) e.getArg0().getT(), e.getStr())));
 		m.ponInstruccion(m.sumaInt());
 	}
 
