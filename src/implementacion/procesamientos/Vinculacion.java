@@ -77,9 +77,9 @@ public class Vinculacion extends ProcesamientoPorDefecto {
 			pasada = 2;
 			dec.getLParams().procesa(this);
 			dec.getLDecs().procesa(this);
+			pasada = 1;
 			dec.getLIns().procesa(this);
 			ts = ant_ts;
-			pasada = 1;
 		}
 	}
 

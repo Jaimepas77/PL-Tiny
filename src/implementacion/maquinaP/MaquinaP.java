@@ -80,10 +80,18 @@ public class MaquinaP {
 	
 	Scanner s;
 
-	private List<Instruccion> codigoP;	//Lista de instrucciones en c�digo-p
+	private List<Instruccion> codigoP;	//Lista de instrucciones en código-p
+	public int getCodigoPSize() {
+		return codigoP.size();
+	}
+
 	private Stack<Valor> pilaEvaluacion;	//Pila de evaluación
 	private Valor[] datos;				//Memoria de datos
 	private int pc;						//Contador del programa (para saber por qué instrucción vamos)
+
+	public int getPc() {
+		return pc;
+	}
 
 	public interface Instruccion {		//Interfaz que representa la funcionalidad que debe tener una instrucción.
 		void ejecuta();
@@ -541,7 +549,7 @@ public class MaquinaP {
 	private IReadInt IREADINT;
 	private class IReadInt implements Instruccion {
 		public void ejecuta() {
-			pilaEvaluacion.push(new ValorInt(s.nextInt()));
+			pilaEvaluacion.push(new ValorInt(Integer.parseInt(s.nextLine())));
 			pc++;
 		} 
 		public String toString() {return "readInt";}
@@ -549,7 +557,7 @@ public class MaquinaP {
 	private IReadReal IREADREAL;
 	private class IReadReal implements Instruccion {
 		public void ejecuta() {
-			pilaEvaluacion.push(new ValorReal(s.nextDouble()));
+			pilaEvaluacion.push(new ValorReal(Double.parseDouble(s.nextLine())));
 			pc++;
 		} 
 		public String toString() {return "readReal";}
@@ -920,9 +928,18 @@ public class MaquinaP {
 		s = new Scanner(System.in);
 		while(pc != codigoP.size()) {
 			codigoP.get(pc).ejecuta();
-			System.err.println(pc);//TODO - borrar
 		} 
 		s.close();
+	}
+	public void ejecutaPaso() {
+		if (s == null)
+			s = new Scanner(System.in);
+		
+		codigoP.get(pc).ejecuta();
+		
+		if(pc == codigoP.size() ) {
+			s.close();
+		}
 	}
 	public void muestraCodigo() {
 		System.out.println("CodigoP");

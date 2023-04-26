@@ -161,7 +161,7 @@ public class GenCodigo extends ProcesamientoPorDefecto {
 	@Override
 	public void procesa(New_ ins) {
 		ins.getE().procesa(this);
-		m.ponInstruccion(m.alloc(ins.getE().getT().getTam()));
+		m.ponInstruccion(m.alloc(Util.ref_exc(((Puntero_)Util.ref_exc(ins.getE().getT())).getT()).getTam()));
 		m.ponInstruccion(m.desapilaInd());
 	}
 
@@ -173,7 +173,7 @@ public class GenCodigo extends ProcesamientoPorDefecto {
 		m.ponInstruccion(m.beqInt());
 		m.ponInstruccion(m.irF(ins.getSigStop()));
 		m.ponInstruccion(m.stop());
-		m.ponInstruccion(m.dealloc(ins.getE().getT().getTam()));
+		m.ponInstruccion(m.dealloc(Util.ref_exc(((Puntero_)Util.ref_exc(ins.getE().getT())).getT()).getTam()));
 	}
 
 	@Override
@@ -492,7 +492,7 @@ public class GenCodigo extends ProcesamientoPorDefecto {
 		if(esDesignador(e.getArg1())) {
 			m.ponInstruccion(m.apilaInd());
 		}
-		m.ponInstruccion(m.apilaInt(e.getArg0().getT().getTam()));
+		m.ponInstruccion(m.apilaInt(Util.ref_exc(((Array_)Util.ref_exc(e.getArg0().getT())).getT()).getTam()));
 		m.ponInstruccion(m.mulInt());
 		m.ponInstruccion(m.sumaInt());
 	}

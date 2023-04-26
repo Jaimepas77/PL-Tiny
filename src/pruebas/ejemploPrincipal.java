@@ -28,23 +28,32 @@ public class ejemploPrincipal {
 		prog = astCodigoDecProc();
 		prog = astCodigoProcSuma();
 		prog = astCodigoProcSumaPlus();
-//		prog = astCodigoDeEjemplo();
+		prog = astCodigoProcType();
+		prog = astCodigoDeEjemplo();
 		
 		//Procesamientos
 		prog.procesa(new Vinculacion());
 		prog.procesa(new Tipado());
 		prog.procesa(new AsignacionEspacio());
 		prog.procesa(new Etiquetado());
-		MaquinaP m = new MaquinaP(20, 15, 20, 3);
+		MaquinaP m = new MaquinaP(100, 100, 50, 4);
 		prog.procesa(new GenCodigo(m));
 		
 		//Ejecución sobre la máquina-p
 		System.out.println("--Resultado de ejecución: ");
-		m.muestraCodigo();	//Para depurar la generación de código
+//		depura(m);
 		m.ejecuta();
 		System.out.println("--FIN de ejecución.");
 	}
 	
+	private static void depura(MaquinaP m) {
+		m.muestraCodigo();	//Para depurar la generación de código
+		while(m.getPc() < m.getCodigoPSize()) {
+			m.ejecutaPaso();
+			m.muestraEstado();
+		}
+	}
+
 	private static Prog astCodigoWrite() {
 		/*
 		 * var i: int;
@@ -577,6 +586,67 @@ public class ejemploPrincipal {
 										sa.cRead_(sa.cId("b"))),
 								sa.cCall_Proc(sa.cId("suma"), sa.cMuchas_Expr(sa.cUna_Expr(sa.cId("a")), sa.cId("b")))),
 						sa.cWrite_(sa.cId("a")))
+				);
+	}
+	
+	private static Prog astCodigoProcType() {
+		//Este código precisa de todos los procesamientos excepto el etiquetado
+		/*
+		 * type tListaNombres: record
+		 * 						nombres: array [50] of string;
+		 * 						cont: int;
+		 * 					end;
+		 * proc lee(var nombres: tListaNombres)
+		 * 	var i: int;
+		 * begin
+		 * 	i = 0;
+		 * 	while i < nombres.cont do
+		 * 		read nombres.nombres[i]
+		 * 		i = i+1;
+		 * 	end;
+		 * end;
+		 * var nombres: tListaNombres;
+		 * begin
+		 * 	read nombres.cont;
+		 * 	lee(nombres);
+		 * 	write nombres.nombres[0];
+		 * end.
+		 * */
+		SintaxisAbstracta sa = new SintaxisAbstracta();
+		return sa.cProg_(
+				sa.cMuchas_Decs(
+						sa.cMuchas_Decs(
+								sa.cUna_Dec(
+										sa.cDec_Tipo("tListaNombres",
+												sa.cRecord_(
+														sa.cMuchos_Campos(
+																sa.cUn_Campo(
+																		sa.cCampo("nombres", sa.cArray_("40", sa.cString_()))),
+																sa.cCampo("cont", sa.cInt_()))))),
+								sa.cDec_Proc("lee",
+										sa.cUn_Param(sa.cParam_Ref("nombres", sa.cRef_("tListaNombres"))),
+										sa.cUna_Dec(sa.cDec_Var("i", sa.cInt_())),
+										sa.cMuchas_Ins(
+												sa.cUna_Ins(
+														sa.cAsignacion_(sa.cId("i"), sa.cInt("0"))),
+												sa.cWhile_(
+														sa.cBlt(sa.cId("i"), sa.cAccess(sa.cId("nombres"), "cont")),
+														sa.cMuchas_Ins(
+																sa.cUna_Ins(
+																		sa.cRead_(sa.cIndex(sa.cAccess(sa.cId("nombres"), "nombres"), sa.cId("i")))),
+																sa.cAsignacion_(sa.cId("i"), sa.cSuma(sa.cId("i"), sa.cInt("1"))))
+														)
+												)
+										)
+								),
+						sa.cDec_Var("nombres", sa.cRef_("tListaNombres"))),
+				sa.cMuchas_Ins(
+						sa.cMuchas_Ins(
+								sa.cUna_Ins(
+										sa.cRead_(sa.cAccess(sa.cId("nombres"), "cont"))),
+								sa.cCall_Proc(sa.cId("lee"), sa.cUna_Expr(sa.cId("nombres")))),
+						sa.cWrite_(sa.cIndex(sa.cAccess(sa.cId("nombres"), "nombres"), sa.cInt("0")))
+						)
 				);
 	}
 
