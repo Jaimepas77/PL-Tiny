@@ -41,8 +41,10 @@ public class ejemploPrincipal {
 		
 		//Ejecución sobre la máquina-p
 		System.out.println("--Resultado de ejecución: ");
-//		depura(m);
-		m.ejecuta();
+		
+		depura(m);
+//		m.ejecuta();
+		
 		System.out.println("--FIN de ejecución.");
 	}
 	
@@ -50,7 +52,8 @@ public class ejemploPrincipal {
 		m.muestraCodigo();	//Para depurar la generación de código
 		while(m.getPc() < m.getCodigoPSize()) {
 			m.ejecutaPaso();
-			m.muestraEstado();
+			System.err.println(m.getPc());
+//			m.muestraEstado();
 		}
 	}
 

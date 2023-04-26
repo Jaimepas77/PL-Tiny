@@ -11,7 +11,7 @@ class Vinculos extends HashMap<String, Vinculable> {
 }
 
 public class Vinculacion extends ProcesamientoPorDefecto {
-	private Vinculos ts, ant_ts; //Clave: id; Valor: nodo con la declaración
+	private Vinculos ts; //Clave: id; Valor: nodo con la declaración
 	private int pasada;	//Sirve para diferenciar los procesa de la primera y la segunda pasada
 
 	@Override
@@ -66,7 +66,7 @@ public class Vinculacion extends ProcesamientoPorDefecto {
 			else {
 				ts.put(dec.getStr(), dec);
 			}
-			ant_ts = ts;
+			Vinculos ant_ts = ts;
 			// crea_ambito(ts)
 			ts = new Vinculos();
 			ts.padre = ant_ts;
@@ -79,7 +79,7 @@ public class Vinculacion extends ProcesamientoPorDefecto {
 			dec.getLDecs().procesa(this);
 			pasada = 1;
 			dec.getLIns().procesa(this);
-			ts = ant_ts;
+			ts = ts.padre;
 		}
 	}
 
@@ -242,7 +242,7 @@ public class Vinculacion extends ProcesamientoPorDefecto {
 
 	@Override
 	public void procesa(Ins_Compuesta ins) {
-		ant_ts = ts;
+		Vinculos ant_ts = ts;
 		// crea_ambito(ts)
 		ts = new Vinculos();
 		ts.padre = ant_ts;
@@ -252,7 +252,7 @@ public class Vinculacion extends ProcesamientoPorDefecto {
 		pasada = 2;
 		ins.getLDecs().procesa(this);
 		ins.getLIns().procesa(this);
-		ts = ant_ts;
+		ts = ts.padre;
 	}
 
 	@Override
