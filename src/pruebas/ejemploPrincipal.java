@@ -30,7 +30,7 @@ public class ejemploPrincipal {
 		prog = astCodigoProcSumaPlus();
 		prog = astCodigoProcType();
 		prog = astCodigoComparaPuntero();
-//		prog = astCodigoDeEjemplo();
+		prog = astCodigoDeEjemplo();
 		
 		//Procesamientos
 		prog.procesa(new Vinculacion());
@@ -43,8 +43,8 @@ public class ejemploPrincipal {
 		//Ejecución sobre la máquina-p
 		System.out.println("--Resultado de ejecución: ");
 		
-		depura(m);
-//		m.ejecuta();
+//		depura(m);
+		m.ejecuta();
 		
 		System.out.println("--FIN de ejecución.");
 	}

@@ -92,12 +92,14 @@ public class AsignacionEspacio extends ProcesamientoPorDefecto {
 	}
 
 	private void asignaEspacioTipo(Tipo t) {
+		int ant = pasada;
 		if (t.getTam() == -1) {
 			pasada = 1;
 			t.procesa(this);
 			pasada++;
 			t.procesa(this);
 		}
+		pasada = ant;
 	}
 
 	@Override
@@ -135,7 +137,7 @@ public class AsignacionEspacio extends ProcesamientoPorDefecto {
 	@Override
 	public void procesa(Ref_ tipo) {
 		if(pasada == 1)
-			tipo.setTam(((Dec) tipo.getVinculo()).getT().getTam());
+			tipo.setTam(Util.ref_exc(((Dec_Tipo) tipo.getVinculo()).getT()).getTam());
 		else
 			;//skip
 	}
@@ -144,7 +146,7 @@ public class AsignacionEspacio extends ProcesamientoPorDefecto {
 	public void procesa(Array_ tipo) {
 		if(pasada == 1) {
 			tipo.getT().procesa(this);
-			tipo.setTam(Integer.parseInt(tipo.getStr()) * tipo.getT().getTam());
+			tipo.setTam(Integer.parseInt(tipo.getStr()) * Util.ref_exc(tipo.getT()).getTam());
 		}
 		else {//pasada = 2
 			tipo.getT().procesa(this);
@@ -176,7 +178,7 @@ public class AsignacionEspacio extends ProcesamientoPorDefecto {
 				asignaEspacioTipo(((Ref_) tipo.getT()).getVinculo().getT());
 				tipo.getT().setTam(((Ref_) tipo.getT()).getVinculo().getT().getTam());
 			}
-			else 
+			else
 				tipo.getT().procesa(this);
 		}
 	}
