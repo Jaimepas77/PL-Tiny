@@ -215,7 +215,6 @@ public class SintaxisAbstracta {
 		private LDecs lDecs;
 		private LIns lIns;
 		private int tamDatos;
-		private Tipo t;
 		private SalidaTipo tipo;
 		private int ini;
 		private int sig;
@@ -252,7 +251,7 @@ public class SintaxisAbstracta {
 			this.tamDatos = tamDatos;
 		}
 		public Tipo getT() {
-			return t;
+			return new Error_();//Los procedimientos no tienen tipo
 		}
 
 		public void procesa(Procesamiento p) {
