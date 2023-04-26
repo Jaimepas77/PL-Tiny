@@ -29,7 +29,8 @@ public class ejemploPrincipal {
 		prog = astCodigoProcSuma();
 		prog = astCodigoProcSumaPlus();
 		prog = astCodigoProcType();
-		prog = astCodigoDeEjemplo();
+		prog = astCodigoComparaPuntero();
+//		prog = astCodigoDeEjemplo();
 		
 		//Procesamientos
 		prog.procesa(new Vinculacion());
@@ -649,6 +650,46 @@ public class ejemploPrincipal {
 										sa.cRead_(sa.cAccess(sa.cId("nombres"), "cont"))),
 								sa.cCall_Proc(sa.cId("lee"), sa.cUna_Expr(sa.cId("nombres")))),
 						sa.cWrite_(sa.cIndex(sa.cAccess(sa.cId("nombres"), "nombres"), sa.cInt("0")))
+						)
+				);
+	}
+	
+	private static Prog astCodigoComparaPuntero() {//Tiene que dar error de ejecución
+		/*
+		 * var p: ^string;
+		 * begin
+		 * 	p = null;
+		 * 	if p == null then
+		 * 		new p;
+		 * 		read p^;
+		 * 	end;
+		 *  if p != null then
+		 *  	write p^;
+		 *  	delete p;
+		 *  end;
+		 * end.
+		 * */
+		SintaxisAbstracta sa = new SintaxisAbstracta();
+		return sa.cProg_(
+				sa.cUna_Dec(
+						sa.cDec_Var("p", sa.cPuntero_(sa.cString_()))),
+				sa.cMuchas_Ins(
+						sa.cMuchas_Ins(
+								sa.cUna_Ins(
+										sa.cAsignacion_(sa.cId("p"), sa.cNull())),
+								sa.cIf_Then(
+										sa.cBeq(sa.cId("p"), sa.cNull()),
+										sa.cMuchas_Ins(
+												sa.cUna_Ins(
+														sa.cNew_(sa.cId("p"))),
+												sa.cRead_(sa.cIndir(sa.cId("p")))))
+								),
+						sa.cIf_Then(
+								sa.cBne(sa.cId("p"), sa.cNull()),
+								sa.cMuchas_Ins(
+										sa.cUna_Ins(
+												sa.cWrite_(sa.cIndir(sa.cId("p")))),
+										sa.cDelete_(sa.cId("p"))))
 						)
 				);
 	}
