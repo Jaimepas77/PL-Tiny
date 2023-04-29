@@ -79,8 +79,8 @@ PARSER_END(ConstructorAST)
 	TOKEN:{<Var: ("V"|"v")("A"|"a")("R"|"r")>}
 	TOKEN:{<Type: ("T"|"t")("Y"|"y")("P"|"p")("E"|"e")>}
 
-	SKIP:{<#Separadores: [" ", "\b", "\r", "\n"]>}
-	SKIP:{<#nombre:"@ ([^\n])*">}
+	SKIP:{<#Separadores: ["\t", " ", "\b", "\r", "\n"]>}
+	SKIP:{<#Comentarios:"@" (~["\n", "\r"])*>}
 
 	//Sintaxis
 	Prog Init() :

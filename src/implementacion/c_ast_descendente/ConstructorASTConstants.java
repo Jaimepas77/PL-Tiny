@@ -133,7 +133,7 @@ public interface ConstructorASTConstants {
   /** RegularExpression Id. */
   int Separadores = 61;
   /** RegularExpression Id. */
-  int nombre = 62;
+  int Comentarios = 62;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -202,7 +202,7 @@ public interface ConstructorASTConstants {
     "<Var>",
     "<Type>",
     "<Separadores>",
-    "\"@ ([^\\n])*\"",
+    "<Comentarios>",
   };
 
 }
