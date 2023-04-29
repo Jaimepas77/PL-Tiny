@@ -2,10 +2,9 @@ options  {
   STATIC=false;
 }  
 PARSER_BEGIN(ConstructorAST)
-package c_ast_descendente;
+package implementacion.c_ast_descendente;
 
-import asbtractSintax.SintaxisAbstracta.*;
-
+import implementacion.abstractSintax.SintaxisAbstracta;
 
 public class ConstructorAST {
 	private SintaxisAbstracta sa = new SintaxisAbstracta();
@@ -84,13 +83,118 @@ PARSER_END(ConstructorAST)
 	SKIP:{<#nombre:"@ ([^\n])*">}
 
 	//Sintaxis
-	Prog Init(): {Prog prog;} {prog=Prog() <EOF> {return prog;}}
-	Prog Prog(): {LDecs	sDecs; LIns sIns;}
-					{sDecs=SDecs() sIns=SIns() <Punto> {return sa.cProg_(sDecs, sIns);}}
-	LDecs SDecs(): {LDecs rSDecs;}
-					{rSdecs=RSDecs(sa.cSin_Decs()) {return rSDecs;}}
-	LDecs RSDecs(LDecs h): {Dec decT; LDecs rSDecs;}
-							{decT=DecT() rSDecs=RSDecs(sa.cMuchas_Decs(h, DecT())) {return rSDecs;} | 
-								{return h;}}
-	Dec DecT(): {Dec dec;}
-				{dec=Dec() <PuntoComa> {return dec;}}
+	Prog Init() :
+	{Prog prog;}
+	{
+		prog=Prog() <EOF> 
+		{return prog;}
+    }
+    
+	Prog Prog() :
+    {LDecs sDecs; LIns sIns;}
+    {
+        sDecs=SDecs() sIns=SIns() <Punto>
+        {return sa.cProg_(sDecs, sIns);}
+    }
+    
+	LDecs SDecs() :
+    {LDecs rSDecs;}
+    {
+        rSdecs=RSDecs(sa.cSin_Decs())
+        {return rSDecs;}
+    }
+    
+	LDecs RSDecs(LDecs h) :
+    {Dec decT; LDecs rSDecs;}
+    {
+        decT=DecT() rSDecs=RSDecs(sa.cMuchas_Decs(h, DecT()))
+        {return rSDecs;} | 
+        //ɛ
+        {return h;}
+    }
+    
+	Dec DecT() :
+    {Dec dec;}
+    {
+        dec=Dec() <PuntoComa>
+        {return dec;}
+    }
+    
+    Dec Dec() :
+    {Dec dec;}
+    {
+        dec=DecVar()
+        {return dec;} |
+        dec=DecTipo()
+        {return dec;} |
+        dec=DecProc()
+        {return dec;}
+    }
+    
+    Dec DecVar() :
+    {Tipo tipo;}
+    {
+        <Var> <Id> <DosPuntos> tipo=Tipo()
+        {return sa.cDec_Var(Id.image, tipo);}
+    }
+    
+    Dec DecTipo() :
+    {Tipo tipo;}
+    {
+        <Type> <Id> <DosPuntos> tipo=Tipo()
+        {return sa.cDec_Tipo(Id.image, tipo);}
+    }
+    
+    Dec DecProc() :
+    {LParams params; LDecs sDecs; LIns sIns;}
+    {
+        <Proc> <Id> params=Params() sDecs=SDecs() sIns=SIns()
+        {return sa.cDec_Proc(Id.image, params, sDecs, sIns);}
+    }
+
+    //Tipos
+    Tipo Tipo() :
+    {Tipo tipo; Campos campos;}
+    {
+        <Int>
+        {return sa.cInt_();} |
+        <Real>
+        {return sa.cReal_();} |
+        <Bool>
+        {return sa.cBool_();} |
+        <String>
+        {return sa.cString_();} |
+        <Id>
+        {return sa.cRef_(Id.image);} |
+        <Array> <CApertura> <LEntero> <CCierre> <Of> tipo=Tipo()
+        {return sa.cArray_(LEntero.image, tipo);} |
+        <Record> campos=Campos() <End>
+        {return sa.cRecord_(campos);} |
+        <Circunflejo> tipo=Tipo()
+        {return sa.cPuntero_(tipo);}
+    }
+
+    Campos Campos() :
+    {Campo campo; Campos rCampos;}
+    {
+        campoT=CampoT() rCampos=RCampos(sa.cUn_Campo(campoT))
+        {return rCampos;}
+    }
+    
+    Campos RCampos(Campos h) :
+    {Campo campoT; Campos rCampos;}
+    {
+        campoT=CampoT() rCampos=RCampos(sa.cMuchos_Campos(h, campoT))
+        {return rCampos;} |
+        //ɛ
+        {return h;}
+    }
+    
+    Campo CampoT() :
+    {Tipo tipo;}
+    {
+        <Id> <DosPuntos> tipo=Tipo()
+        {return sa.cCampo(Id.image, tipo);}
+    }
+    
+    
