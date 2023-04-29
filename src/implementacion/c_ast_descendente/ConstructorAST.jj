@@ -1,0 +1,83 @@
+options  {
+  STATIC=false;
+}  
+PARSER_BEGIN(ConstructorAST)
+package c_ast_descendente;
+
+import asbtractSintax.SintaxisAbstracta.*;
+
+
+public class ConstructorAST {
+
+}
+
+PARSER_END(ConstructorAST)
+	//Defs auxiliares
+	TOKEN:{<#Letra:["a"-"z","A"-"Z"]>}
+	TOKEN:{<#Dig:["0"-"9"]>}
+	TOKEN:{<#DigPos:["1"-"9"]>}
+	TOKEN:{<#PEntera:("+"|"-")? ("0"|<DigPos> (<Dig>)*)>}
+	TOKEN:{<#PDecimal:"." ("0" | (<Dig>)* <DigPos>)>}
+	TOKEN:{<#PExp:("e"|"E") <PEntera>>}
+
+	//Clases léxicas
+	TOKEN:{<#Id: <Letra> (<Letra> | <Dig> | "_")*>}
+	TOKEN:{<#LEntero: <PEntera>>}
+	TOKEN:{<#LReal: <PEntera> (<PDecimal> | <PExp> | <PDecimal> <PExp>)>}
+	TOKEN:{<#LCadena: <PEntera> (<PDecimal> | <PExp> | <PDecimal> <PExp>)>}
+
+	TOKEN:{<#Suma: "+">}
+	TOKEN:{<#Resta: "-">}
+	TOKEN:{<#Multiplica: "*">}
+	TOKEN:{<#Divide: "/">}
+	TOKEN:{<#Modulo: "%">}
+	TOKEN:{<#BLT: "<">}
+	TOKEN:{<#BGT: ">">}
+	TOKEN:{<#BLE: "<=">}
+	TOKEN:{<#BGE: ">=">}
+	TOKEN:{<#BEQ: "==">}
+	TOKEN:{<#BNE: "!=">}
+	TOKEN:{<#PApertura: "(">}
+	TOKEN:{<#PCierre: ")">}
+	TOKEN:{<#PuntoComa: ";">}
+	TOKEN:{<#Igual: "=">}
+	TOKEN:{<#CApertura: "[">}
+	TOKEN:{<#CCierre: "]">}
+	TOKEN:{<#Punto: ".">}
+	TOKEN:{<#Circunflejo: "^">}
+	TOKEN:{<#Coma: ",">}
+	TOKEN:{<#DosPuntos: ":">}
+	
+	//Palabras reservadas
+	TOKEN:{<#Int: ("I"|"i")("N"|"n")("T"|"t")>}
+	TOKEN:{<#Real: ("R"|"r")("E"|"e")("A"|"a")("L"|"l")>}
+	TOKEN:{<#Bool: ("B"|"b")("O"|"o")("O"|"o")("L"|"l")>}
+	TOKEN:{<#String: ("S"|"s")("T"|"t")("R"|"r")("I"|"i")("N"|"n")("G"|"g")>}
+	TOKEN:{<#And: ("A"|"a")("N"|"n")("D"|"d")>}
+	TOKEN:{<#Or: ("O"|"o")("R"|"r")>}
+	TOKEN:{<#Not: ("N"|"n")("O"|"o")("T"|"t")>}
+	TOKEN:{<#Null: ("N"|"n")("U"|"u")("L"|"l")("L"|"l")>}
+	TOKEN:{<#True: ("T"|"t")("R"|"r")("U"|"u")("E"|"e")>}
+	TOKEN:{<#False: ("F"|"f")("A"|"a")("L"|"l")("S"|"s")("E"|"e")>}
+	TOKEN:{<#Proc: ("P"|"p")("R"|"r")("O"|"o")("C"|"c")>}
+	TOKEN:{<#If: ("I"|"i")("F"|"f")>}
+	TOKEN:{<#Then: ("T"|"t")("H"|"h")("E"|"e")("N"|"n")>}
+	TOKEN:{<#Else: ("E"|"e")("L"|"l")("S"|"s")("E"|"e")>}
+	TOKEN:{<#While: ("W"|"w")("H"|"h")("I"|"i")("L"|"l")("E"|"e")>}
+	TOKEN:{<#Do: ("D"|"d")("O"|"o")>}
+	TOKEN:{<#Seq: ("S"|"s")("E"|"e")("Q"|"q")>}
+	TOKEN:{<#Begin: ("B"|"b")("E"|"e")("G"|"g")("I"|"i")("N"|"n")>}
+	TOKEN:{<#End: ("E"|"e")("N"|"n")("D"|"d")>}
+	TOKEN:{<#Record: ("R"|"r")("E"|"e")("C"|"c")("O"|"o")("R"|"r")("D"|"d")>}
+	TOKEN:{<#Array: ("A"|"a")("R"|"r")("R"|"r")("A"|"a")("Y"|"y")>}
+	TOKEN:{<#Of: ("O"|"o")("F"|"f")>}
+	TOKEN:{<#New: ("N"|"n")("E"|"e")("W"|"w")>}
+	TOKEN:{<#Delete: ("D"|"d")("E"|"e")("L"|"l")("E"|"e")("T"|"t")("E"|"e")>}
+	TOKEN:{<#Read: ("R"|"r")("E"|"e")("A"|"a")("D"|"d")>}
+	TOKEN:{<#Write: ("W"|"w")("R"|"r")("I"|"i")("T"|"t")("E"|"e")>}
+	TOKEN:{<#Nl: ("N"|"n")("L"|"l")>}
+	TOKEN:{<#Var: ("V"|"v")("A"|"a")("R"|"r")>}
+	TOKEN:{<#Type: ("T"|"t")("Y"|"y")("P"|"p")("E"|"e")>}
+
+	SKIP:{<#Separadores: [" ", "\b", "\r", "\n"]>}
+	SKIP:{<#nombre:"@ ([^\n])*">}
