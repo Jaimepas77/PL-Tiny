@@ -6,6 +6,7 @@ import asbtractSintax.SintaxisAbstracta.*;
 
 
 public class ConstructorAST implements ConstructorASTConstants {
+        private SintaxisAbstracta sa = new SintaxisAbstracta();
 
   /** Generated Token Manager. */
   public ConstructorASTTokenManager token_source;
