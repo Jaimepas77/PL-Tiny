@@ -148,7 +148,7 @@ PARSER_END(ConstructorAST)
     Dec DecProc() :
     {LParams params; LDecs sDecs; LIns sIns;}
     {
-        <Proc> <Id> params=Params() sDecs=SDecs() sIns=SIns()
+        <Proc> <Id> params=ParamsF() sDecs=SDecs() sIns=SIns()
         {return sa.cDec_Proc(Id.image, params, sDecs, sIns);}
     }
 
@@ -197,4 +197,107 @@ PARSER_END(ConstructorAST)
         {return sa.cCampo(Id.image, tipo);}
     }
     
+    LParams ParamsF() :
+    {LParams lParams;}
+    {
+        <PApertura> lParams=LParams() <PCierre>
+        {return lParams;}
+    }
+    
+    LParams LParams() :
+    {LParams lParams;}
+    {
+        lParams=LParamsAux()
+        {return lParams;} |
+        //ɛ
+        {return sa.cSin_Params();}
+    }
+    
+    LParams LParamsAux() :
+    {Param paramF; LParams rLParams;}
+    {
+        paramF=ParamF() rLParams=RLParamsAux(sa.cUn_Param(paramF))
+        {return rLParams;}
+    }
+    
+    LParams RLParamsAux(LParams h) :
+    {Param paramF; LParams rLParams;}
+    {
+        <Coma> paramF=ParamF() rLParams=RLParamsAux(sa.cMuchos_Params(h, paramF))
+        {return rLParams;} |
+        //ɛ
+        {return h;}
+    }
+    
+    Param ParamF() :
+    {Param param;}
+    {
+        param=ParamRef()
+        {return param;} |
+        param=ParamVal()
+        {return param;}
+    }
+    
+    Param ParamRef() :
+    {Tipo tipo;}
+    {
+        <Var> <Id> <DosPuntos> tipo=Tipo()
+        {return sa.cParam_Ref(Id.image, tipo);}
+    }
+    
+    Param ParamVal() :
+    {Tipo tipo;}
+    {
+        <Id> <DosPuntos> tipo=Tipo()
+        {return sa.cParam_Val(Id.image, tipo);}
+    }
+    
+    //Instrucciones
+    LIns SIns() :
+    {LIns lIns;}
+    {
+        <Begin> lIns=LIns() <End>
+        {return lIns;}
+    }
+    
+    LIns LIns() :
+    {LIns rLIns;}
+    {
+        rLIns=RLIns(sa.cSin_Ins())
+        {return rLIns;}
+    }
+    
+    LIns RLIns(LIns h) :
+    {Ins ins; LIns rLIns;}
+    {
+        ins=Ins() rLIns=RLIns(sa.cMuchas_Ins(h, ins))
+        {return rLIns;} |
+        //ɛ
+        {return h;}
+    }
+    
+    Ins Ins() :
+    {Ins ins;}
+    {
+        ins=IAsig()
+        {return ins;} |
+        ins=IAlt()
+        {return ins;} |
+        ins=IWhile()
+        {return ins;} |
+        ins=IRead()
+        {return ins;} |
+        ins=IWrite()
+        {return ins;} |
+        ins=INl()
+        {return ins;} |
+        ins=INew()
+        {return ins;} |
+        ins=IDelete()
+        {return ins;} |
+        ins=ICallProc()
+        {return ins;} |
+        ins=IComp()
+        {return ins;}
+    }
     
