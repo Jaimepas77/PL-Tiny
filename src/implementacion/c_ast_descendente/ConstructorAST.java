@@ -338,7 +338,7 @@ public class ConstructorAST implements ConstructorASTConstants {
     case LEntero:
     case LReal:
     case LCadena:{
-      ins = IAsig();
+      ins = IAltp();
 {if ("" != null) return ins;}
       break;
       }
@@ -376,10 +376,6 @@ public class ConstructorAST implements ConstructorASTConstants {
       ins = IDelete();
 {if ("" != null) return ins;}
       break;
-      }{
-      ins = ICallProc();
-{if ("" != null) return ins;}
-      break;
       }
     case Seq:{
       ins = IComp();
@@ -394,12 +390,32 @@ public class ConstructorAST implements ConstructorASTConstants {
     throw new Error("Missing return statement in function");
 }
 
-  final public Ins IAsig() throws ParseException {E e1; E e2;
-    e1 = E();
-    jj_consume_token(Igual);
-    e2 = E();
-    jj_consume_token(PuntoComa);
-{if ("" != null) return sa.cAsignacion_(e1, e2);}
+  final public Ins IAltp() throws ParseException {E e; Ins rIAltp;
+    e = E();
+    rIAltp = RIAltp(e);
+{if ("" != null) return rIAltp;}
+    throw new Error("Missing return statement in function");
+}
+
+  final public Ins RIAltp(E h) throws ParseException {E e; LExp lExp;
+    switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+    case Igual:{
+      jj_consume_token(Igual);
+      e = E();
+      jj_consume_token(PuntoComa);
+{if ("" != null) return sa.cAsignacion_(h, e);}
+      break;
+      }
+    case PApertura:{
+      lExp = ParamsR();
+{if ("" != null) return sa.cCall_Proc(h, lExp);}
+      break;
+      }
+    default:
+      jj_la1[9] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
     throw new Error("Missing return statement in function");
 }
 
@@ -424,7 +440,7 @@ public class ConstructorAST implements ConstructorASTConstants {
       break;
       }
     default:
-      jj_la1[9] = jj_gen;
+      jj_la1[10] = jj_gen;
 {if ("" != null) return sa.cIf_Then(eh, lh);}
     }
     throw new Error("Missing return statement in function");
@@ -480,13 +496,6 @@ public class ConstructorAST implements ConstructorASTConstants {
     throw new Error("Missing return statement in function");
 }
 
-  final public Ins ICallProc() throws ParseException {E e; LExp lExp;
-    e = E();
-    lExp = ParamsR();
-{if ("" != null) return sa.cCall_Proc(e, lExp);}
-    throw new Error("Missing return statement in function");
-}
-
   final public LExp ParamsR() throws ParseException {LExp lExp;
     jj_consume_token(PApertura);
     lExp = LExp();
@@ -513,7 +522,7 @@ public class ConstructorAST implements ConstructorASTConstants {
       break;
       }
     default:
-      jj_la1[10] = jj_gen;
+      jj_la1[11] = jj_gen;
 
     }
 }
@@ -535,7 +544,7 @@ public class ConstructorAST implements ConstructorASTConstants {
       break;
       }
     default:
-      jj_la1[11] = jj_gen;
+      jj_la1[12] = jj_gen;
 {if ("" != null) return sa.cSin_Expr();}
     }
     throw new Error("Missing return statement in function");
@@ -558,7 +567,7 @@ public class ConstructorAST implements ConstructorASTConstants {
       break;
       }
     default:
-      jj_la1[12] = jj_gen;
+      jj_la1[13] = jj_gen;
 {if ("" != null) return h;}
     }
     throw new Error("Missing return statement in function");
@@ -585,7 +594,7 @@ public class ConstructorAST implements ConstructorASTConstants {
       break;
       }
     default:
-      jj_la1[13] = jj_gen;
+      jj_la1[14] = jj_gen;
 {if ("" != null) return h;}
     }
     throw new Error("Missing return statement in function");
@@ -609,7 +618,7 @@ public class ConstructorAST implements ConstructorASTConstants {
       break;
       }
     default:
-      jj_la1[14] = jj_gen;
+      jj_la1[15] = jj_gen;
 {if ("" != null) return h;}
     }
     throw new Error("Missing return statement in function");
@@ -624,7 +633,7 @@ public class ConstructorAST implements ConstructorASTConstants {
       break;
       }
     default:
-      jj_la1[15] = jj_gen;
+      jj_la1[16] = jj_gen;
 {if ("" != null) return h;}
     }
     throw new Error("Missing return statement in function");
@@ -652,7 +661,7 @@ public class ConstructorAST implements ConstructorASTConstants {
       break;
       }
     default:
-      jj_la1[16] = jj_gen;
+      jj_la1[17] = jj_gen;
 {if ("" != null) return h;}
     }
     throw new Error("Missing return statement in function");
@@ -677,7 +686,7 @@ public class ConstructorAST implements ConstructorASTConstants {
       break;
       }
     default:
-      jj_la1[17] = jj_gen;
+      jj_la1[18] = jj_gen;
 {if ("" != null) return h;}
     }
     throw new Error("Missing return statement in function");
@@ -705,7 +714,7 @@ public class ConstructorAST implements ConstructorASTConstants {
       break;
       }
     default:
-      jj_la1[18] = jj_gen;
+      jj_la1[19] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -740,7 +749,7 @@ public class ConstructorAST implements ConstructorASTConstants {
       break;
       }
     default:
-      jj_la1[19] = jj_gen;
+      jj_la1[20] = jj_gen;
 {if ("" != null) return h;}
     }
     throw new Error("Missing return statement in function");
@@ -791,7 +800,7 @@ public class ConstructorAST implements ConstructorASTConstants {
       break;
       }
     default:
-      jj_la1[20] = jj_gen;
+      jj_la1[21] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -831,7 +840,7 @@ public class ConstructorAST implements ConstructorASTConstants {
       break;
       }
     default:
-      jj_la1[21] = jj_gen;
+      jj_la1[22] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -856,7 +865,7 @@ public class ConstructorAST implements ConstructorASTConstants {
       break;
       }
     default:
-      jj_la1[22] = jj_gen;
+      jj_la1[23] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -876,7 +885,7 @@ public class ConstructorAST implements ConstructorASTConstants {
       break;
       }
     default:
-      jj_la1[23] = jj_gen;
+      jj_la1[24] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -892,7 +901,7 @@ public class ConstructorAST implements ConstructorASTConstants {
   public Token jj_nt;
   private int jj_ntk;
   private int jj_gen;
-  final private int[] jj_la1 = new int[24];
+  final private int[] jj_la1 = new int[25];
   static private int[] jj_la1_0;
   static private int[] jj_la1_1;
   static {
@@ -900,10 +909,10 @@ public class ConstructorAST implements ConstructorASTConstants {
 	   jj_la1_init_1();
 	}
 	private static void jj_la1_init_0() {
-	   jj_la1_0 = new int[] {0x0,0x0,0xc8000000,0x0,0x0,0x10000000,0x0,0x100400,0x100400,0x0,0x400000,0x100400,0x10000000,0xfc000,0x400,0x200,0x0,0x3800,0x100400,0xd000000,0x100000,0xfc000,0x3800,0x400,};
+	   jj_la1_0 = new int[] {0x0,0x0,0xc8000000,0x0,0x0,0x10000000,0x0,0x100400,0x100400,0x900000,0x0,0x400000,0x100400,0x10000000,0xfc000,0x400,0x200,0x0,0x3800,0x100400,0xd000000,0x100000,0xfc000,0x3800,0x400,};
 	}
 	private static void jj_la1_init_1() {
-	   jj_la1_1 = new int[] {0x6000100,0x6000100,0x8060003,0x8000000,0xa000000,0x0,0xa000000,0x79f052f0,0x79f052f0,0x800,0x0,0x780000f0,0x0,0x0,0x0,0x0,0xc,0x0,0x780000f0,0x0,0x780000e0,0x0,0x0,0x10,};
+	   jj_la1_1 = new int[] {0x6000100,0x6000100,0x8060003,0x8000000,0xa000000,0x0,0xa000000,0x79f052f0,0x79f052f0,0x0,0x800,0x0,0x780000f0,0x0,0x0,0x0,0x0,0xc,0x0,0x780000f0,0x0,0x780000e0,0x0,0x0,0x10,};
 	}
 
   /** Constructor with InputStream. */
@@ -917,7 +926,7 @@ public class ConstructorAST implements ConstructorASTConstants {
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 24; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 25; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -931,7 +940,7 @@ public class ConstructorAST implements ConstructorASTConstants {
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 24; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 25; i++) jj_la1[i] = -1;
   }
 
   /** Constructor. */
@@ -941,7 +950,7 @@ public class ConstructorAST implements ConstructorASTConstants {
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 24; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 25; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -959,7 +968,7 @@ public class ConstructorAST implements ConstructorASTConstants {
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 24; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 25; i++) jj_la1[i] = -1;
   }
 
   /** Constructor with generated Token Manager. */
@@ -968,7 +977,7 @@ public class ConstructorAST implements ConstructorASTConstants {
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 24; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 25; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -977,7 +986,7 @@ public class ConstructorAST implements ConstructorASTConstants {
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 24; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 25; i++) jj_la1[i] = -1;
   }
 
   private Token jj_consume_token(int kind) throws ParseException {
@@ -1033,7 +1042,7 @@ public class ConstructorAST implements ConstructorASTConstants {
 	   la1tokens[jj_kind] = true;
 	   jj_kind = -1;
 	 }
-	 for (int i = 0; i < 24; i++) {
+	 for (int i = 0; i < 25; i++) {
 	   if (jj_la1[i] == jj_gen) {
 		 for (int j = 0; j < 32; j++) {
 		   if ((jj_la1_0[i] & (1<<j)) != 0) {

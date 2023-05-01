@@ -281,7 +281,7 @@ PARSER_END(ConstructorAST)
     Ins Ins() :
     {Ins ins;}
     {
-        ins=IAsig()
+        ins=IAltp()
         {return ins;} |
         ins=IAlt()
         {return ins;} |
@@ -297,17 +297,24 @@ PARSER_END(ConstructorAST)
         {return ins;} |
         ins=IDelete()
         {return ins;} |
-        ins=ICallProc()
-        {return ins;} |
         ins=IComp()
         {return ins;}
     }
     
-    Ins IAsig() :
-    {E e1; E e2;}
+    Ins IAltp() :
+    {E e; Ins rIAltp;}
     {
-        e1=E() <Igual> e2=E() <PuntoComa>
-        {return sa.cAsignacion_(e1, e2);}
+        e=E() rIAltp=RIAltp(e)
+        {return rIAltp;}
+    }
+    
+    Ins RIAltp(E h) :
+    {E e; LExp lExp;}
+    {
+        <Igual> e=E() <PuntoComa>//Asignación
+        {return sa.cAsignacion_(h, e);} |
+        lExp=ParamsR()//CallProc
+        {return sa.cCall_Proc(h, lExp);}
     }
     
     Ins IAlt() :
@@ -366,13 +373,6 @@ PARSER_END(ConstructorAST)
     {
         <Delete> e=E() <PuntoComa>
         {return sa.cDelete_(e);}
-    }
-    
-    Ins ICallProc() :
-    {E e; LExp lExp;}
-    {
-        e=E() lExp=ParamsR()
-        {return sa.cCall_Proc(e, lExp);}
     }
     
     LExp ParamsR() :
