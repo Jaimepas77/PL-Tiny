@@ -5,6 +5,7 @@ PARSER_BEGIN(ConstructorAST)
 package implementacion.c_ast_descendente;
 
 import implementacion.abstractSintax.SintaxisAbstracta;
+import implementacion.abstractSintax.SintaxisAbstracta.*;
 
 public class ConstructorAST {
 	private SintaxisAbstracta sa = new SintaxisAbstracta();
@@ -20,12 +21,11 @@ PARSER_END(ConstructorAST)
 	TOKEN:{<#PDecimal:"." ("0" | (<Dig>)* <DigPos>)>}
 	TOKEN:{<#PExp:("e"|"E") <PEntera>>}
 
-	//Clases léxicas
-	TOKEN:{<Id: <Letra> (<Letra> | <Dig> | "_")*>}
-	TOKEN:{<LEntero: <PEntera>>}
-	TOKEN:{<LReal: <PEntera> (<PDecimal> | <PExp> | <PDecimal> <PExp>)>}
-	TOKEN:{<LCadena: <PEntera> (<PDecimal> | <PExp> | <PDecimal> <PExp>)>}
+    //Cadenas ignorables
+	SKIP:{<["\t", " ", "\b", "\r", "\n"]>}//Separadores
+	SKIP:{<"@" (~["\n", "\r"])*>}//Comentarios
 
+	//Clases léxicas
 	TOKEN:{<Suma: "+">}
 	TOKEN:{<Resta: "-">}
 	TOKEN:{<Multiplica: "*">}
@@ -48,7 +48,7 @@ PARSER_END(ConstructorAST)
 	TOKEN:{<Coma: ",">}
 	TOKEN:{<DosPuntos: ":">}
 	
-	//Palabras reservadas
+	////Palabras reservadas
 	TOKEN:{<Int: ("I"|"i")("N"|"n")("T"|"t")>}
 	TOKEN:{<Real: ("R"|"r")("E"|"e")("A"|"a")("L"|"l")>}
 	TOKEN:{<Bool: ("B"|"b")("O"|"o")("O"|"o")("L"|"l")>}
@@ -79,8 +79,10 @@ PARSER_END(ConstructorAST)
 	TOKEN:{<Var: ("V"|"v")("A"|"a")("R"|"r")>}
 	TOKEN:{<Type: ("T"|"t")("Y"|"y")("P"|"p")("E"|"e")>}
 
-	SKIP:{<#Separadores: ["\t", " ", "\b", "\r", "\n"]>}
-	SKIP:{<#Comentarios:"@" (~["\n", "\r"])*>}
+	TOKEN:{<Id: <Letra> (<Letra> | <Dig> | "_")*>}
+	TOKEN:{<LEntero: <PEntera>>}
+	TOKEN:{<LReal: <PEntera> (<PDecimal> | <PExp> | <PDecimal> <PExp>)>}
+	TOKEN:{<LCadena: <PEntera> (<PDecimal> | <PExp> | <PDecimal> <PExp>)>}
 
 	//Sintaxis
 	Prog Init() :
@@ -100,7 +102,7 @@ PARSER_END(ConstructorAST)
 	LDecs SDecs() :
     {LDecs rSDecs;}
     {
-        rSdecs=RSDecs(sa.cSin_Decs())
+        rSDecs=RSDecs(sa.cSin_Decs())
         {return rSDecs;}
     }
     
@@ -132,29 +134,29 @@ PARSER_END(ConstructorAST)
     }
     
     Dec DecVar() :
-    {Tipo tipo;}
+    {Tipo tipo; Token t;}
     {
-        <Var> <Id> <DosPuntos> tipo=Tipo()
-        {return sa.cDec_Var(Id.image, tipo);}
+        <Var> t=<Id> <DosPuntos> tipo=Tipo()
+        {return sa.cDec_Var(t.image, tipo);}
     }
     
     Dec DecTipo() :
-    {Tipo tipo;}
+    {Tipo tipo; Token t;}
     {
-        <Type> <Id> <DosPuntos> tipo=Tipo()
-        {return sa.cDec_Tipo(Id.image, tipo);}
+        <Type> t=<Id> <DosPuntos> tipo=Tipo()
+        {return sa.cDec_Tipo(t.image, tipo);}
     }
     
     Dec DecProc() :
-    {LParams params; LDecs sDecs; LIns sIns;}
+    {LParams params; LDecs sDecs; LIns sIns; Token t;}
     {
-        <Proc> <Id> params=ParamsF() sDecs=SDecs() sIns=SIns()
-        {return sa.cDec_Proc(Id.image, params, sDecs, sIns);}
+        <Proc> t=<Id> params=ParamsF() sDecs=SDecs() sIns=SIns()
+        {return sa.cDec_Proc(t.image, params, sDecs, sIns);}
     }
 
     //Tipos
     Tipo Tipo() :
-    {Tipo tipo; Campos campos;}
+    {Tipo tipo; Campos campos; Token t;}
     {
         <Int>
         {return sa.cInt_();} |
@@ -164,10 +166,10 @@ PARSER_END(ConstructorAST)
         {return sa.cBool_();} |
         <String>
         {return sa.cString_();} |
-        <Id>
-        {return sa.cRef_(Id.image);} |
-        <Array> <CApertura> <LEntero> <CCierre> <Of> tipo=Tipo()
-        {return sa.cArray_(LEntero.image, tipo);} |
+        t=<Id>
+        {return sa.cRef_(t.image);} |
+        <Array> <CApertura> t=<LEntero> <CCierre> <Of> tipo=Tipo()
+        {return sa.cArray_(t.image, tipo);} |
         <Record> campos=Campos() <End>
         {return sa.cRecord_(campos);} |
         <Circunflejo> tipo=Tipo()
@@ -175,7 +177,7 @@ PARSER_END(ConstructorAST)
     }
 
     Campos Campos() :
-    {Campo campo; Campos rCampos;}
+    {Campo campoT; Campos rCampos;}
     {
         campoT=CampoT() rCampos=RCampos(sa.cUn_Campo(campoT))
         {return rCampos;}
@@ -191,10 +193,10 @@ PARSER_END(ConstructorAST)
     }
     
     Campo CampoT() :
-    {Tipo tipo;}
+    {Tipo tipo; Token t;}
     {
-        <Id> <DosPuntos> tipo=Tipo()
-        {return sa.cCampo(Id.image, tipo);}
+        t=<Id> <DosPuntos> tipo=Tipo()
+        {return sa.cCampo(t.image, tipo);}
     }
     
     LParams ParamsF() :
@@ -239,17 +241,17 @@ PARSER_END(ConstructorAST)
     }
     
     Param ParamRef() :
-    {Tipo tipo;}
+    {Tipo tipo; Token t;}
     {
-        <Var> <Id> <DosPuntos> tipo=Tipo()
-        {return sa.cParam_Ref(Id.image, tipo);}
+        <Var> t=<Id> <DosPuntos> tipo=Tipo()
+        {return sa.cParam_Ref(t.image, tipo);}
     }
     
     Param ParamVal() :
-    {Tipo tipo;}
+    {Tipo tipo; Token t;}
     {
-        <Id> <DosPuntos> tipo=Tipo()
-        {return sa.cParam_Val(Id.image, tipo);}
+        t=<Id> <DosPuntos> tipo=Tipo()
+        {return sa.cParam_Val(t.image, tipo);}
     }
     
     //Instrucciones
@@ -300,4 +302,288 @@ PARSER_END(ConstructorAST)
         ins=IComp()
         {return ins;}
     }
+    
+    Ins IAsig() :
+    {E e1; E e2;}
+    {
+        e1=E() <Igual> e2=E() <PuntoComa>
+        {return sa.cAsignacion_(e1, e2);}
+    }
+    
+    Ins IAlt() :
+    {E e; LIns lIns; Ins ins;}
+    {
+        <If> e=E() <Then> lIns=LIns() ins=RIAlt(e, lIns)
+        {return ins;}
+    }
+    
+    Ins RIAlt(E eh, LIns lh) :
+    {LIns lIns;}
+    {
+        <Else> lIns=LIns() <End> TO()
+        {return sa.cIf_Then_Else(eh, lh, lIns);} |
+        //ɛ
+        {return sa.cIf_Then(eh, lh);}
+    }
+    
+    Ins IWhile() :
+    {E e; LIns lIns;}
+    {
+        <While> e=E() <Do> lIns=LIns() <End> TO()
+        {return sa.cWhile_(e, lIns);}
+    }
+    
+    Ins IRead() :
+    {E e;}
+    {
+        <Read> e=E() <PuntoComa>
+        {return sa.cRead_(e);}
+    }
+    
+    Ins IWrite() :
+    {E e;}
+    {
+        <Write> e=E() <PuntoComa>
+        {return sa.cWrite_(e);}
+    }
+    
+    Ins INl() :
+    {}
+    {
+        <Nl> <PuntoComa>
+        {return sa.cNl_();}
+    }
+    
+    Ins INew() :
+    {E e;}
+    {
+        <New> e=E() <PuntoComa>
+        {return sa.cNew_(e);}
+    }
+    
+    Ins IDelete() :
+    {E e;}
+    {
+        <Delete> e=E() <PuntoComa>
+        {return sa.cDelete_(e);}
+    }
+    
+    Ins ICallProc() :
+    {E e; LExp lExp;}
+    {
+        e=E() lExp=ParamsR()
+        {return sa.cCall_Proc(e, lExp);}
+    }
+    
+    LExp ParamsR() :
+    {LExp lExp;}
+    {
+        <PApertura> lExp=LExp() <PCierre> <PuntoComa>
+        {return lExp;}
+    }
+    
+    Ins IComp() :
+    {LDecs lDecs; LIns lIns;}
+    {
+        <Seq> lDecs=SDecs() lIns=SIns() TO()
+        {return sa.cIns_Compuesta(lDecs, lIns);}
+    }
+    
+    void TO() :
+    {}
+    {
+        <PuntoComa>
+        {} |
+        //ɛ
+        {}
+    }
+    
+    LExp LExp() :
+    {LExp lExp;}
+    {
+        lExp=LExpAux()
+        {return lExp;} |
+        //ɛ
+        {return sa.cSin_Expr();}
+    }
+    
+    LExp LExpAux() :
+    {E e; LExp lExp;}
+    {
+        e=E() lExp=RLExpAux(sa.cUna_Expr(e))
+        {return lExp;}
+    }
+    
+    LExp RLExpAux(LExp h) :
+    {E e; LExp lExp;}
+    {
+        <Coma> e=E() lExp=RLExpAux(sa.cMuchas_Expr(h, e))
+        {return lExp;} |
+        //ɛ
+        {return h;}
+    }
+    
+    E E() :
+    {E e; E re;}
+    {
+        e=E1() re=RE(e)
+        {return re;}
+    }
+    
+    E RE(E h) :
+    {E e; String op;}
+    {
+        op=OpRel() e=E1()
+        {return sa.cExpBin(h, op, e);} |
+        //ɛ
+        {return h;}
+    }
+    
+    E E1() :
+    {E e2; E rE1; E rE1p;}
+    {
+        e2=E2() rE1=RE1(e2) rE1p=RE1p(rE1)
+        {return rE1p;}
+    }
+    
+    E RE1p(E h) :
+    {E e; E rE1p;}
+    {
+        <Resta> e=E2() rE1p=RE1p(sa.cResta(h, e))
+        {return rE1p;} |
+        //ɛ
+        {return h;}
+    }
+    
+    E RE1(E h) :
+    {E e;}
+    {
+        <Suma> e=E2()
+        {return sa.cSuma(h, e);} |
+        //ɛ
+        {return h;}
+    }
+    
+    E E2() :
+    {E e; E rE2;}
+    {
+        e=E3() rE2=RE2(e)
+        {return rE2;}
+    }
+    
+    E RE2(E h) :
+    {E e;}
+    {
+        <And> e=E3()
+        {return sa.cAnd(h, e);} |
+        <Or> e=E2()
+        {return sa.cOr(h, e);} |
+        //ɛ
+        {return h;}
+    }
+    
+    E E3() :
+    {E e; E rE3;}
+    {
+        e=E4() rE3=RE3(e)
+        {return rE3;}
+    }
+    
+    E RE3(E h) :
+    {E e; String op; E rE3;}
+    {
+        op=Op3() e=E4() rE3=RE3(sa.cExpBin(h, op, e))
+        {return rE3;} |
+        //ɛ
+        {return h;}
+    }
+    
+    E E4() :
+    {String op; E e;}
+    {
+        op=Op4() e=E4()
+        {return sa.cExpUnPref(op, e);} |
+        e=E5()
+        {return e;}
+    }
+    
+    E E5() :
+    {E e; E rE5;}
+    {
+        e=EBasic() rE5=RE5(e)
+        {return rE5;}
+    }
+    
+    E RE5(E h) :
+    {E e; Token t;}
+    {
+        <CApertura> e=E() <CCierre>
+        {return sa.cIndex(h, e);} |
+        <Punto> t=<Id>
+        {return sa.cAccess(h, t.image);} |
+        <Circunflejo>
+        {return sa.cIndir(h);} | 
+        //ɛ
+        {return h;}
+    }
+    
+    E EBasic() :
+    {E e; Token t;}
+    {
+        t=<LEntero>
+        {return sa.cInt(t.image);} |
+        t=<LReal>
+        {return sa.cReal(t.image);} |
+        <True>
+        {return sa.cTrue();} |
+        <False>
+        {return sa.cFalse();} |
+        t=<LCadena>
+        {return sa.cCadena(t.image);} |
+        t=<Id>
+        {return sa.cId(t.image);} |
+        <Null>
+        {return sa.cNull();} |
+        <PApertura> e=E() <PCierre>
+        {return e;}
+    }
+    
+    String OpRel() :
+    {}
+    {
+        <BLT>
+        {return "<";} |
+        <BGT>
+        {return ">";} |
+        <BLE>
+        {return "<=";} |
+        <BGE>
+        {return ">=";} |
+        <BNE>
+        {return "!=";} |
+        <BEQ>
+        {return "==";}
+    }
+    
+    String Op3() :
+    {}
+    {
+        <Multiplica>
+        {return "*";} |
+        <Divide>
+        {return "/";} |
+        <Modulo>
+        {return "%";}
+    }
+    
+    String Op4() :
+    {}
+    {
+        <Resta>
+        {return "-";} |
+        <Not>
+        {return "not";}
+    }
+
+
     

@@ -23,117 +23,113 @@ public interface ConstructorASTConstants {
   /** RegularExpression Id. */
   int PExp = 6;
   /** RegularExpression Id. */
-  int Id = 7;
+  int Suma = 9;
   /** RegularExpression Id. */
-  int LEntero = 8;
+  int Resta = 10;
   /** RegularExpression Id. */
-  int LReal = 9;
+  int Multiplica = 11;
   /** RegularExpression Id. */
-  int LCadena = 10;
+  int Divide = 12;
   /** RegularExpression Id. */
-  int Suma = 11;
+  int Modulo = 13;
   /** RegularExpression Id. */
-  int Resta = 12;
+  int BLT = 14;
   /** RegularExpression Id. */
-  int Multiplica = 13;
+  int BGT = 15;
   /** RegularExpression Id. */
-  int Divide = 14;
+  int BLE = 16;
   /** RegularExpression Id. */
-  int Modulo = 15;
+  int BGE = 17;
   /** RegularExpression Id. */
-  int BLT = 16;
+  int BEQ = 18;
   /** RegularExpression Id. */
-  int BGT = 17;
+  int BNE = 19;
   /** RegularExpression Id. */
-  int BLE = 18;
+  int PApertura = 20;
   /** RegularExpression Id. */
-  int BGE = 19;
+  int PCierre = 21;
   /** RegularExpression Id. */
-  int BEQ = 20;
+  int PuntoComa = 22;
   /** RegularExpression Id. */
-  int BNE = 21;
+  int Igual = 23;
   /** RegularExpression Id. */
-  int PApertura = 22;
+  int CApertura = 24;
   /** RegularExpression Id. */
-  int PCierre = 23;
+  int CCierre = 25;
   /** RegularExpression Id. */
-  int PuntoComa = 24;
+  int Punto = 26;
   /** RegularExpression Id. */
-  int Igual = 25;
+  int Circunflejo = 27;
   /** RegularExpression Id. */
-  int CApertura = 26;
+  int Coma = 28;
   /** RegularExpression Id. */
-  int CCierre = 27;
+  int DosPuntos = 29;
   /** RegularExpression Id. */
-  int Punto = 28;
+  int Int = 30;
   /** RegularExpression Id. */
-  int Circunflejo = 29;
+  int Real = 31;
   /** RegularExpression Id. */
-  int Coma = 30;
+  int Bool = 32;
   /** RegularExpression Id. */
-  int DosPuntos = 31;
+  int String = 33;
   /** RegularExpression Id. */
-  int Int = 32;
+  int And = 34;
   /** RegularExpression Id. */
-  int Real = 33;
+  int Or = 35;
   /** RegularExpression Id. */
-  int Bool = 34;
+  int Not = 36;
   /** RegularExpression Id. */
-  int String = 35;
+  int Null = 37;
   /** RegularExpression Id. */
-  int And = 36;
+  int True = 38;
   /** RegularExpression Id. */
-  int Or = 37;
+  int False = 39;
   /** RegularExpression Id. */
-  int Not = 38;
+  int Proc = 40;
   /** RegularExpression Id. */
-  int Null = 39;
+  int If = 41;
   /** RegularExpression Id. */
-  int True = 40;
+  int Then = 42;
   /** RegularExpression Id. */
-  int False = 41;
+  int Else = 43;
   /** RegularExpression Id. */
-  int Proc = 42;
+  int While = 44;
   /** RegularExpression Id. */
-  int If = 43;
+  int Do = 45;
   /** RegularExpression Id. */
-  int Then = 44;
+  int Seq = 46;
   /** RegularExpression Id. */
-  int Else = 45;
+  int Begin = 47;
   /** RegularExpression Id. */
-  int While = 46;
+  int End = 48;
   /** RegularExpression Id. */
-  int Do = 47;
+  int Record = 49;
   /** RegularExpression Id. */
-  int Seq = 48;
+  int Array = 50;
   /** RegularExpression Id. */
-  int Begin = 49;
+  int Of = 51;
   /** RegularExpression Id. */
-  int End = 50;
+  int New = 52;
   /** RegularExpression Id. */
-  int Record = 51;
+  int Delete = 53;
   /** RegularExpression Id. */
-  int Array = 52;
+  int Read = 54;
   /** RegularExpression Id. */
-  int Of = 53;
+  int Write = 55;
   /** RegularExpression Id. */
-  int New = 54;
+  int Nl = 56;
   /** RegularExpression Id. */
-  int Delete = 55;
+  int Var = 57;
   /** RegularExpression Id. */
-  int Read = 56;
+  int Type = 58;
   /** RegularExpression Id. */
-  int Write = 57;
+  int Id = 59;
   /** RegularExpression Id. */
-  int Nl = 58;
+  int LEntero = 60;
   /** RegularExpression Id. */
-  int Var = 59;
+  int LReal = 61;
   /** RegularExpression Id. */
-  int Type = 60;
-  /** RegularExpression Id. */
-  int Separadores = 61;
-  /** RegularExpression Id. */
-  int Comentarios = 62;
+  int LCadena = 62;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -147,10 +143,8 @@ public interface ConstructorASTConstants {
     "<PEntera>",
     "<PDecimal>",
     "<PExp>",
-    "<Id>",
-    "<LEntero>",
-    "<LReal>",
-    "<LCadena>",
+    "<token of kind 7>",
+    "<token of kind 8>",
     "\"+\"",
     "\"-\"",
     "\"*\"",
@@ -201,8 +195,10 @@ public interface ConstructorASTConstants {
     "<Nl>",
     "<Var>",
     "<Type>",
-    "<Separadores>",
-    "<Comentarios>",
+    "<Id>",
+    "<LEntero>",
+    "<LReal>",
+    "<LCadena>",
   };
 
 }

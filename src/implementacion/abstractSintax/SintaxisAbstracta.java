@@ -1779,4 +1779,47 @@ public class SintaxisAbstracta {
 	public E cIndir(E arg0) {
 		return new Indir(arg0);
 	}
+	
+	public E cExpBin(E arg0, String op, E arg1) {
+		if(op.equals("<")) {
+			return cBlt(arg0, arg1);
+		}
+		else if(op.equals(">")) {
+			return cBgt(arg0, arg1);
+		}
+		else if(op.equals("<=")) {
+			return cBle(arg0, arg1);
+		}
+		else if(op.equals(">=")) {
+			return cBge(arg0, arg1);
+		}
+		else if(op.equals("!=")) {
+			return cBne(arg0, arg1);
+		}
+		else if(op.equals("==")) {
+			return cBeq(arg0, arg1);
+		}
+		else if(op.equals("*")) {
+			return cMult(arg0, arg1);
+		}
+		else if(op.equals("/")) {
+			return cDiv(arg0, arg1);
+		}
+		else if(op.equals("%")) {
+			return cMod(arg0, arg1);
+		}
+		else
+			return null;
+	}
+	
+	public E cExpUnPref(String op, E arg) {
+		if (op.equals("-")) {
+			return cNeg(arg);
+		}
+		else if(op.equals("not")) {
+			return cNot(arg);
+		}
+		else
+			return null;
+	}
 }
