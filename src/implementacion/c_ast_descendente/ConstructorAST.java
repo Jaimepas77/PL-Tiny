@@ -36,7 +36,7 @@ public class ConstructorAST implements ConstructorASTConstants {
     case Var:
     case Type:{
       decT = DecT();
-      rSDecs = RSDecs(sa.cMuchas_Decs(h, DecT()));
+      rSDecs = RSDecs(sa.cMuchas_Decs(h, decT));
 {if ("" != null) return rSDecs;}
       break;
       }
@@ -192,6 +192,7 @@ public class ConstructorAST implements ConstructorASTConstants {
     t = jj_consume_token(Id);
     jj_consume_token(DosPuntos);
     tipo = Tipo();
+    jj_consume_token(PuntoComa);
 {if ("" != null) return sa.cCampo(t.image, tipo);}
     throw new Error("Missing return statement in function");
 }

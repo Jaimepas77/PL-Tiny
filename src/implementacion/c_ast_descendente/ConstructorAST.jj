@@ -82,7 +82,7 @@ PARSER_END(ConstructorAST)
 	TOKEN:{<Id: <Letra> (<Letra> | <Dig> | "_")*>}
 	TOKEN:{<LEntero: <PEntera>>}
 	TOKEN:{<LReal: <PEntera> (<PDecimal> | <PExp> | <PDecimal> <PExp>)>}
-	TOKEN:{<LCadena: <PEntera> (<PDecimal> | <PExp> | <PDecimal> <PExp>)>}
+	TOKEN:{<LCadena: "'"(~["\b", "\n", "\r"])*"'">}
 
 	//Sintaxis
 	Prog Init() :
@@ -109,9 +109,8 @@ PARSER_END(ConstructorAST)
 	LDecs RSDecs(LDecs h) :
     {Dec decT; LDecs rSDecs;}
     {
-        decT=DecT() rSDecs=RSDecs(sa.cMuchas_Decs(h, DecT()))
+        decT=DecT() rSDecs=RSDecs(sa.cMuchas_Decs(h, decT))
         {return rSDecs;} | 
-        //ɛ
         {return h;}
     }
     
@@ -195,7 +194,7 @@ PARSER_END(ConstructorAST)
     Campo CampoT() :
     {Tipo tipo; Token t;}
     {
-        t=<Id> <DosPuntos> tipo=Tipo()
+        t=<Id> <DosPuntos> tipo=Tipo() <PuntoComa>
         {return sa.cCampo(t.image, tipo);}
     }
     
