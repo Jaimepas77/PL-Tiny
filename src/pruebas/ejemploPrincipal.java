@@ -163,7 +163,7 @@ public class ejemploPrincipal {
 		 * var num: real;
 		 * begin
 		 * 	read num;
-		 *  write num-1;
+		 *  write num - 1;
 		 * end.
 		 * */
 		SintaxisAbstracta sa = new SintaxisAbstracta();
@@ -178,7 +178,7 @@ public class ejemploPrincipal {
 		/*
 		 * var a: bool;
 		 * begin
-		 * 	a = 3 != 3.0
+		 * 	a = 3 != 3.0;
 		 * 	if a then
 		 * 		write 'a es true';
 		 * 	else
@@ -209,7 +209,7 @@ public class ejemploPrincipal {
 		 * var num: real;
 		 * begin
 		 * 	read num;
-		 * 	while not (num < 0) then
+		 * 	while not (num < 0) do
 		 * 		num = num - 1;
 		 *  	write num;
 		 *  	nl;
@@ -236,7 +236,7 @@ public class ejemploPrincipal {
 		 * var num: int;
 		 * begin
 		 * 	read num;
-		 * 	while (not (num <= 0)) and num%5 != 4 then
+		 * 	while (not (num <= 0)) and (num%5 != 4) do
 		 * 		num = num - 1;
 		 *  	write num;
 		 *  	nl;
@@ -265,7 +265,7 @@ public class ejemploPrincipal {
 		 * var num: real;
 		 * begin
 		 * 	read num;
-		 *  write ((-num)/2)*(-num);
+		 *  write -num/2*-num; @((-num)/2)*(-num);
 		 * end.
 		 * */
 		SintaxisAbstracta sa = new SintaxisAbstracta();
@@ -321,13 +321,14 @@ public class ejemploPrincipal {
 	
 	private static Prog astCodigoReadWriteArray() {
 		/*
-		 * var num: real;
+		 * var num: int;
 		 * var v: array [3] of int;
 		 * begin
 		 * 	num = 3;
 		 * 	while not (num <= 0) then
 		 * 		num = num - 1;
-		 *  	write num;
+		 *  	read v[num]
+		 *  	write v[num];
 		 *  	nl;
 		 *  end;
 		 * end.

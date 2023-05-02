@@ -3,6 +3,7 @@ package implementacion;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.Scanner;
 
 import implementacion.abstractSintax.SintaxisAbstracta.*;
 import implementacion.c_ast_descendente.ConstructorAST;
@@ -23,8 +24,11 @@ public class Main {
 	    } else {
 	      if (args[0].equals("-asc"))
 	        prog = ejecuta_ascendente(args[1]);
-	      else */if (args[0].equals("-desc"))
-	        prog = ejecuta_descendente(args[1]);
+	      else */if (args[0].equals("-desc")) {
+	        //prog = ejecuta_descendente(args[1]);
+	    	  Scanner s = new Scanner(System.in);
+	    	  prog = ejecuta_descendente("./pruebas/" + s.nextLine() + ".pas");
+	      }
 	    //Procesamientos
 			prog.procesa(new Vinculacion());
 			prog.procesa(new Tipado());

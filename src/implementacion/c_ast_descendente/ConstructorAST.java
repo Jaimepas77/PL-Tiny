@@ -440,9 +440,16 @@ public class ConstructorAST implements ConstructorASTConstants {
 {if ("" != null) return sa.cIf_Then_Else(eh, lh, lIns);}
       break;
       }
+    case End:{
+      jj_consume_token(End);
+      TO();
+{if ("" != null) return sa.cIf_Then(eh, lh);}
+      break;
+      }
     default:
       jj_la1[10] = jj_gen;
-{if ("" != null) return sa.cIf_Then(eh, lh);}
+      jj_consume_token(-1);
+      throw new ParseException();
     }
     throw new Error("Missing return statement in function");
 }
@@ -729,24 +736,27 @@ public class ConstructorAST implements ConstructorASTConstants {
     throw new Error("Missing return statement in function");
 }
 
-  final public E RE5(E h) throws ParseException {E e; Token t;
+  final public E RE5(E h) throws ParseException {E e1; Token t; E e2;
     switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
     case CApertura:{
       jj_consume_token(CApertura);
-      e = E();
+      e1 = E();
       jj_consume_token(CCierre);
-{if ("" != null) return sa.cIndex(h, e);}
+      e2 = RE5(sa.cIndex(h, e1));
+{if ("" != null) return e2;}
       break;
       }
     case Punto:{
       jj_consume_token(Punto);
       t = jj_consume_token(Id);
-{if ("" != null) return sa.cAccess(h, t.image);}
+      e2 = RE5(sa.cAccess(h, t.image));
+{if ("" != null) return e2;}
       break;
       }
     case Circunflejo:{
       jj_consume_token(Circunflejo);
-{if ("" != null) return sa.cIndir(h);}
+      e2 = RE5(sa.cIndir(h));
+{if ("" != null) return e2;}
       break;
       }
     default:
@@ -913,7 +923,7 @@ public class ConstructorAST implements ConstructorASTConstants {
 	   jj_la1_0 = new int[] {0x0,0x0,0xc8000000,0x0,0x0,0x10000000,0x0,0x100400,0x100400,0x900000,0x0,0x400000,0x100400,0x10000000,0xfc000,0x400,0x200,0x0,0x3800,0x100400,0xd000000,0x100000,0xfc000,0x3800,0x400,};
 	}
 	private static void jj_la1_init_1() {
-	   jj_la1_1 = new int[] {0x6000100,0x6000100,0x8060003,0x8000000,0xa000000,0x0,0xa000000,0x79f052f0,0x79f052f0,0x0,0x800,0x0,0x780000f0,0x0,0x0,0x0,0x0,0xc,0x0,0x780000f0,0x0,0x780000e0,0x0,0x0,0x10,};
+	   jj_la1_1 = new int[] {0x6000100,0x6000100,0x8060003,0x8000000,0xa000000,0x0,0xa000000,0x79f052f0,0x79f052f0,0x0,0x10800,0x0,0x780000f0,0x0,0x0,0x0,0x0,0xc,0x0,0x780000f0,0x0,0x780000e0,0x0,0x0,0x10,};
 	}
 
   /** Constructor with InputStream. */

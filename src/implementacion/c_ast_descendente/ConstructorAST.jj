@@ -328,7 +328,7 @@ PARSER_END(ConstructorAST)
     {
         <Else> lIns=LIns() <End> TO()
         {return sa.cIf_Then_Else(eh, lh, lIns);} |
-        //ɛ
+        <End> TO()
         {return sa.cIf_Then(eh, lh);}
     }
     
@@ -514,14 +514,14 @@ PARSER_END(ConstructorAST)
     }
     
     E RE5(E h) :
-    {E e; Token t;}
+    {E e1; Token t; E e2;}
     {
-        <CApertura> e=E() <CCierre>
-        {return sa.cIndex(h, e);} |
-        <Punto> t=<Id>
-        {return sa.cAccess(h, t.image);} |
-        <Circunflejo>
-        {return sa.cIndir(h);} | 
+        <CApertura> e1=E() <CCierre> e2=RE5(sa.cIndex(h, e1))
+        {return e2;} |
+        <Punto> t=<Id> e2=RE5(sa.cAccess(h, t.image))
+        {return e2;} |
+        <Circunflejo> e2=RE5(sa.cIndir(h))
+        {return e2;} | 
         //ɛ
         {return h;}
     }
