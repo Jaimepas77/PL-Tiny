@@ -82,7 +82,7 @@ PARSER_END(ConstructorAST)
 	TOKEN:{<Id: <Letra> (<Letra> | <Dig> | "_")*>}
 	TOKEN:{<LEntero: <PEntera>>}
 	TOKEN:{<LReal: <PEntera> (<PDecimal> | <PExp> | <PDecimal> <PExp>)>}
-	TOKEN:{<LCadena: "'"(~["\b", "\n", "\r"])*"'">}
+	TOKEN:{<LCadena: "'"(~["'", "\b", "\n", "\r"])*"'">}
 
 	//Sintaxis
 	Prog Init() :
