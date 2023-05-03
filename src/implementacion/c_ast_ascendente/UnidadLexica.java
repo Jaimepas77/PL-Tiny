@@ -15,7 +15,9 @@ public class UnidadLexica extends Symbol {
 		return "[clase="+clase2string(sym)+",lexema="+lexema+",fila="+lexema.fila()+",col="+lexema.col()+"]";
 	}
 	private String clase2string(int clase) {
-		switch(clase) {
+		return ClaseLexica.terminalNames[clase];
+		//TODO borrar cuando esté probado
+		/*switch(clase) {
 		case ClaseLexica.SUMA: return "SUMA";
 		case ClaseLexica.RESTA: return "RESTA";
 		case ClaseLexica.MULTIPLICA: return "MULTIPLICA";
@@ -71,6 +73,6 @@ public class UnidadLexica extends Symbol {
 		case ClaseLexica.LREAL: return "LREAL";
 		case ClaseLexica.LCADENA: return "LCADENA";
 		default: return "?";               
-		}
+		}*/
 	}
 }

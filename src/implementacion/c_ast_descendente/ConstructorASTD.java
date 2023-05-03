@@ -84,7 +84,7 @@ public class ConstructorASTD implements ConstructorASTDConstants {
     t = jj_consume_token(Id);
     jj_consume_token(DosPuntos);
     tipo = Tipo();
-{if ("" != null) return sa.cDec_Var(t.image, tipo);}
+{if ("" != null) return sa.cDec_Var(t.image.toLowerCase(), tipo);}
     throw new Error("Missing return statement in function");
 }
 
@@ -93,7 +93,7 @@ public class ConstructorASTD implements ConstructorASTDConstants {
     t = jj_consume_token(Id);
     jj_consume_token(DosPuntos);
     tipo = Tipo();
-{if ("" != null) return sa.cDec_Tipo(t.image, tipo);}
+{if ("" != null) return sa.cDec_Tipo(t.image.toLowerCase(), tipo);}
     throw new Error("Missing return statement in function");
 }
 
@@ -103,7 +103,7 @@ public class ConstructorASTD implements ConstructorASTDConstants {
     params = ParamsF();
     sDecs = SDecs();
     sIns = SIns();
-{if ("" != null) return sa.cDec_Proc(t.image, params, sDecs, sIns);}
+{if ("" != null) return sa.cDec_Proc(t.image.toLowerCase(), params, sDecs, sIns);}
     throw new Error("Missing return statement in function");
 }
 
@@ -132,7 +132,7 @@ public class ConstructorASTD implements ConstructorASTDConstants {
       }
     case Id:{
       t = jj_consume_token(Id);
-{if ("" != null) return sa.cRef_(t.image);}
+{if ("" != null) return sa.cRef_(t.image.toLowerCase());}
       break;
       }
     case Array:{
@@ -193,7 +193,7 @@ public class ConstructorASTD implements ConstructorASTDConstants {
     jj_consume_token(DosPuntos);
     tipo = Tipo();
     jj_consume_token(PuntoComa);
-{if ("" != null) return sa.cCampo(t.image, tipo);}
+{if ("" != null) return sa.cCampo(t.image.toLowerCase(), tipo);}
     throw new Error("Missing return statement in function");
 }
 
@@ -268,7 +268,7 @@ public class ConstructorASTD implements ConstructorASTDConstants {
     t = jj_consume_token(Id);
     jj_consume_token(DosPuntos);
     tipo = Tipo();
-{if ("" != null) return sa.cParam_Ref(t.image, tipo);}
+{if ("" != null) return sa.cParam_Ref(t.image.toLowerCase(), tipo);}
     throw new Error("Missing return statement in function");
 }
 
@@ -276,7 +276,7 @@ public class ConstructorASTD implements ConstructorASTDConstants {
     t = jj_consume_token(Id);
     jj_consume_token(DosPuntos);
     tipo = Tipo();
-{if ("" != null) return sa.cParam_Val(t.image, tipo);}
+{if ("" != null) return sa.cParam_Val(t.image.toLowerCase(), tipo);}
     throw new Error("Missing return statement in function");
 }
 
@@ -749,7 +749,7 @@ public class ConstructorASTD implements ConstructorASTDConstants {
     case Punto:{
       jj_consume_token(Punto);
       t = jj_consume_token(Id);
-      e2 = RE5(sa.cAccess(h, t.image));
+      e2 = RE5(sa.cAccess(h, t.image.toLowerCase()));
 {if ("" != null) return e2;}
       break;
       }
@@ -795,7 +795,7 @@ public class ConstructorASTD implements ConstructorASTDConstants {
       }
     case Id:{
       t = jj_consume_token(Id);
-{if ("" != null) return sa.cId(t.image);}
+{if ("" != null) return sa.cId(t.image.toLowerCase());}
       break;
       }
     case Null:{

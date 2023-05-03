@@ -636,7 +636,7 @@ class CUP$ConstructorAST$actions {
 		int tleft = ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.peek()).left;
 		int tright = ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.peek()).right;
 		Tipo t = (Tipo)((java_cup.runtime.Symbol) CUP$ConstructorAST$stack.peek()).value;
-		 RESULT = sa.cDec_Var(id, t); 
+		 RESULT = sa.cDec_Var(id.toLowerCase(), t); 
               CUP$ConstructorAST$result = parser.getSymbolFactory().newSymbol("DecVar",4, ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.elementAt(CUP$ConstructorAST$top-3)), ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.peek()), RESULT);
             }
           return CUP$ConstructorAST$result;
@@ -651,7 +651,7 @@ class CUP$ConstructorAST$actions {
 		int tleft = ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.peek()).left;
 		int tright = ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.peek()).right;
 		Tipo t = (Tipo)((java_cup.runtime.Symbol) CUP$ConstructorAST$stack.peek()).value;
-		 RESULT = sa.cDec_Tipo(id, t); 
+		 RESULT = sa.cDec_Tipo(id.toLowerCase(), t); 
               CUP$ConstructorAST$result = parser.getSymbolFactory().newSymbol("DecVar",4, ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.elementAt(CUP$ConstructorAST$top-3)), ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.peek()), RESULT);
             }
           return CUP$ConstructorAST$result;
@@ -672,7 +672,7 @@ class CUP$ConstructorAST$actions {
 		int ileft = ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.peek()).left;
 		int iright = ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.peek()).right;
 		LIns i = (LIns)((java_cup.runtime.Symbol) CUP$ConstructorAST$stack.peek()).value;
-		 RESULT = sa.cDec_Proc(id, p, d, i); 
+		 RESULT = sa.cDec_Proc(id.toLowerCase(), p, d, i); 
               CUP$ConstructorAST$result = parser.getSymbolFactory().newSymbol("DecVar",4, ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.elementAt(CUP$ConstructorAST$top-4)), ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.peek()), RESULT);
             }
           return CUP$ConstructorAST$result;
@@ -720,7 +720,7 @@ class CUP$ConstructorAST$actions {
 		int ileft = ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.peek()).left;
 		int iright = ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.peek()).right;
 		String i = (String)((java_cup.runtime.Symbol) CUP$ConstructorAST$stack.peek()).value;
-		 RESULT = sa.cRef_(i); 
+		 RESULT = sa.cRef_(i.toLowerCase()); 
               CUP$ConstructorAST$result = parser.getSymbolFactory().newSymbol("Tipo",7, ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.peek()), ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.peek()), RESULT);
             }
           return CUP$ConstructorAST$result;
@@ -801,7 +801,7 @@ class CUP$ConstructorAST$actions {
 		int tleft = ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.elementAt(CUP$ConstructorAST$top-1)).left;
 		int tright = ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.elementAt(CUP$ConstructorAST$top-1)).right;
 		Tipo t = (Tipo)((java_cup.runtime.Symbol) CUP$ConstructorAST$stack.elementAt(CUP$ConstructorAST$top-1)).value;
-		 RESULT = sa.cCampo(id, t); 
+		 RESULT = sa.cCampo(id.toLowerCase(), t); 
               CUP$ConstructorAST$result = parser.getSymbolFactory().newSymbol("Campo",10, ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.elementAt(CUP$ConstructorAST$top-3)), ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.peek()), RESULT);
             }
           return CUP$ConstructorAST$result;
@@ -876,7 +876,7 @@ class CUP$ConstructorAST$actions {
 		int tleft = ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.peek()).left;
 		int tright = ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.peek()).right;
 		Tipo t = (Tipo)((java_cup.runtime.Symbol) CUP$ConstructorAST$stack.peek()).value;
-		 RESULT = sa.cParam_Ref(id, t); 
+		 RESULT = sa.cParam_Ref(id.toLowerCase(), t); 
               CUP$ConstructorAST$result = parser.getSymbolFactory().newSymbol("ParamF",14, ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.elementAt(CUP$ConstructorAST$top-3)), ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.peek()), RESULT);
             }
           return CUP$ConstructorAST$result;
@@ -891,7 +891,7 @@ class CUP$ConstructorAST$actions {
 		int tleft = ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.peek()).left;
 		int tright = ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.peek()).right;
 		Tipo t = (Tipo)((java_cup.runtime.Symbol) CUP$ConstructorAST$stack.peek()).value;
-		 RESULT = sa.cParam_Val(id, t); 
+		 RESULT = sa.cParam_Val(id.toLowerCase(), t); 
               CUP$ConstructorAST$result = parser.getSymbolFactory().newSymbol("ParamF",14, ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.elementAt(CUP$ConstructorAST$top-2)), ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.peek()), RESULT);
             }
           return CUP$ConstructorAST$result;
@@ -1344,7 +1344,7 @@ class CUP$ConstructorAST$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.peek()).right;
 		String id = (String)((java_cup.runtime.Symbol) CUP$ConstructorAST$stack.peek()).value;
-		 RESULT = sa.cAccess(e, id); 
+		 RESULT = sa.cAccess(e, id.toLowerCase()); 
               CUP$ConstructorAST$result = parser.getSymbolFactory().newSymbol("E5",38, ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.elementAt(CUP$ConstructorAST$top-2)), ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.peek()), RESULT);
             }
           return CUP$ConstructorAST$result;
@@ -1434,7 +1434,7 @@ class CUP$ConstructorAST$actions {
 		int sleft = ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.peek()).left;
 		int sright = ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.peek()).right;
 		String s = (String)((java_cup.runtime.Symbol) CUP$ConstructorAST$stack.peek()).value;
-		 RESULT = sa.cId(s); 
+		 RESULT = sa.cId(s.toLowerCase()); 
               CUP$ConstructorAST$result = parser.getSymbolFactory().newSymbol("EBasic",39, ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.peek()), ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.peek()), RESULT);
             }
           return CUP$ConstructorAST$result;

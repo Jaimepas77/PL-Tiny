@@ -57,11 +57,11 @@ Dec ::= DecVar: dec
         DecProc: dec
         {: RESULT = dec; :};
 DecVar ::= VAR ID: id DOSPUNTOS Tipo: t
-        {: RESULT = sa.cDec_Var(id, t); :};
+        {: RESULT = sa.cDec_Var(id.toLowerCase(), t); :};
 DecVar ::= TYPE ID: id DOSPUNTOS Tipo: t
-        {: RESULT = sa.cDec_Tipo(id, t); :};
+        {: RESULT = sa.cDec_Tipo(id.toLowerCase(), t); :};
 DecVar ::= PROC ID: id ParamsF: p SDecs: d SIns: i
-        {: RESULT = sa.cDec_Proc(id, p, d, i); :};
+        {: RESULT = sa.cDec_Proc(id.toLowerCase(), p, d, i); :};
         
 Tipo ::= INT
         {: RESULT = sa.cInt_(); :}
@@ -76,7 +76,7 @@ Tipo ::= INT
         {: RESULT = sa.cString_(); :}
         |
         ID: i
-        {: RESULT = sa.cRef_(i); :}
+        {: RESULT = sa.cRef_(i.toLowerCase()); :}
         |
         ARRAY CAPERTURA LENTERO: e CCIERRE OF Tipo: t
         {: RESULT = sa.cArray_(e, t); :}
@@ -94,7 +94,7 @@ Campos ::= Campos: cs CampoT: c
         {: RESULT = sa.cUn_Campo(c); :}
         ;
 Campo ::= ID: id DOSPUNTOS Tipo: t PUNTOCOMA
-        {: RESULT = sa.cCampo(id, t); :};
+        {: RESULT = sa.cCampo(id.toLowerCase(), t); :};
         
 ParamsF ::= PAPERTURA LParams: params PCIERRE
         {: RESULT = params; :};
@@ -110,10 +110,10 @@ LParamsAux ::= LParamsAux: params COMA ParamF: p
         {: RESULT = sa.cUn_Param(p); :}
         ;
 ParamF ::= VAR ID: id DOSPUNTOS Tipo:t
-        {: RESULT = sa.cParam_Ref(id, t); :}
+        {: RESULT = sa.cParam_Ref(id.toLowerCase(), t); :}
         |
         ID: id DOSPUNTOS Tipo:t
-        {: RESULT = sa.cParam_Val(id, t); :}
+        {: RESULT = sa.cParam_Val(id.toLowerCase(), t); :}
         ;
         
 SIns ::= BEGIN LIns: ins END
@@ -207,7 +207,7 @@ E5 ::= E5: e1 CAPERTURA E: e2 CCIERRE
         {: RESULT = sa.cIndex(e1, e2); :}
         |
         E5: e PUNTO ID: id
-        {: RESULT = sa.cAccess(e, id); :}
+        {: RESULT = sa.cAccess(e, id.toLowerCase()); :}
         |
         E5: e CIRCUNFLEJO
         {: RESULT = sa.cIndir(e); :}
@@ -231,7 +231,7 @@ EBasic ::= LENTERO: s
         {: RESULT = sa.cCadena(s); :}
         |
         ID: s
-        {: RESULT = sa.cId(s); :}
+        {: RESULT = sa.cId(s.toLowerCase()); :}
         |
         NULL: s
         {: RESULT = sa.cNull(); :}
