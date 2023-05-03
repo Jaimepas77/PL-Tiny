@@ -6,5 +6,6 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="src/implementacion/c_ast_ascendente/java-cup-11b-runtime.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

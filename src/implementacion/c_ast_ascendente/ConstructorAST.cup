@@ -1,4 +1,4 @@
-//java -jar cup.jar -parser ConstructoAST -symbols ClaseLexica ConstructorAST.cup
+//java -jar cup.jar -parser ConstructorAST -symbols ClaseLexica ConstructorAST.cup
 package implementacion.c_ast_ascendente;
 
 import java_cup.runtime.*;
@@ -37,7 +37,7 @@ non terminal LIns SIns, LIns;
 non terminal Ins Ins, IAsig, IAlt, IWhile, IRead, IWrite, INl, INew, IDelete, ICallProc, IComp;
 non terminal LExp ParamsR, LExp, LExpAux;
 non terminal E E, E1, E2, E3, E4, E5, EBasic;
-non terminal Character OpRel, Op3, Op4;
+non terminal String OpRel, Op3, Op4;
 non terminal TO;
 
 Prog ::= SDecs: decs SIns: ins PUNTO
@@ -47,7 +47,7 @@ SDecs ::= SDecs: decs DecT: dec
         |
         {: RESULT = sa.cSin_Decs(); :};
 DecT ::= Dec: dec PUNTOCOMA
-        {: RESULT = dec :};
+        {: RESULT = dec; :};
 Dec ::= DecVar: dec
         {: RESULT = dec; :}
         |
@@ -82,7 +82,7 @@ Tipo ::= INT
         {: RESULT = sa.cArray_(e, t); :}
         |
         RECORD Campos: cs END
-        {: RESULT = sa.cRecord(cs); :}
+        {: RESULT = sa.cRecord_(cs); :}
         |
         CIRCUNFLEJO Tipo: t
         {: RESULT = sa.cPuntero_(t); :}
@@ -154,7 +154,7 @@ Ins ::= E: e1 IGUAL E: e2 PUNTOCOMA
         {: RESULT = sa.cCall_Proc(e, params); :}
         |
         SEQ SDecs: decs SIns: ins TO
-        {: RESULT = sa.cIns_Compuesta_(decs, ins); :}
+        {: RESULT = sa.cIns_Compuesta(decs, ins); :}
         ;
 TO ::= PUNTOCOMA | ;
 LExp ::= LExpAux: l
@@ -211,6 +211,7 @@ E5 ::= E5: e1 CAPERTURA E: e2 CCIERRE
         |
         E5: e CIRCUNFLEJO
         {: RESULT = sa.cIndir(e); :}
+        |
         EBasic: e
         {: RESULT = e; :}
         ;
