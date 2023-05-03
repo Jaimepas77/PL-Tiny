@@ -1,7 +1,5 @@
 package implementacion.c_ast_ascendente;
 
-import implementacion.c_ast_ascendente.UnidadLexica;
-
 public class GestionErrores {
 	public void errorLexico(int fila, String lexema) {
 	     System.out.println("ERROR fila "+fila+": Caracter inexperado: "+lexema); 

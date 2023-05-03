@@ -8,18 +8,49 @@ public class SintaxisAbstracta {
 		int getNivel();
 	}
 	
+	public static class StringLocalizado {
+		private String s;
+		private int fila;
+		private int col;
+		public StringLocalizado(String s, int fila, int col) {
+			this.s = s;
+			this.fila = fila;
+			this.col = col;
+		}
+		public int fila() {return fila;}
+		public int col() {return col;}
+		public String toString() {
+			return s;
+		}
+		public boolean equals(Object o) {
+			return (o == this) || (
+					(o instanceof StringLocalizado) &&
+					(((StringLocalizado)o).s.equals(s)));                
+		}
+		public int hashCode() {
+			return s.hashCode();
+		}
+	}
+	
 	// Prog
 	public static abstract class Prog { // Estática porque no hace nada por sí misma
+        private SalidaTipo tipo;
 		public Prog() {
 		}
 
 		public abstract void procesa(Procesamiento p);
+		
+		public SalidaTipo getTipo() {
+			return tipo;
+		}
+		public void setTipo(SalidaTipo tipo){
+			this.tipo = tipo; 
+		}
 	}
 
 	public static class Prog_ extends Prog {
 		private LDecs lDecs;
 		private LIns lIns;
-        private SalidaTipo tipo;
 		private int ini;
 		
 		public Prog_(LDecs lDecs, LIns lIns) {
@@ -34,12 +65,6 @@ public class SintaxisAbstracta {
 
 		public LIns getlIns() {
 			return lIns;
-		}
-		public SalidaTipo getTipo() {
-			return tipo;
-		}
-		public void setTipo(SalidaTipo tipo){
-			this.tipo = tipo; 
 		}
 
 		public void procesa(Procesamiento p) {
@@ -1822,4 +1847,8 @@ public class SintaxisAbstracta {
 		else
 			return null;
 	}
+	
+    public StringLocalizado str(String s, int fila, int col) {
+        return new StringLocalizado(s,fila,col);
+    }
 }

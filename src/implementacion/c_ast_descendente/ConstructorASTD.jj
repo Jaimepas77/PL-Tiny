@@ -1,17 +1,17 @@
 options  {
   STATIC=false;
 }  
-PARSER_BEGIN(ConstructorAST)
+PARSER_BEGIN(ConstructorASTD)
 package implementacion.c_ast_descendente;
 
 import implementacion.abstractSintax.SintaxisAbstracta;
 import implementacion.abstractSintax.SintaxisAbstracta.*;
 
-public class ConstructorAST {
+public class ConstructorASTD {
 	private SintaxisAbstracta sa = new SintaxisAbstracta();
 }
 
-PARSER_END(ConstructorAST)
+PARSER_END(ConstructorASTD)
 
 	//Defs auxiliares
 	TOKEN:{<#Letra:["a"-"z","A"-"Z"]>}

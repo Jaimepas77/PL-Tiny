@@ -1,5 +1,6 @@
 package implementacion.c_ast_ascendente;
 
+import implementacion.abstractSintax.SintaxisAbstracta.StringLocalizado;
 import java_cup.runtime.Symbol;
 
 public class UnidadLexica extends Symbol {
