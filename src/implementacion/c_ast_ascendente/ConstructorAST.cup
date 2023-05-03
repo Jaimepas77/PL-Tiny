@@ -1,0 +1,275 @@
+//java -jar cup.jar -parser ConstructoAST -symbols ClaseLexica ConstructorAST.cup
+package implementacion.c_ast_ascendente;
+
+import java_cup.runtime.*;
+import implementacion.abstractSintax.SintaxisAbstracta;
+import implementacion.abstractSintax.SintaxisAbstracta.*;
+
+
+scan with {: return getScanner().next_token(); :};
+action code {:
+	private SintaxisAbstracta sa = new SintaxisAbstracta();
+:};
+parser code {: 
+   private GestionErrores errores;
+   public void syntax_error(Symbol unidadLexica) {
+     errores.errorSintactico((UnidadLexica)unidadLexica);
+   }
+:};
+init with {: 
+   errores = new GestionErrores();
+   AnalizadorLex alex = (AnalizadorLex)getScanner();
+   alex.fijaGestionErrores(errores);
+:};
+
+terminal SUMA, RESTA, MULTIPLICA, DIVIDE, MODULO, BLT, BGT, BLE, BGE, BEQ, BNE, PAPERTURA, PCIERRE, PUNTOCOMA, IGUAL, CAPERTURA, CCIERRE, PUNTO, CIRCUNFLEJO, COMA, DOSPUNTOS, INT, REAL, BOOL, STRING, AND, OR, NOT, NULL, TRUE, FALSE, PROC, IF, THEN, ELSE, WHILE, DO, SEQ, BEGIN, END, RECORD, ARRAY, OF, NEW, DELETE, READ, WRITE, NL, VAR, TYPE;
+terminal String ID, LENTERO, LREAL, LCADENA;
+
+non terminal Prog Prog;
+non terminal LDecs SDecs;
+non terminal Dec DecT, Dec, DecVar, DecTipo, DecProc;
+non terminal Tipo Tipo;
+non terminal Campos Campos;
+non terminal Campo CampoT, Campo;
+non terminal LParams ParamsF, LParams, LParamsAux;
+non terminal Param ParamF, ParamRef, ParamVal;
+non terminal LIns SIns, LIns;
+non terminal Ins Ins, IAsig, IAlt, IWhile, IRead, IWrite, INl, INew, IDelete, ICallProc, IComp;
+non terminal LExp ParamsR, LExp, LExpAux;
+non terminal E E, E1, E2, E3, E4, E5, EBasic;
+non terminal Character OpRel, Op3, Op4;
+non terminal TO;
+
+Prog ::= SDecs: decs SIns: ins PUNTO
+        {: RESULT = sa.cProg_(decs, ins); :};
+SDecs ::= SDecs: decs DecT: dec
+        {: RESULT = sa.cMuchas_Decs(decs, dec); :}
+        |
+        {: RESULT = sa.cSin_Decs(); :};
+DecT ::= Dec: dec PUNTOCOMA
+        {: RESULT = dec :};
+Dec ::= DecVar: dec
+        {: RESULT = dec; :}
+        |
+        DecTipo: dec
+        {: RESULT = dec; :}
+        |
+        DecProc: dec
+        {: RESULT = dec; :};
+DecVar ::= VAR ID: id DOSPUNTOS Tipo: t
+        {: RESULT = sa.cDec_Var(id, t); :};
+DecVar ::= TYPE ID: id DOSPUNTOS Tipo: t
+        {: RESULT = sa.cDec_Tipo(id, t); :};
+DecVar ::= PROC ID: id ParamsF: p SDecs: d SIns: i
+        {: RESULT = sa.cDec_Proc(id, p, d, i); :};
+        
+Tipo ::= INT
+        {: RESULT = sa.cInt_(); :}
+        |
+        REAL
+        {: RESULT = sa.cReal_(); :}
+        |
+        BOOL
+        {: RESULT = sa.cBool_(); :}
+        |
+        STRING
+        {: RESULT = sa.cString_(); :}
+        |
+        ID: i
+        {: RESULT = sa.cRef_(i); :}
+        |
+        ARRAY CAPERTURA LENTERO: e CCIERRE OF Tipo: t
+        {: RESULT = sa.cArray_(e, t); :}
+        |
+        RECORD Campos: cs END
+        {: RESULT = sa.cRecord(cs); :}
+        |
+        CIRCUNFLEJO Tipo: t
+        {: RESULT = sa.cPuntero_(t); :}
+        ;
+Campos ::= Campos: cs CampoT: c
+        {: RESULT = sa.cMuchos_Campos(cs, c); :}
+        |
+        Campo: c
+        {: RESULT = sa.cUn_Campo(c); :}
+        ;
+Campo ::= ID: id DOSPUNTOS Tipo: t PUNTOCOMA
+        {: RESULT = sa.cCampo(id, t); :};
+        
+ParamsF ::= PAPERTURA LParams: params PCIERRE
+        {: RESULT = params; :};
+LParams ::= LParamsAux: params
+        {: RESULT = params; :}
+        |
+        {: RESULT = sa.cSin_Params(); :}
+        ;
+LParamsAux ::= LParamsAux: params COMA ParamF: p
+        {: RESULT = sa.cMuchos_Params(params, p); :}
+        |
+        ParamF: p
+        {: RESULT = sa.cUn_Param(p); :}
+        ;
+ParamF ::= VAR ID: id DOSPUNTOS Tipo:t
+        {: RESULT = sa.cParam_Ref(id, t); :}
+        |
+        ID: id DOSPUNTOS Tipo:t
+        {: RESULT = sa.cParam_Val(id, t); :}
+        ;
+        
+SIns ::= BEGIN LIns: ins END
+        {: RESULT = ins; :};
+LIns ::= LIns: lins Ins: i
+        {: RESULT = sa.cMuchas_Ins(lins, i); :}
+        |
+        {: RESULT = sa.cSin_Ins(); :}
+        ;
+Ins ::= E: e1 IGUAL E: e2 PUNTOCOMA
+        {: RESULT = sa.cAsignacion_(e1, e2); :}
+        |
+        IF E: e THEN LIns: ins END TO
+        {: RESULT = sa.cIf_Then(e, ins); :}
+        |
+        IF E: e THEN LIns: ins1 ELSE LIns: ins2 END TO
+        {: RESULT = sa.cIf_Then_Else(e, ins1, ins2); :}
+        |
+        WHILE E: e DO LIns: ins END TO
+        {: RESULT = sa.cWhile_(e, ins); :}
+        |
+        READ E: e PUNTOCOMA
+        {: RESULT = sa.cRead_(e); :}
+        |
+        WRITE E: e PUNTOCOMA
+        {: RESULT = sa.cWrite_(e); :}
+        |
+        NL PUNTOCOMA
+        {: RESULT = sa.cNl_(); :}
+        |
+        NEW E: e PUNTOCOMA
+        {: RESULT = sa.cNew_(e); :}
+        |
+        DELETE E: e PUNTOCOMA
+        {: RESULT = sa.cDelete_(e); :}
+        |
+        E: e PAPERTURA LExp: params PCIERRE PUNTOCOMA
+        {: RESULT = sa.cCall_Proc(e, params); :}
+        |
+        SEQ SDecs: decs SIns: ins TO
+        {: RESULT = sa.cIns_Compuesta_(decs, ins); :}
+        ;
+TO ::= PUNTOCOMA | ;
+LExp ::= LExpAux: l
+        {: RESULT = l; :}
+        |
+        {: RESULT = sa.cSin_Expr(); :}
+        ;
+LExpAux ::= LExpAux: l COMA E: e
+        {: RESULT = sa.cMuchas_Expr(l, e); :}
+        |
+        E: e
+        {: RESULT = sa.cUna_Expr(e); :}
+        ;
+E ::= E1: e1 OpRel: c E1: e2
+        {: RESULT = sa.cExpBin(e1, c, e2); :}
+        |
+        E1: e
+        {: RESULT = e; :}
+        ;
+E1 ::= E2: e1 SUMA E2: e2
+        {: RESULT = sa.cSuma(e1, e2); :}
+        |
+        E1: e1 RESTA E2: e2
+        {: RESULT = sa.cResta(e1, e2); :}
+        |
+        E2: e
+        {: RESULT = e; :};
+E2 ::= E3: e1 AND E3: e2
+        {: RESULT = sa.cAnd(e1, e2); :}
+        |
+        E3: e1 OR E2: e2
+        {: RESULT = sa.cOr(e1, e2); :}
+        |
+        E3: e
+        {: RESULT = e; :}
+        ;
+E3 ::= E3: e1 Op3: c E4: e2
+        {: RESULT = sa.cExpBin(e1, c, e2); :}
+        |
+        E4: e
+        {:RESULT = e; :}
+        ;
+E4 ::= Op4: c E4: e
+        {: RESULT = sa.cExpUnPref(c, e); :}
+        |
+        E5: e
+        {: RESULT = e; :}
+        ;
+E5 ::= E5: e1 CAPERTURA E: e2 CCIERRE
+        {: RESULT = sa.cIndex(e1, e2); :}
+        |
+        E5: e PUNTO ID: id
+        {: RESULT = sa.cAccess(e, id); :}
+        |
+        E5: e CIRCUNFLEJO
+        {: RESULT = sa.cIndir(e); :}
+        EBasic: e
+        {: RESULT = e; :}
+        ;
+EBasic ::= LENTERO: s
+        {: RESULT = sa.cInt(s); :}
+        |
+        LREAL: s
+        {: RESULT = sa.cReal(s); :}
+        |
+        TRUE
+        {: RESULT = sa.cTrue(); :}
+        |
+        FALSE
+        {: RESULT = sa.cFalse(); :}
+        |
+        LCADENA: s
+        {: RESULT = sa.cCadena(s); :}
+        |
+        ID: s
+        {: RESULT = sa.cId(s); :}
+        |
+        NULL: s
+        {: RESULT = sa.cNull(); :}
+        |
+        PAPERTURA E: e PCIERRE
+        {: RESULT = e; :}
+        ;
+OpRel ::= BLT
+        {: RESULT = "<"; :}
+        |
+        BGT
+        {: RESULT = ">"; :}
+        |
+        BLE
+        {: RESULT = "<="; :}
+        |
+        BGE
+        {: RESULT = ">="; :}
+        |
+        BNE
+        {: RESULT = "!="; :}
+        |
+        BEQ
+        {: RESULT = "=="; :}
+        ;
+Op3 ::= MULTIPLICA
+        {: RESULT = "*"; :}
+        |
+        DIVIDE
+        {: RESULT = "/"; :}
+        |
+        MODULO
+        {: RESULT = "%"; :}
+        ;
+Op4 ::= RESTA
+        {: RESULT = "-"; :}
+        |
+        NOT
+        {: RESULT = "not"; :}
+        ;
+        
+        
