@@ -165,18 +165,28 @@ public class SintaxisAbstracta {
 	}
 
 	public static class Dec_Var extends Dec {
-		private String str;
+		private StringLocalizado str;
 		private Tipo t;
 		private int dir;
 		private SalidaTipo tipo;
 		
 		public Dec_Var(String str, Tipo t) {
 			super();
+			this.str = new StringLocalizado(str, -1, -1);
+			this.t = t;
+		}
+		
+		public Dec_Var(StringLocalizado str, Tipo t) {
+			super();
 			this.str = str;
 			this.t = t;
 		}
 
 		public String getStr() {
+			return str.s;
+		}
+		
+		public StringLocalizado getStrL() {
 			return str;
 		}
 
@@ -204,17 +214,27 @@ public class SintaxisAbstracta {
 	}
 
 	public static class Dec_Tipo extends Dec {
-		private String str;
+		private StringLocalizado str;
 		private Tipo t;
 		private SalidaTipo tipo;
 		
 		public Dec_Tipo(String str, Tipo t) {
+			super();
+			this.str = new StringLocalizado(str, -1, -1);
+			this.t = t;
+		}
+		
+		public Dec_Tipo(StringLocalizado str, Tipo t) {
 			super();
 			this.str = str;
 			this.t = t;
 		}
 
 		public String getStr() {
+			return str.s;
+		}
+		
+		public StringLocalizado getStrL() {
 			return str;
 		}
 
@@ -235,7 +255,7 @@ public class SintaxisAbstracta {
 	}
 
 	public static class Dec_Proc extends Dec {
-		private String str;
+		private StringLocalizado str;
 		private LParams lParams;
 		private LDecs lDecs;
 		private LIns lIns;
@@ -246,6 +266,14 @@ public class SintaxisAbstracta {
 
 		public Dec_Proc(String str, LParams lParams, LDecs lDecs, LIns lIns) {
 			super();
+			this.str = new StringLocalizado(str, -1, -1);
+			this.lParams = lParams;
+			this.lDecs = lDecs;
+			this.lIns = lIns;
+		}
+		
+		public Dec_Proc(StringLocalizado str, LParams lParams, LDecs lDecs, LIns lIns) {
+			super();
 			this.str = str;
 			this.lParams = lParams;
 			this.lDecs = lDecs;
@@ -253,6 +281,10 @@ public class SintaxisAbstracta {
 		}
 
 		public String getStr() {
+			return str.s;
+		}
+		
+		public StringLocalizado getStrL() {
 			return str;
 		}
 
@@ -390,11 +422,16 @@ public class SintaxisAbstracta {
 	}
 
 	public static class Ref_ extends Tipo {
-		private String str;
+		private StringLocalizado str;
 		private Tipo t;
 		private Vinculable vinculo;
 
 		public Ref_(String str) {
+			super();
+			this.str = new StringLocalizado(str, -1, -1);
+		}
+		
+		public Ref_(StringLocalizado str) {
 			super();
 			this.str = str;
 		}
@@ -418,20 +455,34 @@ public class SintaxisAbstracta {
 		}
 		
 		public String getStr() {
+			return str.s;
+		}
+		
+		public StringLocalizado getStrL() {
 			return str;
 		}
 	}
 
 	public static class Array_ extends Tipo {
-		private String str;
+		private StringLocalizado str;
 		public Tipo t;
 		public Array_(String str, Tipo t) {
+			super();
+			this.str = new StringLocalizado(str, -1, -1);
+			this.t = t;
+		}
+		
+		public Array_(StringLocalizado str, Tipo t) {
 			super();
 			this.str = str;
 			this.t = t;
 		}
 
 		public String getStr() {
+			return str.s;
+		}
+
+		public StringLocalizado getStrL() {
 			return str;
 		}
 
@@ -535,7 +586,7 @@ public class SintaxisAbstracta {
 	}
 
 	public static class Campo {
-		private String str;
+		private StringLocalizado str;
 		private Tipo t;
 		private SalidaTipo tipo;
 
@@ -543,11 +594,21 @@ public class SintaxisAbstracta {
 
 		public Campo(String str, Tipo t) {
 			super();
+			this.str = new StringLocalizado(str, -1, -1);
+			this.t = t;
+		}
+		
+		public Campo(StringLocalizado str, Tipo t) {
+			super();
 			this.str = str;
 			this.t = t;
 		}
 
 		public String getStr() {
+			return str.s;
+		}
+		
+		public StringLocalizado getStrL() {
 			return str;
 		}
 
@@ -680,15 +741,25 @@ public class SintaxisAbstracta {
 	}
 
 	public static class Param_Ref extends Param {
-		private String str;
+		private StringLocalizado str;
 
 		public Param_Ref(String str, Tipo t) {
+			super();
+			this.str = new StringLocalizado(str, -1, -1);
+			super.t = t;
+		}
+		
+		public Param_Ref(StringLocalizado str, Tipo t) {
 			super();
 			this.str = str;
 			super.t = t;
 		}
 
 		public String getStr() {
+			return str.s;
+		}
+
+		public StringLocalizado getStrL() {
 			return str;
 		}
 
@@ -698,15 +769,25 @@ public class SintaxisAbstracta {
 	}
 
 	public static class Param_Val extends Param {
-		private String str;
+		private StringLocalizado str;
 
 		public Param_Val(String str, Tipo t) {
+			super();
+			this.str = new StringLocalizado(str, -1, -1);
+			super.t = t;
+		}
+		
+		public Param_Val(StringLocalizado str, Tipo t) {
 			super();
 			this.str = str;
 			super.t = t;
 		}
 
 		public String getStr() {
+			return str.s;
+		}
+
+		public StringLocalizado getStrL() {
 			return str;
 		}
 
@@ -1179,14 +1260,23 @@ public class SintaxisAbstracta {
 	}
 
 	public static class Int extends E {
-		private String str;
+		private StringLocalizado str;
 
 		public Int(String str) {
+			super();
+			this.str = new StringLocalizado(str, -1, -1);
+		}
+		
+		public Int(StringLocalizado str) {
 			super();
 			this.str = str;
 		}
 
 		public String getStr() {
+			return str.s;
+		}
+
+		public StringLocalizado getStrL() {
 			return str;
 		}
 
@@ -1196,14 +1286,23 @@ public class SintaxisAbstracta {
 	}
 
 	public static class Real extends E {
-		private String str;
+		private StringLocalizado str;
 
 		public Real(String str) {
+			super();
+			this.str = new StringLocalizado(str, -1, -1);
+		}
+		
+		public Real(StringLocalizado str) {
 			super();
 			this.str = str;
 		}
 
 		public String getStr() {
+			return str.s;
+		}
+
+		public StringLocalizado getStrL() {
 			return str;
 		}
 
@@ -1233,31 +1332,50 @@ public class SintaxisAbstracta {
 	}
 
 	public static class Cadena extends E {
-		private String str;
+		private StringLocalizado str;
 
 		public Cadena(String str) {
+			super();
+			this.str = new StringLocalizado(str, -1, -1);
+		}
+		
+		public Cadena(StringLocalizado str) {
 			super();
 			this.str = str;
 		}
 
 		public String getStr() {
+			return str.s;
+		}
+
+		public StringLocalizado getStrL() {
 			return str;
 		}
+		
 		public void procesa(Procesamiento p) {
 			p.procesa(this);
 		}
 	}
 
 	public static class Id extends E {
-		private String str;
+		private StringLocalizado str;
 		private Vinculable vinculo;
 
 		public Id(String str) {
+			super();
+			this.str = new StringLocalizado(str, -1, -1);
+		}
+		
+		public Id(StringLocalizado str) {
 			super();
 			this.str = str;
 		}
 
 		public String getStr() {
+			return str.s;
+		}
+
+		public StringLocalizado getStrL() {
 			return str;
 		}
 
@@ -1498,14 +1616,23 @@ public class SintaxisAbstracta {
 	}
 
 	public static class Access extends EUnario {
-		private String str;
+		private StringLocalizado str;
 
 		public Access(E arg0, String str) {
 			super(arg0);
-			this.str = str;
+			this.str = new StringLocalizado(str, -1, -1);
 		}
 
+		public Access(E arg0, StringLocalizado str) {
+			super(arg0);
+			this.str = str;
+		}
+		
 		public String getStr() {
+			return str.s;
+		}
+
+		public StringLocalizado getStrL() {
 			return str;
 		}
 
@@ -1556,12 +1683,24 @@ public class SintaxisAbstracta {
 	public Dec cDec_Var(String str, Tipo t) {
 		return new Dec_Var(str, t);
 	}
+	
+	public Dec cDec_Var(StringLocalizado str, Tipo t) {
+		return new Dec_Var(str, t);
+	}
 
 	public Dec cDec_Tipo(String str, Tipo t) {
 		return new Dec_Tipo(str, t);
 	}
 
+	public Dec cDec_Tipo(StringLocalizado str, Tipo t) {
+		return new Dec_Tipo(str, t);
+	}
+
 	public Dec cDec_Proc(String str, LParams lParams, LDecs lDecs, LIns lIns) {
+		return new Dec_Proc(str, lParams, lDecs, lIns);
+	}
+
+	public Dec cDec_Proc(StringLocalizado str, LParams lParams, LDecs lDecs, LIns lIns) {
 		return new Dec_Proc(str, lParams, lDecs, lIns);
 	}
 
@@ -1586,7 +1725,15 @@ public class SintaxisAbstracta {
 		return new Ref_(str);
 	}
 
+	public Tipo cRef_(StringLocalizado str) {
+		return new Ref_(str);
+	}
+
 	public Tipo cArray_(String str, Tipo t) {
+		return new Array_(str, t);
+	}
+
+	public Tipo cArray_(StringLocalizado str, Tipo t) {
 		return new Array_(str, t);
 	}
 
@@ -1611,6 +1758,10 @@ public class SintaxisAbstracta {
 		return new Campo(str, t);
 	}
 
+	public Campo cCampo(StringLocalizado str, Tipo t) {
+		return new Campo(str, t);
+	}
+
 	// LParams
 	public LParams cSin_Params() {
 		return new Sin_Params();
@@ -1628,8 +1779,16 @@ public class SintaxisAbstracta {
 	public Param cParam_Ref(String str, Tipo t) {
 		return new Param_Ref(str, t);
 	}
+	
+	public Param cParam_Ref(StringLocalizado str, Tipo t) {
+		return new Param_Ref(str, t);
+	}
 
 	public Param cParam_Val(String str, Tipo t) {
+		return new Param_Val(str, t);
+	}
+
+	public Param cParam_Val(StringLocalizado str, Tipo t) {
 		return new Param_Val(str, t);
 	}
 
@@ -1708,8 +1867,16 @@ public class SintaxisAbstracta {
 	public E cInt(String str) {
 		return new Int(str);
 	}
+	
+	public E cInt(StringLocalizado str) {
+		return new Int(str);
+	}
 
 	public E cReal(String str) {
+		return new Real(str);
+	}
+
+	public E cReal(StringLocalizado str) {
 		return new Real(str);
 	}
 
@@ -1725,7 +1892,15 @@ public class SintaxisAbstracta {
 		return new Cadena(str);
 	}
 
+	public E cCadena(StringLocalizado str) {
+		return new Cadena(str);
+	}
+
 	public E cId(String str) {
+		return new Id(str);
+	}
+
+	public E cId(StringLocalizado str) {
 		return new Id(str);
 	}
 
@@ -1798,6 +1973,10 @@ public class SintaxisAbstracta {
 	}
 
 	public E cAccess(E arg0, String str) {
+		return new Access(arg0, str);
+	}
+
+	public E cAccess(E arg0, StringLocalizado str) {
 		return new Access(arg0, str);
 	}
 

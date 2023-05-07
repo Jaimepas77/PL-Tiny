@@ -90,7 +90,8 @@ public class Tipado extends ProcesamientoPorDefecto {
         else if(Integer.parseInt(tipo.getStr()) >= 0) 
         	tipo.setTipo(SalidaTipo.OK);
         else {
-            System.err.println("Error en el tipado de array_"); // TODO AÑADIR MÁS INFO CON STRINGLOCALIZADO
+            System.err.println("Error en el tipado de array_");
+            System.err.println("Fila: " + tipo.getStrL().fila() + "\nColumna: " + tipo.getStrL().col());
             tipo.setTipo(SalidaTipo.ERROR);
         }
     }

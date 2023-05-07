@@ -136,21 +136,21 @@ PARSER_END(ConstructorASTD)
     {Tipo tipo; Token t;}
     {
         <Var> t=<Id> <DosPuntos> tipo=Tipo()
-        {return sa.cDec_Var(t.image.toLowerCase(), tipo);}
+        {return sa.cDec_Var(sa.str(t.image.toLowerCase(), t.beginLine, t.beginColumn), tipo);}
     }
     
     Dec DecTipo() :
     {Tipo tipo; Token t;}
     {
         <Type> t=<Id> <DosPuntos> tipo=Tipo()
-        {return sa.cDec_Tipo(t.image.toLowerCase(), tipo);}
+        {return sa.cDec_Tipo(sa.str(t.image.toLowerCase(), t.beginLine, t.beginColumn), tipo);}
     }
     
     Dec DecProc() :
     {LParams params; LDecs sDecs; LIns sIns; Token t;}
     {
         <Proc> t=<Id> params=ParamsF() sDecs=SDecs() sIns=SIns()
-        {return sa.cDec_Proc(t.image.toLowerCase(), params, sDecs, sIns);}
+        {return sa.cDec_Proc(sa.str(t.image.toLowerCase(), t.beginLine, t.beginColumn), params, sDecs, sIns);}
     }
 
     //Tipos
@@ -166,9 +166,9 @@ PARSER_END(ConstructorASTD)
         <String>
         {return sa.cString_();} |
         t=<Id>
-        {return sa.cRef_(t.image.toLowerCase());} |
+        {return sa.cRef_(sa.str(t.image.toLowerCase(), t.beginLine, t.beginColumn));} |
         <Array> <CApertura> t=<LEntero> <CCierre> <Of> tipo=Tipo()
-        {return sa.cArray_(t.image, tipo);} |
+        {return sa.cArray_(sa.str(t.image, t.beginLine, t.beginColumn), tipo);} |
         <Record> campos=Campos() <End>
         {return sa.cRecord_(campos);} |
         <Circunflejo> tipo=Tipo()
@@ -195,7 +195,7 @@ PARSER_END(ConstructorASTD)
     {Tipo tipo; Token t;}
     {
         t=<Id> <DosPuntos> tipo=Tipo() <PuntoComa>
-        {return sa.cCampo(t.image.toLowerCase(), tipo);}
+        {return sa.cCampo(sa.str(t.image.toLowerCase(), t.beginLine, t.beginColumn), tipo);}
     }
     
     LParams ParamsF() :
@@ -243,14 +243,14 @@ PARSER_END(ConstructorASTD)
     {Tipo tipo; Token t;}
     {
         <Var> t=<Id> <DosPuntos> tipo=Tipo()
-        {return sa.cParam_Ref(t.image.toLowerCase(), tipo);}
+        {return sa.cParam_Ref(sa.str(t.image.toLowerCase(), t.beginLine, t.beginColumn), tipo);}
     }
     
     Param ParamVal() :
     {Tipo tipo; Token t;}
     {
         t=<Id> <DosPuntos> tipo=Tipo()
-        {return sa.cParam_Val(t.image.toLowerCase(), tipo);}
+        {return sa.cParam_Val(sa.str(t.image.toLowerCase(), t.beginLine, t.beginColumn), tipo);}
     }
     
     //Instrucciones
@@ -518,7 +518,7 @@ PARSER_END(ConstructorASTD)
     {
         <CApertura> e1=E() <CCierre> e2=RE5(sa.cIndex(h, e1))
         {return e2;} |
-        <Punto> t=<Id> e2=RE5(sa.cAccess(h, t.image.toLowerCase()))
+        <Punto> t=<Id> e2=RE5(sa.cAccess(h, sa.str(t.image.toLowerCase(), t.beginLine, t.beginColumn)))
         {return e2;} |
         <Circunflejo> e2=RE5(sa.cIndir(h))
         {return e2;} | 
@@ -530,17 +530,17 @@ PARSER_END(ConstructorASTD)
     {E e; Token t;}
     {
         t=<LEntero>
-        {return sa.cInt(t.image);} |
+        {return sa.cInt(sa.str(t.image, t.beginLine, t.beginColumn));} |
         t=<LReal>
-        {return sa.cReal(t.image);} |
+        {return sa.cReal(sa.str(t.image, t.beginLine, t.beginColumn));} |
         <True>
         {return sa.cTrue();} |
         <False>
         {return sa.cFalse();} |
         t=<LCadena>
-        {return sa.cCadena(t.image);} |
+        {return sa.cCadena(sa.str(t.image, t.beginLine, t.beginColumn));} |
         t=<Id>
-        {return sa.cId(t.image.toLowerCase());} |
+        {return sa.cId(sa.str(t.image.toLowerCase(), t.beginLine, t.beginColumn));} |
         <Null>
         {return sa.cNull();} |
         <PApertura> e=E() <PCierre>

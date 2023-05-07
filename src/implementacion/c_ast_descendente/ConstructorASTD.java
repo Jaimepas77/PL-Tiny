@@ -84,7 +84,7 @@ public class ConstructorASTD implements ConstructorASTDConstants {
     t = jj_consume_token(Id);
     jj_consume_token(DosPuntos);
     tipo = Tipo();
-{if ("" != null) return sa.cDec_Var(t.image.toLowerCase(), tipo);}
+{if ("" != null) return sa.cDec_Var(sa.str(t.image.toLowerCase(), t.beginLine, t.beginColumn), tipo);}
     throw new Error("Missing return statement in function");
 }
 
@@ -93,7 +93,7 @@ public class ConstructorASTD implements ConstructorASTDConstants {
     t = jj_consume_token(Id);
     jj_consume_token(DosPuntos);
     tipo = Tipo();
-{if ("" != null) return sa.cDec_Tipo(t.image.toLowerCase(), tipo);}
+{if ("" != null) return sa.cDec_Tipo(sa.str(t.image.toLowerCase(), t.beginLine, t.beginColumn), tipo);}
     throw new Error("Missing return statement in function");
 }
 
@@ -103,7 +103,7 @@ public class ConstructorASTD implements ConstructorASTDConstants {
     params = ParamsF();
     sDecs = SDecs();
     sIns = SIns();
-{if ("" != null) return sa.cDec_Proc(t.image.toLowerCase(), params, sDecs, sIns);}
+{if ("" != null) return sa.cDec_Proc(sa.str(t.image.toLowerCase(), t.beginLine, t.beginColumn), params, sDecs, sIns);}
     throw new Error("Missing return statement in function");
 }
 
@@ -132,7 +132,7 @@ public class ConstructorASTD implements ConstructorASTDConstants {
       }
     case Id:{
       t = jj_consume_token(Id);
-{if ("" != null) return sa.cRef_(t.image.toLowerCase());}
+{if ("" != null) return sa.cRef_(sa.str(t.image.toLowerCase(), t.beginLine, t.beginColumn));}
       break;
       }
     case Array:{
@@ -142,7 +142,7 @@ public class ConstructorASTD implements ConstructorASTDConstants {
       jj_consume_token(CCierre);
       jj_consume_token(Of);
       tipo = Tipo();
-{if ("" != null) return sa.cArray_(t.image, tipo);}
+{if ("" != null) return sa.cArray_(sa.str(t.image, t.beginLine, t.beginColumn), tipo);}
       break;
       }
     case Record:{
@@ -193,7 +193,7 @@ public class ConstructorASTD implements ConstructorASTDConstants {
     jj_consume_token(DosPuntos);
     tipo = Tipo();
     jj_consume_token(PuntoComa);
-{if ("" != null) return sa.cCampo(t.image.toLowerCase(), tipo);}
+{if ("" != null) return sa.cCampo(sa.str(t.image.toLowerCase(), t.beginLine, t.beginColumn), tipo);}
     throw new Error("Missing return statement in function");
 }
 
@@ -268,7 +268,7 @@ public class ConstructorASTD implements ConstructorASTDConstants {
     t = jj_consume_token(Id);
     jj_consume_token(DosPuntos);
     tipo = Tipo();
-{if ("" != null) return sa.cParam_Ref(t.image.toLowerCase(), tipo);}
+{if ("" != null) return sa.cParam_Ref(sa.str(t.image.toLowerCase(), t.beginLine, t.beginColumn), tipo);}
     throw new Error("Missing return statement in function");
 }
 
@@ -276,7 +276,7 @@ public class ConstructorASTD implements ConstructorASTDConstants {
     t = jj_consume_token(Id);
     jj_consume_token(DosPuntos);
     tipo = Tipo();
-{if ("" != null) return sa.cParam_Val(t.image.toLowerCase(), tipo);}
+{if ("" != null) return sa.cParam_Val(sa.str(t.image.toLowerCase(), t.beginLine, t.beginColumn), tipo);}
     throw new Error("Missing return statement in function");
 }
 
@@ -749,7 +749,7 @@ public class ConstructorASTD implements ConstructorASTDConstants {
     case Punto:{
       jj_consume_token(Punto);
       t = jj_consume_token(Id);
-      e2 = RE5(sa.cAccess(h, t.image.toLowerCase()));
+      e2 = RE5(sa.cAccess(h, sa.str(t.image.toLowerCase(), t.beginLine, t.beginColumn)));
 {if ("" != null) return e2;}
       break;
       }
@@ -770,12 +770,12 @@ public class ConstructorASTD implements ConstructorASTDConstants {
     switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
     case LEntero:{
       t = jj_consume_token(LEntero);
-{if ("" != null) return sa.cInt(t.image);}
+{if ("" != null) return sa.cInt(sa.str(t.image, t.beginLine, t.beginColumn));}
       break;
       }
     case LReal:{
       t = jj_consume_token(LReal);
-{if ("" != null) return sa.cReal(t.image);}
+{if ("" != null) return sa.cReal(sa.str(t.image, t.beginLine, t.beginColumn));}
       break;
       }
     case True:{
@@ -790,12 +790,12 @@ public class ConstructorASTD implements ConstructorASTDConstants {
       }
     case LCadena:{
       t = jj_consume_token(LCadena);
-{if ("" != null) return sa.cCadena(t.image);}
+{if ("" != null) return sa.cCadena(sa.str(t.image, t.beginLine, t.beginColumn));}
       break;
       }
     case Id:{
       t = jj_consume_token(Id);
-{if ("" != null) return sa.cId(t.image.toLowerCase());}
+{if ("" != null) return sa.cId(sa.str(t.image.toLowerCase(), t.beginLine, t.beginColumn));}
       break;
       }
     case Null:{
