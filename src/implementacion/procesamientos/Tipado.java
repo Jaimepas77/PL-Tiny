@@ -77,7 +77,8 @@ public class Tipado extends ProcesamientoPorDefecto {
             tipo.setTipo(SalidaTipo.OK);
         } 
         else {
-            System.err.println("Error en el tipado de ref"); // TODO AÑADIR MÁS INFO CON STRINGLOCALIZADO
+            System.err.println("Error en el tipado de ref");
+            System.err.println("Fila: " + tipo.getStrL().fila() + "\nColumna: " + tipo.getStrL().col());
             tipo.setTipo(SalidaTipo.ERROR);
         }
     }
@@ -124,7 +125,8 @@ public class Tipado extends ProcesamientoPorDefecto {
                 campos.setTipo(campos.getCampos().getTipo());
             }
             else {
-                System.err.println("Error en el tipado de Muchos_Campos"); // TODO AÑADIR MÁS INFO CON STRINGLOCALIZADO
+                System.err.println("Error en el tipado de Muchos_Campos");
+                System.err.println("Fila: " + c.getStrL().fila() + "\nColumna: " + c.getStrL().col());
                 campos.setTipo(SalidaTipo.ERROR);
             }
         } 
@@ -294,7 +296,6 @@ public class Tipado extends ProcesamientoPorDefecto {
             ins.setTipo(SalidaTipo.OK);
         } else{
             ins.setTipo(SalidaTipo.ERROR);
-            // TODO PONER OR CON LOS TIPOS?!
             if(!(Util.ref_exc(ins.getE().getT()) instanceof Error_)){
                 System.err.println("Error en el tipado de delete"); // TODO AÑADIR MÁS INFO CON STRINGLOCALIZADO
             }
@@ -317,7 +318,8 @@ public class Tipado extends ProcesamientoPorDefecto {
         }
         else {
             ins.setTipo(SalidaTipo.ERROR);
-            System.err.println("Error en el tipado de call proc (identificador no válido)"); // TODO AÑADIR MÁS INFO CON STRINGLOCALIZADO
+            System.err.println("Error en el tipado de call proc (identificador no válido)");
+            System.err.println("Fila: " + ((Id)ins.getE()).getStrL().fila() + "\nColumna: " + ((Id)ins.getE()).getStrL().col());
         }
     }
 

@@ -39,8 +39,13 @@ public class Vinculacion extends ProcesamientoPorDefecto {
 	public void procesa(Dec_Var dec) {
 		dec.getT().procesa(this);
 		if(pasada == 1) {
-			if (ts.containsKey(dec.getStr())) throw new RuntimeException("Constante ya definida: " + dec.getStr());
-			else ts.put(dec.getStr(), dec);
+			if (ts.containsKey(dec.getStr())) {
+				throw new RuntimeException("Constante ya definida: " + dec.getStr() +
+					"\nFila: " + dec.getStrL().fila() + "\nColumna: " + dec.getStrL().col());
+			}
+			else {
+				ts.put(dec.getStr(), dec);
+			}
 		}
 	}
 
@@ -49,7 +54,8 @@ public class Vinculacion extends ProcesamientoPorDefecto {
 		dec.getT().procesa(this);
 		if(pasada == 1) {
 			if (ts.containsKey(dec.getStr())) {
-				throw new RuntimeException("Constante ya definida: " + dec.getStr());
+				throw new RuntimeException("Constante ya definida: " + dec.getStr() +
+						"\nFila: " + dec.getStrL().fila() + "\nColumna: " + dec.getStrL().col());
 			}
 			else {
 				ts.put(dec.getStr(), dec);
@@ -61,7 +67,8 @@ public class Vinculacion extends ProcesamientoPorDefecto {
 	public void procesa(Dec_Proc dec) {
 		if(pasada == 1) {
 			if (ts.containsKey(dec.getStr())) {
-				throw new RuntimeException("Constante ya definida: " + dec.getStr());
+				throw new RuntimeException("Constante ya definida: " + dec.getStr() +
+						"\nFila: " + dec.getStrL().fila() + "\nColumna: " + dec.getStrL().col());
 			}
 			else {
 				ts.put(dec.getStr(), dec);
@@ -90,7 +97,8 @@ public class Vinculacion extends ProcesamientoPorDefecto {
 			if (v != null) 
 				tipo.setVinculo(v);
 			else 
-				throw new RuntimeException("No existe: " + tipo.getStr());
+				throw new RuntimeException("No existe: " + tipo.getStr() +
+						"\nFila: " + tipo.getStrL().fila() + "\nColumna: " + tipo.getStrL().col());
 		}
 	}
 
@@ -116,7 +124,8 @@ public class Vinculacion extends ProcesamientoPorDefecto {
 				if (v != null) 
 					((Ref_) tipo.getT()).setVinculo(v);
 				else 
-					throw new RuntimeException("No existe: " + ((Ref_) tipo.getT()).getStr());
+					throw new RuntimeException("No existe: " + ((Ref_) tipo.getT()).getStr() +
+							"\nFila: " + ((Ref_)tipo.getT()).getStrL().fila() + "\nColumna: " + ((Ref_)tipo.getT()).getStrL().col());
 			}
 			else {
 				tipo.getT().procesa(this);
@@ -156,7 +165,8 @@ public class Vinculacion extends ProcesamientoPorDefecto {
 		param.getT().procesa(this);
 		if(pasada==1){
 			if (ts.containsKey(param.getStr())) {
-				throw new RuntimeException("Constante ya definida: " + param.getStr());
+				throw new RuntimeException("Constante ya definida: " + param.getStr() +
+						"\nFila: " + param.getStrL().fila() + "\nColumna: " + param.getStrL().col());
 			}
 			else {
 				ts.put(param.getStr(), param);
@@ -169,7 +179,8 @@ public class Vinculacion extends ProcesamientoPorDefecto {
 		param.getT().procesa(this);
 		if(pasada==1){
 			if (ts.containsKey(param.getStr())) {
-				throw new RuntimeException("Constante ya definida: " + param.getStr());
+				throw new RuntimeException("Constante ya definida: " + param.getStr() +
+						"\nFila: " + param.getStrL().fila() + "\nColumna: " + param.getStrL().col());
 			}
 			else {
 				ts.put(param.getStr(), param);
@@ -272,7 +283,8 @@ public class Vinculacion extends ProcesamientoPorDefecto {
 		if (v != null) 
 			e.setVinculo(v);
 		else 
-			throw new RuntimeException("No existe: " + e.getStr());
+			throw new RuntimeException("No existe: " + e.getStr() +
+					"\nFila: " + e.getStrL().fila() + "\nColumna: " + e.getStrL().col());
 	}
 
 	@Override
