@@ -30,6 +30,10 @@ public class SintaxisAbstracta {
 		public int hashCode() {
 			return s.hashCode();
 		}
+		public StringLocalizado toLowerCase() {
+			s = s.toLowerCase();
+			return this;
+		}
 	}
 	
 	// Prog

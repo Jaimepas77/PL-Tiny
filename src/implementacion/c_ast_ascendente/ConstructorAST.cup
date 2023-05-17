@@ -23,7 +23,7 @@ init with {:
 :};
 
 terminal SUMA, RESTA, MULTIPLICA, DIVIDE, MODULO, BLT, BGT, BLE, BGE, BEQ, BNE, PAPERTURA, PCIERRE, PUNTOCOMA, IGUAL, CAPERTURA, CCIERRE, PUNTO, CIRCUNFLEJO, COMA, DOSPUNTOS, INT, REAL, BOOL, STRING, AND, OR, NOT, NULL, TRUE, FALSE, PROC, IF, THEN, ELSE, WHILE, DO, SEQ, BEGIN, END, RECORD, ARRAY, OF, NEW, DELETE, READ, WRITE, NL, VAR, TYPE;
-terminal String ID, LENTERO, LREAL, LCADENA;
+terminal StringLocalizado ID, LENTERO, LREAL, LCADENA;
 
 non terminal Prog Prog;
 non terminal LDecs SDecs;
@@ -87,7 +87,7 @@ Tipo ::= INT
         CIRCUNFLEJO Tipo: t
         {: RESULT = sa.cPuntero_(t); :}
         ;
-Campos ::= Campos: cs CampoT: c
+Campos ::= Campos: cs Campo: c
         {: RESULT = sa.cMuchos_Campos(cs, c); :}
         |
         Campo: c

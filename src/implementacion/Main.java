@@ -30,9 +30,9 @@ public class Main {
 			if (args[0].equals("-asc"))
 				prog = ejecuta_ascendente(args[1]);
 			else if (args[0].equals("-desc")) {
-				//prog = ejecuta_descendente(args[1]);
-				Scanner s = new Scanner(System.in);
-				prog = ejecuta_descendente("./pruebas/" + s.nextLine() + ".pas");
+				prog = ejecuta_descendente(args[1]);
+//				Scanner s = new Scanner(System.in);
+//				prog = ejecuta_descendente("./pruebas/" + s.nextLine() + ".pas");
 			}
 			
 			//Procesamientos

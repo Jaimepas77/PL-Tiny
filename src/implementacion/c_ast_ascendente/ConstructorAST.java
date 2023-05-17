@@ -321,32 +321,32 @@ public class ConstructorAST extends java_cup.runtime.lr_parser {
     "\ufff5\001\002\000\022\026\174\031\164\032\173\033\166" +
     "\034\171\054\170\055\167\066\172\001\002\000\010\020" +
     "\uffef\021\uffef\027\uffef\001\002\000\004\030\203\001\002" +
-    "\000\004\053\202\001\002\000\004\053\uffed\001\002\000" +
-    "\004\053\uffee\001\002\000\010\020\ufff0\021\ufff0\027\ufff0" +
-    "\001\002\000\022\026\174\031\164\032\173\033\166\034" +
-    "\171\054\170\055\167\066\172\001\002\000\004\021\205" +
-    "\001\002\000\004\053\uffec\001\002\000\004\067\207\001" +
-    "\002\000\004\024\210\001\002\000\004\056\211\001\002" +
-    "\000\022\026\174\031\164\032\173\033\166\034\171\054" +
-    "\170\055\167\066\172\001\002\000\010\020\ufff1\021\ufff1" +
-    "\027\ufff1\001\002\000\004\017\214\001\002\000\010\020" +
-    "\uffe9\064\221\066\220\001\002\000\012\043\ufffe\052\ufffe" +
-    "\064\ufffe\065\ufffe\001\002\000\012\043\014\052\016\064" +
-    "\013\065\015\001\002\000\004\021\ufff7\001\002\000\004" +
-    "\030\233\001\002\000\004\066\230\001\002\000\004\020" +
-    "\227\001\002\000\006\020\uffea\027\225\001\002\000\006" +
-    "\020\uffe7\027\uffe7\001\002\000\006\064\221\066\220\001" +
-    "\002\000\006\020\uffe8\027\uffe8\001\002\000\012\043\uffeb" +
-    "\052\uffeb\064\uffeb\065\uffeb\001\002\000\004\030\231\001" +
-    "\002\000\022\026\174\031\164\032\173\033\166\034\171" +
-    "\054\170\055\167\066\172\001\002\000\006\020\uffe6\027" +
-    "\uffe6\001\002\000\022\026\174\031\164\032\173\033\166" +
-    "\034\171\054\170\055\167\066\172\001\002\000\006\020" +
-    "\uffe5\027\uffe5\001\002\000\004\030\236\001\002\000\022" +
+    "\000\006\053\202\066\176\001\002\000\006\053\uffed\066" +
+    "\uffed\001\002\000\006\053\uffee\066\uffee\001\002\000\010" +
+    "\020\ufff0\021\ufff0\027\ufff0\001\002\000\022\026\174\031" +
+    "\164\032\173\033\166\034\171\054\170\055\167\066\172" +
+    "\001\002\000\004\021\205\001\002\000\006\053\uffec\066" +
+    "\uffec\001\002\000\004\067\207\001\002\000\004\024\210" +
+    "\001\002\000\004\056\211\001\002\000\022\026\174\031" +
+    "\164\032\173\033\166\034\171\054\170\055\167\066\172" +
+    "\001\002\000\010\020\ufff1\021\ufff1\027\ufff1\001\002\000" +
+    "\004\017\214\001\002\000\010\020\uffe9\064\221\066\220" +
+    "\001\002\000\012\043\ufffe\052\ufffe\064\ufffe\065\ufffe\001" +
+    "\002\000\012\043\014\052\016\064\013\065\015\001\002" +
+    "\000\004\021\ufff7\001\002\000\004\030\233\001\002\000" +
+    "\004\066\230\001\002\000\004\020\227\001\002\000\006" +
+    "\020\uffea\027\225\001\002\000\006\020\uffe7\027\uffe7\001" +
+    "\002\000\006\064\221\066\220\001\002\000\006\020\uffe8" +
+    "\027\uffe8\001\002\000\012\043\uffeb\052\uffeb\064\uffeb\065" +
+    "\uffeb\001\002\000\004\030\231\001\002\000\022\026\174" +
+    "\031\164\032\173\033\166\034\171\054\170\055\167\066" +
+    "\172\001\002\000\006\020\uffe6\027\uffe6\001\002\000\022" +
     "\026\174\031\164\032\173\033\166\034\171\054\170\055" +
-    "\167\066\172\001\002\000\004\021\ufff9\001\002\000\012" +
-    "\043\ufffd\052\ufffd\064\ufffd\065\ufffd\001\002\000\004\002" +
-    "\000\001\002" });
+    "\167\066\172\001\002\000\006\020\uffe5\027\uffe5\001\002" +
+    "\000\004\030\236\001\002\000\022\026\174\031\164\032" +
+    "\173\033\166\034\171\054\170\055\167\066\172\001\002" +
+    "\000\004\021\ufff9\001\002\000\012\043\ufffd\052\ufffd\064" +
+    "\ufffd\065\ufffd\001\002\000\004\002\000\001\002" });
 
   /** Access to parse-action table. */
   public short[][] action_table() {return _action_table;}
@@ -422,7 +422,7 @@ public class ConstructorAST extends java_cup.runtime.lr_parser {
     "\002\001\001\000\002\001\001\000\006\012\176\014\177" +
     "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
     "\001\000\004\011\174\001\001\000\002\001\001\000\002" +
-    "\001\001\000\004\013\200\001\001\000\002\001\001\000" +
+    "\001\001\000\004\014\200\001\001\000\002\001\001\000" +
     "\002\001\001\000\002\001\001\000\004\011\203\001\001" +
     "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
     "\002\001\001\000\002\001\001\000\004\011\211\001\001" +
@@ -632,7 +632,7 @@ class CUP$ConstructorAST$actions {
               Dec RESULT =null;
 		int idleft = ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.elementAt(CUP$ConstructorAST$top-2)).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.elementAt(CUP$ConstructorAST$top-2)).right;
-		String id = (String)((java_cup.runtime.Symbol) CUP$ConstructorAST$stack.elementAt(CUP$ConstructorAST$top-2)).value;
+		StringLocalizado id = (StringLocalizado)((java_cup.runtime.Symbol) CUP$ConstructorAST$stack.elementAt(CUP$ConstructorAST$top-2)).value;
 		int tleft = ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.peek()).left;
 		int tright = ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.peek()).right;
 		Tipo t = (Tipo)((java_cup.runtime.Symbol) CUP$ConstructorAST$stack.peek()).value;
@@ -647,7 +647,7 @@ class CUP$ConstructorAST$actions {
               Dec RESULT =null;
 		int idleft = ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.elementAt(CUP$ConstructorAST$top-2)).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.elementAt(CUP$ConstructorAST$top-2)).right;
-		String id = (String)((java_cup.runtime.Symbol) CUP$ConstructorAST$stack.elementAt(CUP$ConstructorAST$top-2)).value;
+		StringLocalizado id = (StringLocalizado)((java_cup.runtime.Symbol) CUP$ConstructorAST$stack.elementAt(CUP$ConstructorAST$top-2)).value;
 		int tleft = ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.peek()).left;
 		int tright = ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.peek()).right;
 		Tipo t = (Tipo)((java_cup.runtime.Symbol) CUP$ConstructorAST$stack.peek()).value;
@@ -662,7 +662,7 @@ class CUP$ConstructorAST$actions {
               Dec RESULT =null;
 		int idleft = ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.elementAt(CUP$ConstructorAST$top-3)).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.elementAt(CUP$ConstructorAST$top-3)).right;
-		String id = (String)((java_cup.runtime.Symbol) CUP$ConstructorAST$stack.elementAt(CUP$ConstructorAST$top-3)).value;
+		StringLocalizado id = (StringLocalizado)((java_cup.runtime.Symbol) CUP$ConstructorAST$stack.elementAt(CUP$ConstructorAST$top-3)).value;
 		int pleft = ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.elementAt(CUP$ConstructorAST$top-2)).left;
 		int pright = ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.elementAt(CUP$ConstructorAST$top-2)).right;
 		LParams p = (LParams)((java_cup.runtime.Symbol) CUP$ConstructorAST$stack.elementAt(CUP$ConstructorAST$top-2)).value;
@@ -719,7 +719,7 @@ class CUP$ConstructorAST$actions {
               Tipo RESULT =null;
 		int ileft = ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.peek()).left;
 		int iright = ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.peek()).right;
-		String i = (String)((java_cup.runtime.Symbol) CUP$ConstructorAST$stack.peek()).value;
+		StringLocalizado i = (StringLocalizado)((java_cup.runtime.Symbol) CUP$ConstructorAST$stack.peek()).value;
 		 RESULT = sa.cRef_(i.toLowerCase()); 
               CUP$ConstructorAST$result = parser.getSymbolFactory().newSymbol("Tipo",7, ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.peek()), ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.peek()), RESULT);
             }
@@ -731,7 +731,7 @@ class CUP$ConstructorAST$actions {
               Tipo RESULT =null;
 		int eleft = ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.elementAt(CUP$ConstructorAST$top-3)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.elementAt(CUP$ConstructorAST$top-3)).right;
-		String e = (String)((java_cup.runtime.Symbol) CUP$ConstructorAST$stack.elementAt(CUP$ConstructorAST$top-3)).value;
+		StringLocalizado e = (StringLocalizado)((java_cup.runtime.Symbol) CUP$ConstructorAST$stack.elementAt(CUP$ConstructorAST$top-3)).value;
 		int tleft = ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.peek()).left;
 		int tright = ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.peek()).right;
 		Tipo t = (Tipo)((java_cup.runtime.Symbol) CUP$ConstructorAST$stack.peek()).value;
@@ -765,7 +765,7 @@ class CUP$ConstructorAST$actions {
           return CUP$ConstructorAST$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 19: // Campos ::= Campos CampoT 
+          case 19: // Campos ::= Campos Campo 
             {
               Campos RESULT =null;
 		int csleft = ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.elementAt(CUP$ConstructorAST$top-1)).left;
@@ -797,7 +797,7 @@ class CUP$ConstructorAST$actions {
               Campo RESULT =null;
 		int idleft = ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.elementAt(CUP$ConstructorAST$top-3)).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.elementAt(CUP$ConstructorAST$top-3)).right;
-		String id = (String)((java_cup.runtime.Symbol) CUP$ConstructorAST$stack.elementAt(CUP$ConstructorAST$top-3)).value;
+		StringLocalizado id = (StringLocalizado)((java_cup.runtime.Symbol) CUP$ConstructorAST$stack.elementAt(CUP$ConstructorAST$top-3)).value;
 		int tleft = ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.elementAt(CUP$ConstructorAST$top-1)).left;
 		int tright = ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.elementAt(CUP$ConstructorAST$top-1)).right;
 		Tipo t = (Tipo)((java_cup.runtime.Symbol) CUP$ConstructorAST$stack.elementAt(CUP$ConstructorAST$top-1)).value;
@@ -872,7 +872,7 @@ class CUP$ConstructorAST$actions {
               Param RESULT =null;
 		int idleft = ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.elementAt(CUP$ConstructorAST$top-2)).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.elementAt(CUP$ConstructorAST$top-2)).right;
-		String id = (String)((java_cup.runtime.Symbol) CUP$ConstructorAST$stack.elementAt(CUP$ConstructorAST$top-2)).value;
+		StringLocalizado id = (StringLocalizado)((java_cup.runtime.Symbol) CUP$ConstructorAST$stack.elementAt(CUP$ConstructorAST$top-2)).value;
 		int tleft = ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.peek()).left;
 		int tright = ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.peek()).right;
 		Tipo t = (Tipo)((java_cup.runtime.Symbol) CUP$ConstructorAST$stack.peek()).value;
@@ -887,7 +887,7 @@ class CUP$ConstructorAST$actions {
               Param RESULT =null;
 		int idleft = ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.elementAt(CUP$ConstructorAST$top-2)).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.elementAt(CUP$ConstructorAST$top-2)).right;
-		String id = (String)((java_cup.runtime.Symbol) CUP$ConstructorAST$stack.elementAt(CUP$ConstructorAST$top-2)).value;
+		StringLocalizado id = (StringLocalizado)((java_cup.runtime.Symbol) CUP$ConstructorAST$stack.elementAt(CUP$ConstructorAST$top-2)).value;
 		int tleft = ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.peek()).left;
 		int tright = ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.peek()).right;
 		Tipo t = (Tipo)((java_cup.runtime.Symbol) CUP$ConstructorAST$stack.peek()).value;
@@ -1343,7 +1343,7 @@ class CUP$ConstructorAST$actions {
 		E e = (E)((java_cup.runtime.Symbol) CUP$ConstructorAST$stack.elementAt(CUP$ConstructorAST$top-2)).value;
 		int idleft = ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.peek()).right;
-		String id = (String)((java_cup.runtime.Symbol) CUP$ConstructorAST$stack.peek()).value;
+		StringLocalizado id = (StringLocalizado)((java_cup.runtime.Symbol) CUP$ConstructorAST$stack.peek()).value;
 		 RESULT = sa.cAccess(e, id.toLowerCase()); 
               CUP$ConstructorAST$result = parser.getSymbolFactory().newSymbol("E5",38, ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.elementAt(CUP$ConstructorAST$top-2)), ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.peek()), RESULT);
             }
@@ -1379,7 +1379,7 @@ class CUP$ConstructorAST$actions {
               E RESULT =null;
 		int sleft = ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.peek()).left;
 		int sright = ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.peek()).right;
-		String s = (String)((java_cup.runtime.Symbol) CUP$ConstructorAST$stack.peek()).value;
+		StringLocalizado s = (StringLocalizado)((java_cup.runtime.Symbol) CUP$ConstructorAST$stack.peek()).value;
 		 RESULT = sa.cInt(s); 
               CUP$ConstructorAST$result = parser.getSymbolFactory().newSymbol("EBasic",39, ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.peek()), ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.peek()), RESULT);
             }
@@ -1391,7 +1391,7 @@ class CUP$ConstructorAST$actions {
               E RESULT =null;
 		int sleft = ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.peek()).left;
 		int sright = ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.peek()).right;
-		String s = (String)((java_cup.runtime.Symbol) CUP$ConstructorAST$stack.peek()).value;
+		StringLocalizado s = (StringLocalizado)((java_cup.runtime.Symbol) CUP$ConstructorAST$stack.peek()).value;
 		 RESULT = sa.cReal(s); 
               CUP$ConstructorAST$result = parser.getSymbolFactory().newSymbol("EBasic",39, ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.peek()), ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.peek()), RESULT);
             }
@@ -1421,7 +1421,7 @@ class CUP$ConstructorAST$actions {
               E RESULT =null;
 		int sleft = ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.peek()).left;
 		int sright = ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.peek()).right;
-		String s = (String)((java_cup.runtime.Symbol) CUP$ConstructorAST$stack.peek()).value;
+		StringLocalizado s = (StringLocalizado)((java_cup.runtime.Symbol) CUP$ConstructorAST$stack.peek()).value;
 		 RESULT = sa.cCadena(s); 
               CUP$ConstructorAST$result = parser.getSymbolFactory().newSymbol("EBasic",39, ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.peek()), ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.peek()), RESULT);
             }
@@ -1433,7 +1433,7 @@ class CUP$ConstructorAST$actions {
               E RESULT =null;
 		int sleft = ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.peek()).left;
 		int sright = ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.peek()).right;
-		String s = (String)((java_cup.runtime.Symbol) CUP$ConstructorAST$stack.peek()).value;
+		StringLocalizado s = (StringLocalizado)((java_cup.runtime.Symbol) CUP$ConstructorAST$stack.peek()).value;
 		 RESULT = sa.cId(s.toLowerCase()); 
               CUP$ConstructorAST$result = parser.getSymbolFactory().newSymbol("EBasic",39, ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.peek()), ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.peek()), RESULT);
             }
