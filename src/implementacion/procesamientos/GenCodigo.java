@@ -83,6 +83,12 @@ public class GenCodigo extends ProcesamientoPorDefecto {
 			m.ponInstruccion(m.intToReal());
 			m.ponInstruccion(m.desapilaInd());
 		}
+		else if (Util.ref_exc(ins.getE1().getT()) instanceof Array_ &&
+				((Array_)Util.ref_exc(ins.getE1().getT())).getT() instanceof Real_ &&
+				((Array_)Util.ref_exc(ins.getE2().getT())).getT() instanceof Int_) {
+			inttoreal_array(ins.getE1(), ins.getE2(),
+					Integer.parseInt(((Array_)Util.ref_exc(ins.getE1().getT())).getStr()));
+		}
 		else {
 			if(esDesignador(ins.getE2())) {
 				//TODO falla en el caso de que se esté copiando un record cuyos campos necesiten conversión de inttoreal.
@@ -553,6 +559,12 @@ public class GenCodigo extends ProcesamientoPorDefecto {
 				m.ponInstruccion(m.intToReal());
 				m.ponInstruccion(m.desapilaInd());
 			}
+			else if (Util.ref_exc(p.getT()) instanceof Array_ &&
+					((Array_)Util.ref_exc(p.getT())).getT() instanceof Real_ &&
+					((Array_)Util.ref_exc(e.getT())).getT() instanceof Int_) {
+				inttoreal_array(p, e,
+						Integer.parseInt(((Array_)Util.ref_exc(e.getT())).getStr()));
+			}
 			else {
 				if(esDesignador(e)) {
 					m.ponInstruccion(m.mueve(e.getT().getTam()));
@@ -569,5 +581,61 @@ public class GenCodigo extends ProcesamientoPorDefecto {
 	
 	private boolean esDesignador(E e) {
 		return Util.es_designador(e);
+	}
+
+	private void inttoreal_array(E e1, E e2, int tam) {
+		if(tam == 0) {
+			m.ponInstruccion(m.pop());
+			m.ponInstruccion(m.pop());
+		}
+		else {
+			m.ponInstruccion(m.apilaInd());
+			m.ponInstruccion(m.intToReal());
+			m.ponInstruccion(m.desapilaInd());
+			for (int i = 1; i < tam; i++) {
+				e1.procesa(this);
+				m.ponInstruccion(m.apilaInt(i));
+				m.ponInstruccion(m.apilaInt(((Array_)e1.getT()).getT().getTam()));
+				m.ponInstruccion(m.mulInt());
+				m.ponInstruccion(m.sumaInt());
+				e2.procesa(this);
+				m.ponInstruccion(m.apilaInt(i));
+				m.ponInstruccion(m.apilaInt(((Array_)e2.getT()).getT().getTam()));
+				m.ponInstruccion(m.mulInt());
+				m.ponInstruccion(m.sumaInt());
+				m.ponInstruccion(m.apilaInd());
+				m.ponInstruccion(m.intToReal());
+				m.ponInstruccion(m.desapilaInd());
+			}
+		}
+	}
+
+	private void inttoreal_array(Param p, E e2, int tam) {
+		if(tam == 0) {
+			m.ponInstruccion(m.pop());
+			m.ponInstruccion(m.pop());
+		}
+		else {
+			m.ponInstruccion(m.apilaInd());
+			m.ponInstruccion(m.intToReal());
+			m.ponInstruccion(m.desapilaInd());
+			for (int i = 1; i < tam; i++) {
+				m.ponInstruccion(m.dup());
+				m.ponInstruccion(m.apilaInt(p.getDir()));
+				m.ponInstruccion(m.sumaInt());
+				m.ponInstruccion(m.apilaInt(i));
+				m.ponInstruccion(m.apilaInt(((Array_)p.getT()).getT().getTam()));
+				m.ponInstruccion(m.mulInt());
+				m.ponInstruccion(m.sumaInt());
+				e2.procesa(this);
+				m.ponInstruccion(m.apilaInt(i));
+				m.ponInstruccion(m.apilaInt(((Array_)e2.getT()).getT().getTam()));
+				m.ponInstruccion(m.mulInt());
+				m.ponInstruccion(m.sumaInt());
+				m.ponInstruccion(m.apilaInd());
+				m.ponInstruccion(m.intToReal());
+				m.ponInstruccion(m.desapilaInd());
+			}
+		}
 	}
 }

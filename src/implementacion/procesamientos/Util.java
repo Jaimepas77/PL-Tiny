@@ -127,8 +127,8 @@ public final class Util {
             	return true;
             else if(t1 instanceof String_ && t2 instanceof String_)
             	return true;
-            else if(t1 instanceof Array_ && t2 instanceof Array_)
-            	return son_compatibles2(st, t1, t2);
+            else if(t1 instanceof Array_ && t2 instanceof Array_ && Integer.parseInt(((Array_)t1).getStr()) == Integer.parseInt(((Array_)t1).getStr()))
+            	return son_compatibles2(st, ((Array_)t1).getT(), ((Array_)t2).getT());
             else if(t1 instanceof Record_ && t2 instanceof Record_)
             	return campos_compatibles(((Record_)t1).getCampos(), ((Record_)t2).getCampos());
             else if(t1 instanceof Puntero_  && t2 instanceof Puntero_)
@@ -221,7 +221,7 @@ public final class Util {
 	private static SalidaTipo check_param(E e, Param param, Procesamiento p) {
 		e.procesa(p);
 		if(param instanceof Param_Ref) {
-			if(Util.son_compatibles(e.getT(), param.getT()) && Util.es_designador(e) 
+			if(Util.son_compatibles(param.getT(), e.getT()) && Util.es_designador(e) 
 				&& (!(param.getT() instanceof Real_) || (e.getT() instanceof Real_ && param.getT() instanceof Real_))) {
 				return SalidaTipo.OK;
 			}
@@ -231,7 +231,7 @@ public final class Util {
 			}
 		}
 		else if (param instanceof Param_Val) {
-			if(Util.son_compatibles(e.getT(), param.getT())) {
+			if(Util.son_compatibles(param.getT(), e.getT())) {
 				return SalidaTipo.OK;
 			}
 			else {

@@ -790,6 +790,17 @@ public class MaquinaP {
 		}
 	}
 
+	private Instruccion IPOP;
+	private class IPop implements Instruccion {
+		public void ejecuta() {
+			pilaEvaluacion.pop();
+			pc++;
+		}
+		public String toString() {
+			return "pop";                 
+		}
+	}
+
 
 	public Instruccion sumaInt() {return ISUMAINT;}
 	public Instruccion sumaReal() {return ISUMAREAL;}
@@ -854,6 +865,7 @@ public class MaquinaP {
 	public Instruccion desapilad(int nivel) {return new IDesapilad(nivel);}
 	public Instruccion dup() {return IDUP;}
 	public Instruccion stop() {return ISTOP;}
+	public Instruccion pop() {return IPOP;}
 	public void ponInstruccion(Instruccion i) {
 		codigoP.add(i);
 	}
@@ -921,6 +933,7 @@ public class MaquinaP {
 		IIRIND = new IIrind();
 		IDUP = new IDup();
 		ISTOP = new IStop();
+		IPOP = new IPop();
 		gestorPilaActivaciones = new GestorPilaActivaciones(tamdatos,(tamdatos+tampila)-1,ndisplays);
 		gestorMemoriaDinamica = new GestorMemoriaDinamica(tamdatos+tampila,(tamdatos+tampila+tamheap)-1);
 	}

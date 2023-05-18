@@ -84,6 +84,12 @@ public class Etiquetado extends ProcesamientoPorDefecto {
 			}
 			etq += 2;
 		}
+		else if (Util.ref_exc(ins.getE1().getT()) instanceof Array_ &&
+				((Array_)Util.ref_exc(ins.getE1().getT())).getT() instanceof Real_ &&
+				((Array_)Util.ref_exc(ins.getE2().getT())).getT() instanceof Int_) {
+			etiq_inttoreal_array(ins.getE1(), ins.getE2(),
+					Integer.parseInt(((Array_)Util.ref_exc(ins.getE1().getT())).getStr()));
+		}
 		else {
 			if(esDesignador(ins.getE2())) {//Sí, es redundante, pero se deja así por claridad
 				etq++;
@@ -477,6 +483,12 @@ public class Etiquetado extends ProcesamientoPorDefecto {
 				}
 				etq += 2;
 			}
+			else if (Util.ref_exc(p.getT()) instanceof Array_ &&
+					((Array_)Util.ref_exc(p.getT())).getT() instanceof Real_ &&
+					((Array_)Util.ref_exc(e.getT())).getT() instanceof Int_) {
+				etiq_inttoreal_array(p, e,
+						Integer.parseInt(((Array_)Util.ref_exc(e.getT())).getStr()));
+			}
 			else {
 				if(esDesignador(e)) {
 					etq++;
@@ -493,5 +505,34 @@ public class Etiquetado extends ProcesamientoPorDefecto {
 	
 	private boolean esDesignador(E e) {
 		return Util.es_designador(e);
+	}
+
+	private void etiq_inttoreal_array(E e1, E e2, int tam) {
+		if(tam == 0) {
+			etq += 2;
+		}
+		else {
+			etq += 3;
+			for (int i = 1; i < tam; i++) {
+				e1.procesa(this);
+				etq += 4;
+				e2.procesa(this);
+				etq += 7;
+			}
+		}
+	}
+
+	private void etiq_inttoreal_array(Param p, E e2, int tam) {
+		if(tam == 0) {
+			etq += 2;
+		}
+		else {
+			etq += 3;
+			for (int i = 1; i < tam; i++) {
+				etq += 7;
+				e2.procesa(this);
+				etq += 7;
+			}
+		}
 	}
 }

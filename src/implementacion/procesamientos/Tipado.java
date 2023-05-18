@@ -186,7 +186,7 @@ public class Tipado extends ProcesamientoPorDefecto {
     public void procesa(Muchas_Ins lIns) {
         lIns.getLIns().procesa(this);
         lIns.getIns().procesa(this);
-        lIns.setTipo(Util.ambos_ok(lIns.getIns().getT(), lIns.getIns().getT()));
+        lIns.setTipo(Util.ambos_ok(lIns.getLIns().getTipo(), lIns.getIns().getT()));
     }
 
     @Override
