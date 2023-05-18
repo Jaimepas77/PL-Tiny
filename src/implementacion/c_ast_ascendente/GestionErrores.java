@@ -6,8 +6,8 @@ public class GestionErrores {
 	     System.exit(1);
 	   }  
 	   public void errorSintactico(UnidadLexica unidadLexica) {
-	     System.out.print("ERROR fila " + unidadLexica.lexema().fila() + ", " + unidadLexica.lexema().col() +
-	                              ": Elemento inesperado " + unidadLexica.value);
+	     System.out.print("ERROR\n Fila: " + unidadLexica.lexema().fila() + "\n Columna: " + unidadLexica.lexema().col() +
+	                              "\nElemento inesperado \"" + unidadLexica.value + "\"");
 	     System.exit(1);
 	   }
 }
