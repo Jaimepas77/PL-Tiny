@@ -47,7 +47,7 @@ public class Main {
 				//Ejecución sobre la máquina-p
 				System.out.println("--Resultado de ejecución: ");
 
-				m.muestraCodigo();
+//				m.muestraCodigo();
 				m.ejecuta();
 
 				System.out.println("--FIN de ejecución.");

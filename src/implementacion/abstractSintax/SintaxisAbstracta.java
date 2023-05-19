@@ -34,6 +34,10 @@ public class SintaxisAbstracta {
 			s = s.toLowerCase();
 			return this;
 		}
+		public StringLocalizado replace(String a, String b) {
+			s = s.replace(a,  b);
+			return this;
+		}
 	}
 	
 	// Prog

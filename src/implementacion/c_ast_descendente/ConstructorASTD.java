@@ -790,7 +790,7 @@ public class ConstructorASTD implements ConstructorASTDConstants {
       }
     case LCadena:{
       t = jj_consume_token(LCadena);
-{if ("" != null) return sa.cCadena(sa.str(t.image, t.beginLine, t.beginColumn));}
+{if ("" != null) return sa.cCadena(sa.str(t.image.replace("'", ""), t.beginLine, t.beginColumn));}
       break;
       }
     case Id:{

@@ -1422,7 +1422,7 @@ class CUP$ConstructorAST$actions {
 		int sleft = ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.peek()).left;
 		int sright = ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.peek()).right;
 		StringLocalizado s = (StringLocalizado)((java_cup.runtime.Symbol) CUP$ConstructorAST$stack.peek()).value;
-		 RESULT = sa.cCadena(s); 
+		 RESULT = sa.cCadena(s.replace("'", "")); 
               CUP$ConstructorAST$result = parser.getSymbolFactory().newSymbol("EBasic",25, ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.peek()), ((java_cup.runtime.Symbol)CUP$ConstructorAST$stack.peek()), RESULT);
             }
           return CUP$ConstructorAST$result;

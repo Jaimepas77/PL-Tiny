@@ -89,9 +89,12 @@ public class GenCodigo extends ProcesamientoPorDefecto {
 			inttoreal_array(ins.getE1(), ins.getE2(),
 					Integer.parseInt(((Array_)Util.ref_exc(ins.getE1().getT())).getStr()));
 		}
+		else if (Util.ref_exc(ins.getE1().getT()) instanceof Record_ &&
+				Util.es_inttoreal_record((Record_)Util.ref_exc(ins.getE1().getT()), (Record_)Util.ref_exc(ins.getE2().getT()))) {
+			inttoreal_record(ins.getE1(), ins.getE2());
+		}
 		else {
 			if(esDesignador(ins.getE2())) {
-				//TODO falla en el caso de que se esté copiando un record cuyos campos necesiten conversión de inttoreal.
 				m.ponInstruccion(m.mueve(ins.getE2().getT().getTam()));
 			}
 			else {
@@ -565,6 +568,10 @@ public class GenCodigo extends ProcesamientoPorDefecto {
 				inttoreal_array(p, e,
 						Integer.parseInt(((Array_)Util.ref_exc(e.getT())).getStr()));
 			}
+			else if (Util.ref_exc(p.getT()) instanceof Record_ &&
+					Util.es_inttoreal_record((Record_)Util.ref_exc(p.getT()), (Record_)Util.ref_exc(e.getT()))) {
+				inttoreal_record(p, e);
+			}
 			else {
 				if(esDesignador(e)) {
 					m.ponInstruccion(m.mueve(e.getT().getTam()));
@@ -578,7 +585,7 @@ public class GenCodigo extends ProcesamientoPorDefecto {
 			m.ponInstruccion(m.desapilaInd());
 		}
 	}
-	
+
 	private boolean esDesignador(E e) {
 		return Util.es_designador(e);
 	}
@@ -635,6 +642,68 @@ public class GenCodigo extends ProcesamientoPorDefecto {
 				m.ponInstruccion(m.apilaInd());
 				m.ponInstruccion(m.intToReal());
 				m.ponInstruccion(m.desapilaInd());
+			}
+		}
+	}
+
+	private void inttoreal_record(E e1, E e2) {
+		Campo l1[] = Util.c_to_list((Record_)e1.getT());
+		Campo l2[] = Util.c_to_list((Record_)e2.getT());
+		if(l1[0].getT() instanceof Real_ && l2[0].getT() instanceof Int_) {
+			m.ponInstruccion(m.apilaInd());
+			m.ponInstruccion(m.intToReal());
+			m.ponInstruccion(m.desapilaInd());			
+		}
+		else {
+			m.ponInstruccion(m.mueve(l1[0].getT().getTam()));
+		}
+		
+		for(int i = 1; i < l1.length; i++) {
+			e1.procesa(this);
+			m.ponInstruccion(m.apilaInt(l1[i].getDespl()));
+			m.ponInstruccion(m.sumaInt());
+			e2.procesa(this);
+			m.ponInstruccion(m.apilaInt(l1[i].getDespl()));
+			m.ponInstruccion(m.sumaInt());
+			if(l1[i].getT() instanceof Real_ && l2[i].getT() instanceof Int_) {
+				m.ponInstruccion(m.apilaInd());
+				m.ponInstruccion(m.intToReal());
+				m.ponInstruccion(m.desapilaInd());			
+			}
+			else {
+				m.ponInstruccion(m.mueve(l1[i].getT().getTam()));
+			}
+		}
+	}
+	
+	private void inttoreal_record(Param p, E e) {
+		Campo l1[] = Util.c_to_list((Record_)p.getT());
+		Campo l2[] = Util.c_to_list((Record_)e.getT());
+		if(l1[0].getT() instanceof Real_ && l2[0].getT() instanceof Int_) {
+			m.ponInstruccion(m.apilaInd());
+			m.ponInstruccion(m.intToReal());
+			m.ponInstruccion(m.desapilaInd());			
+		}
+		else {
+			m.ponInstruccion(m.mueve(l1[0].getT().getTam()));
+		}
+		
+		for(int i = 1; i < l1.length; i++) {
+			m.ponInstruccion(m.dup());
+			m.ponInstruccion(m.apilaInt(p.getDir()));
+			m.ponInstruccion(m.sumaInt());
+			m.ponInstruccion(m.apilaInt(l1[i].getDespl()));
+			m.ponInstruccion(m.sumaInt());
+			e.procesa(this);
+			m.ponInstruccion(m.apilaInt(l1[i].getDespl()));
+			m.ponInstruccion(m.sumaInt());
+			if(l1[i].getT() instanceof Real_ && l2[i].getT() instanceof Int_) {
+				m.ponInstruccion(m.apilaInd());
+				m.ponInstruccion(m.intToReal());
+				m.ponInstruccion(m.desapilaInd());			
+			}
+			else {
+				m.ponInstruccion(m.mueve(l1[i].getT().getTam()));
 			}
 		}
 	}

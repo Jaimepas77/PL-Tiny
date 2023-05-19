@@ -228,7 +228,7 @@ EBasic ::= LENTERO: s
         {: RESULT = sa.cFalse(); :}
         |
         LCADENA: s
-        {: RESULT = sa.cCadena(s); :}
+        {: RESULT = sa.cCadena(s.replace("'", "")); :}
         |
         ID: s
         {: RESULT = sa.cId(s.toLowerCase()); :}

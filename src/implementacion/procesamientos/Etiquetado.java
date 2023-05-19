@@ -90,6 +90,10 @@ public class Etiquetado extends ProcesamientoPorDefecto {
 			etiq_inttoreal_array(ins.getE1(), ins.getE2(),
 					Integer.parseInt(((Array_)Util.ref_exc(ins.getE1().getT())).getStr()));
 		}
+		else if (Util.ref_exc(ins.getE1().getT()) instanceof Record_ &&
+				Util.es_inttoreal_record((Record_)Util.ref_exc(ins.getE1().getT()), (Record_)Util.ref_exc(ins.getE2().getT()))) {
+			etiq_inttoreal_record(ins.getE1(), ins.getE2());
+		}
 		else {
 			if(esDesignador(ins.getE2())) {//Sí, es redundante, pero se deja así por claridad
 				etq++;
@@ -489,6 +493,10 @@ public class Etiquetado extends ProcesamientoPorDefecto {
 				etiq_inttoreal_array(p, e,
 						Integer.parseInt(((Array_)Util.ref_exc(e.getT())).getStr()));
 			}
+			else if (Util.ref_exc(p.getT()) instanceof Record_ &&
+					Util.es_inttoreal_record((Record_)Util.ref_exc(p.getT()), (Record_)Util.ref_exc(e.getT()))) {
+				etiq_inttoreal_record(p, e);
+			}
 			else {
 				if(esDesignador(e)) {
 					etq++;
@@ -532,6 +540,53 @@ public class Etiquetado extends ProcesamientoPorDefecto {
 				etq += 7;
 				e2.procesa(this);
 				etq += 7;
+			}
+		}
+	}
+
+	private void etiq_inttoreal_record(E e1, E e2) {
+		Campo l1[] = Util.c_to_list((Record_)e1.getT());
+		Campo l2[] = Util.c_to_list((Record_)e2.getT());
+		if(l1[0].getT() instanceof Real_ && l2[0].getT() instanceof Int_) {
+			etq += 3;			
+		}
+		else {
+			etq++;
+		}
+		
+		for(int i = 1; i < l1.length; i++) {
+			e1.procesa(this);
+			etq += 2;
+			e2.procesa(this);
+			etq += 2;
+			if(l1[i].getT() instanceof Real_ && l2[i].getT() instanceof Int_) {
+				etq += 3;			
+			}
+			else {
+				etq++;
+			}
+		}
+	}
+	
+	private void etiq_inttoreal_record(Param p, E e) {
+		Campo l1[] = Util.c_to_list((Record_)p.getT());
+		Campo l2[] = Util.c_to_list((Record_)e.getT());
+		if(l1[0].getT() instanceof Real_ && l2[0].getT() instanceof Int_) {
+			etq += 3;			
+		}
+		else {
+			etq++;
+		}
+		
+		for(int i = 1; i < l1.length; i++) {
+			etq += 5;
+			e.procesa(this);
+			etq += 2;
+			if(l1[i].getT() instanceof Real_ && l2[i].getT() instanceof Int_) {
+				etq += 3;		
+			}
+			else {
+				etq++;
 			}
 		}
 	}

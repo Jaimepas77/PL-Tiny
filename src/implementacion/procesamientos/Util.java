@@ -1,5 +1,6 @@
 package implementacion.procesamientos;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -222,7 +223,7 @@ public final class Util {
 		e.procesa(p);
 		if(param instanceof Param_Ref) {
 			if(Util.son_compatibles(param.getT(), e.getT()) && Util.es_designador(e) 
-				&& (!(param.getT() instanceof Real_) || (e.getT() instanceof Real_ && param.getT() instanceof Real_))) {
+				&& !es_inttoreal(param.getT(), e.getT())) {
 				return SalidaTipo.OK;
 			}
 			else {
@@ -243,5 +244,64 @@ public final class Util {
 			System.err.println("Error en check_param");
 			return SalidaTipo.ERROR;
 		}
+	}
+
+	private static boolean es_inttoreal(Tipo t1Old, Tipo t2Old) {
+		Tipo t1 = ref_exc(t1Old);
+		Tipo t2 = ref_exc(t2Old);
+		if(t1 instanceof Real_ && !(t2 instanceof Real_)) {
+			return true;
+		}
+		else if(t1 instanceof Record_ && es_inttoreal_record((Record_)t1, (Record_) t2)) {
+			return true;
+		}
+		else if(Util.ref_exc(t1) instanceof Array_ &&
+				((Array_)Util.ref_exc(t1)).getT() instanceof Real_ &&
+				((Array_)Util.ref_exc(t2)).getT() instanceof Int_) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	public static boolean es_inttoreal_record(Record_ c1, Record_ c2) {
+		return es_inttoreal_campos(c1.getCampos(), c2.getCampos());
+	}
+
+	private static boolean es_inttoreal_campos(Campos campos1, Campos campos2) {
+		if(campos1 instanceof Un_Campo) {
+			return ((Un_Campo)campos1).getCampo().getT() instanceof Real_ &&
+					((Un_Campo)campos2).getCampo().getT() instanceof Int_;
+		}
+		else {
+			boolean ret = es_inttoreal_campos(((Muchos_Campos)campos1).getCampos(), ((Muchos_Campos)campos2).getCampos());
+			return ret || ((Muchos_Campos)campos1).getCampo().getT() instanceof Real_ &&
+					((Muchos_Campos)campos2).getCampo().getT() instanceof Int_;
+		}
+	}
+
+	public static Campo[] c_to_list(Record_ t) {
+		ArrayList<Campo> aux = c_to_list(t.getCampos());
+		Campo[] ret = new Campo[aux.size()];
+		aux.toArray(ret);
+		return ret;
+	}
+
+	private static ArrayList<Campo> c_to_list(Campos campos) {
+		ArrayList<Campo> ret = null;
+		if(campos instanceof Un_Campo) {
+			ret = new ArrayList<Campo>();
+			ret.add(((Un_Campo) campos).getCampo());
+		}
+		else if(campos instanceof Muchos_Campos) {
+			ret = c_to_list(((Muchos_Campos) campos).getCampos());
+			ret.add(((Muchos_Campos)campos).getCampo());
+		}
+		else {
+			System.err.println("Error al listar campos.");
+		}
+		
+		return ret;
 	}
 }

@@ -538,7 +538,7 @@ PARSER_END(ConstructorASTD)
         <False>
         {return sa.cFalse();} |
         t=<LCadena>
-        {return sa.cCadena(sa.str(t.image, t.beginLine, t.beginColumn));} |
+        {return sa.cCadena(sa.str(t.image.replace("'", ""), t.beginLine, t.beginColumn));} |
         t=<Id>
         {return sa.cId(sa.str(t.image.toLowerCase(), t.beginLine, t.beginColumn));} |
         <Null>
