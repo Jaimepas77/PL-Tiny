@@ -468,7 +468,7 @@ public class ejemploPrincipal {
 	}
 	
 	private static Prog astCodigoDecProc() {
-		//Este código precisa de todos los procesamientos excepto el etiquetado
+		
 		/*
 		 * proc saluda(nombre: string)
 		 * begin
@@ -497,7 +497,7 @@ public class ejemploPrincipal {
 	}
 	
 	private static Prog astCodigoProcSuma() {
-		//Este código precisa de todos los procesamientos excepto el etiquetado
+		
 		/*
 		 * proc suma(var ret: int, a: int)
 		 * begin
@@ -545,7 +545,7 @@ public class ejemploPrincipal {
 	}
 	
 	private static Prog astCodigoProcSumaPlus() {
-		//Este código precisa de todos los procesamientos excepto el etiquetado
+		
 		/*
 		 * proc suma(var ret: int, a: int)
 		 * 	var b: int;
@@ -595,7 +595,6 @@ public class ejemploPrincipal {
 	}
 	
 	private static Prog astCodigoProcType() {
-		//Este código precisa de todos los procesamientos excepto el etiquetado
 		/*
 		 * type tListaNombres: record
 		 * 						nombres: array [50] of string;
