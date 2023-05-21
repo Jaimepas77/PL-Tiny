@@ -111,6 +111,7 @@ begin
 	
 	@Inicializar juego
 	inicializa(juego);
+	print(juego.tablero);
 	
 	@Juego
 	seq
@@ -149,14 +150,41 @@ begin
 		end;
 		
 		proc checkVictoria(var victoria: bool)
+		var i: int;
 		begin
-			write 'Pendiente comprobar victoria';nl;
+			victoria = false;
 			@Comprobar filas
+			i = 0;
+			while i < 3 do
+				if ((juego.tablero[i][0] == juego.tablero[i][1])
+				and (juego.tablero[i][1] == juego.tablero[i][2]))
+				and (juego.tablero[i][1] != 0) then
+					victoria = true;
+				end;
+				i = i + 1;
+			end;
 			
 			@Comprobar columnas
+			i = 0;
+			while i < 3 do
+				if ((juego.tablero[0][i] == juego.tablero[1][i])
+				and (juego.tablero[1][i] == juego.tablero[2][i]))
+				and (juego.tablero[1][i] != 0) then
+					victoria = true;
+				end;
+				i = i + 1;
+			end;
 			
 			@Comprobar diagonales
-			
+			i = 0;
+			while i < 3 do
+				if ((juego.tablero[0+i][0] == juego.tablero[2-i][2])
+				and (juego.tablero[0+i][0] == juego.tablero[1][1]))
+				and (juego.tablero[1][1] != 0) then
+					victoria = true;
+				end;
+				i = i + 2;
+			end;
 		end;
 		
 		var victoria: bool;
