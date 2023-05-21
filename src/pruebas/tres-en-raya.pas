@@ -37,6 +37,53 @@ begin
 	end;
 end;
 
+proc print(board: tTablero)
+var player1: string;
+var player2: string;
+proc icono(n: int)
+begin
+	if n == 1 then
+		write player1;
+	else
+		if n == 2 then
+			write player2;
+		else
+			write ' ';
+		end;
+	end;
+end;
+var i: int;
+var j: int;
+begin
+	player1 = 'X';
+	player2 = 'O';
+	
+	write ' ';
+	i = 1;
+	while i <= 3 do
+		write ' ';
+		write i;
+		i = i + 1;
+	end;
+	nl;
+	
+	i = 0;
+	while i < 3 do
+		j = 0;
+		write ' ------';nl;
+		write i + 1;
+		while j < 3 do
+			write '|';
+			icono(board[i][j]);
+			j = j + 1;
+		end;
+		write '|'; nl;
+		i = i + 1;
+	end;
+	write ' ------';nl;
+	
+end;
+
 @---
 @Vars globales
 var juego: tJuego;
@@ -98,12 +145,18 @@ begin
 			
 			fila = fila - 1;
 			columna = columna - 1;
-			juego.tablero[fila][columna] = juego.turno % 2;
+			juego.tablero[fila][columna] = ((juego.turno + 1) % 2) + 1;
 		end;
 		
-		proc checkVictoria()
+		proc checkVictoria(var victoria: bool)
 		begin
-			write'Pendiente comprobar victoria';nl;
+			write 'Pendiente comprobar victoria';nl;
+			@Comprobar filas
+			
+			@Comprobar columnas
+			
+			@Comprobar diagonales
+			
 		end;
 		
 		var victoria: bool;
@@ -115,10 +168,10 @@ begin
 			ponFicha();@Usa la variable juego de ámbito más externo
 			
 			@Imprimir tablero
-			@print(juego.tablero);
+			print(juego.tablero);
 			
 			@Comprobar victoria (actualizar variable)
-			checkVictoria();
+			checkVictoria(victoria);
 		end;
 		
 		@Felicitar al ganador (si lo hay)
