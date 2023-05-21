@@ -198,7 +198,10 @@ public class Tipado extends ProcesamientoPorDefecto {
         } 
         else {
             if(!(ins.getE1().getT() instanceof Error_) && !(ins.getE2().getT() instanceof Error_)) {
-                System.err.println("Error en el tipado de asignación"); // TODO AÑADIR MÁS INFO CON STRINGLOCALIZADO
+                System.err.println("Error en el tipado de asignación");
+                if (ins.getE1() instanceof Id) {
+                	System.err.println("Fila: " + ((Id)ins.getE1()).getStrL().fila() + "\nColumna: " + ((Id)ins.getE1()).getStrL().col());
+                }
             }
             ins.setTipo(SalidaTipo.ERROR);
         }
@@ -208,11 +211,14 @@ public class Tipado extends ProcesamientoPorDefecto {
     public void procesa(If_Then ins) {
         ins.getE().procesa(this);
         ins.getLIns().procesa(this);
-        if(Util.son_compatibles(ins.getE().getT(), new Bool_()) || Util.son_compatibles(ins.getE().getT(), new Bool_())){
+        if(Util.son_compatibles(ins.getE().getT(), new Bool_())){
             ins.setTipo(ins.getLIns().getTipo());
         } else{
             ins.setTipo(SalidaTipo.ERROR);
-            System.err.println("Error en el tipado de if_then"); // TODO AÑADIR MÁS INFO CON STRINGLOCALIZADO
+            System.err.println("Error en el tipado de if_then");
+            if (ins.getE() instanceof Id) {
+            	System.err.println("Fila: " + ((Id)ins.getE()).getStrL().fila() + "\nColumna: " + ((Id)ins.getE()).getStrL().col());
+            }
         }
     }
 
@@ -221,11 +227,14 @@ public class Tipado extends ProcesamientoPorDefecto {
         ins.getE().procesa(this);
         ins.getLIns1().procesa(this);
         ins.getLIns2().procesa(this);
-        if(Util.son_compatibles(ins.getE().getT(), new Bool_()) || Util.son_compatibles(ins.getE().getT(), new Bool_())){
+        if(Util.son_compatibles(ins.getE().getT(), new Bool_())){
             ins.setTipo(Util.ambos_ok(ins.getLIns1().getTipo(), ins.getLIns2().getTipo()));
         } else{
             ins.setTipo(SalidaTipo.ERROR);
-            System.err.println("Error en el tipado de if then else"); // TODO AÑADIR MÁS INFO CON STRINGLOCALIZADO
+            System.err.println("Error en el tipado de if then else");
+            if (ins.getE() instanceof Id) {
+            	System.err.println("Fila: " + ((Id)ins.getE()).getStrL().fila() + "\nColumna: " + ((Id)ins.getE()).getStrL().col());
+            }
         }
     }
 
@@ -233,11 +242,14 @@ public class Tipado extends ProcesamientoPorDefecto {
     public void procesa(While_ ins) {
         ins.getE().procesa(this);
         ins.getLIns().procesa(this);
-        if(Util.son_compatibles(ins.getE().getT(), new Bool_()) || Util.son_compatibles(ins.getE().getT(), new Bool_())){
+        if(Util.son_compatibles(ins.getE().getT(), new Bool_())){
             ins.setTipo(ins.getLIns().getTipo());
         } else{
             ins.setTipo(SalidaTipo.ERROR);
-            System.err.println("Error en el tipado del while"); // TODO AÑADIR MÁS INFO CON STRINGLOCALIZADO
+            System.err.println("Error en el tipado del while");
+            if (ins.getE() instanceof Id) {
+            	System.err.println("Fila: " + ((Id)ins.getE()).getStrL().fila() + "\nColumna: " + ((Id)ins.getE()).getStrL().col());
+            }
         }
     }
 
@@ -254,7 +266,10 @@ public class Tipado extends ProcesamientoPorDefecto {
         } 
         else {
             ins.setTipo(SalidaTipo.ERROR);
-            System.err.println("Error en el tipado de read"); // TODO AÑADIR MÁS INFO CON STRINGLOCALIZADO
+            System.err.println("Error en el tipado de read");
+            if (ins.getE() instanceof Id) {
+            	System.err.println("Fila: " + ((Id)ins.getE()).getStrL().fila() + "\nColumna: " + ((Id)ins.getE()).getStrL().col());
+            }
         }
     }
 
@@ -266,7 +281,10 @@ public class Tipado extends ProcesamientoPorDefecto {
             ins.setTipo(SalidaTipo.OK);
         } else{
             ins.setTipo(SalidaTipo.ERROR);
-            System.err.println("Error en el tipado de write"); // TODO AÑADIR MÁS INFO CON STRINGLOCALIZADO
+            System.err.println("Error en el tipado de write");
+            if (ins.getE() instanceof Id) {
+            	System.err.println("Fila: " + ((Id)ins.getE()).getStrL().fila() + "\nColumna: " + ((Id)ins.getE()).getStrL().col());
+            }
         }
     }
 
@@ -282,9 +300,11 @@ public class Tipado extends ProcesamientoPorDefecto {
             ins.setTipo(SalidaTipo.OK);
         } else{
             ins.setTipo(SalidaTipo.ERROR);
-            // TODO PONER OR CON LOS TIPOS?!
             if(!(Util.ref_exc(ins.getE().getT()) instanceof Error_)){
-                System.err.println("Error en el tipado de new"); // TODO AÑADIR MÁS INFO CON STRINGLOCALIZADO
+                System.err.println("Error en el tipado de new");
+                if (ins.getE() instanceof Id) {
+                	System.err.println("Fila: " + ((Id)ins.getE()).getStrL().fila() + "\nColumna: " + ((Id)ins.getE()).getStrL().col());
+                }
             }
         }
     }
@@ -297,7 +317,10 @@ public class Tipado extends ProcesamientoPorDefecto {
         } else{
             ins.setTipo(SalidaTipo.ERROR);
             if(!(Util.ref_exc(ins.getE().getT()) instanceof Error_)){
-                System.err.println("Error en el tipado de delete"); // TODO AÑADIR MÁS INFO CON STRINGLOCALIZADO
+                System.err.println("Error en el tipado de delete");
+                if (ins.getE() instanceof Id) {
+                	System.err.println("Fila: " + ((Id)ins.getE()).getStrL().fila() + "\nColumna: " + ((Id)ins.getE()).getStrL().col());
+                }
             }
            
         }
@@ -313,7 +336,8 @@ public class Tipado extends ProcesamientoPorDefecto {
             }
             else {
                 ins.setTipo(SalidaTipo.ERROR);
-                System.err.println("Error en el tipado de call_proc (los params no encajan con la def del proc)"); // TODO AÑADIR MÁS INFO CON STRINGLOCALIZADO
+                System.err.println("Error en el tipado de call_proc (los params no encajan con la def del proc)");
+                System.err.println("Fila: " + ((Id)ins.getE()).getStrL().fila() + "\nColumna: " + ((Id)ins.getE()).getStrL().col());
             }
         }
         else {
@@ -325,8 +349,9 @@ public class Tipado extends ProcesamientoPorDefecto {
 
     @Override
     public void procesa(Ins_Compuesta ins) {
-        ins.getLIns().procesa(this);
-        ins.setTipo(ins.getLIns().getTipo());
+        ins.getLDecs().procesa(this);
+    	ins.getLIns().procesa(this);
+        ins.setTipo(Util.ambos_ok(ins.getLDecs().getTipo(), ins.getLIns().getTipo()));
     }
 
 
@@ -471,7 +496,10 @@ public class Tipado extends ProcesamientoPorDefecto {
             e.setT(new Bool_());
         } else{
             e.setT(new Error_());
-            System.err.println("Error en tipado de not"); // TODO AÑADIR MÁS INFO CON STRINGLOCALIZADO
+            System.err.println("Error en tipado de not");
+            if (e.getArg0() instanceof Id) {
+            	System.err.println("Fila: " + ((Id)e.getArg0()).getStrL().fila() + "\nColumna: " + ((Id)e.getArg0()).getStrL().col());
+            }
         }
     }
 
@@ -484,7 +512,10 @@ public class Tipado extends ProcesamientoPorDefecto {
             e.setT(new Real_());
         } else{
             e.setT(new Error_());
-            System.err.println("Error en el tipado de neg"); // TODO AÑADIR MÁS INFO CON STRINGLOCALIZADO
+            System.err.println("Error en el tipado de neg");
+            if (e.getArg0() instanceof Id) {
+            	System.err.println("Fila: " + ((Id)e.getArg0()).getStrL().fila() + "\nColumna: " + ((Id)e.getArg0()).getStrL().col());
+            }
         }
     }
 
@@ -500,7 +531,10 @@ public class Tipado extends ProcesamientoPorDefecto {
             ( (Util.ref_exc(e.getArg0().getT()) instanceof Array_) && !(Util.ref_exc(e.getArg1().getT())  instanceof Error_) 
             && !(Util.ref_exc(e.getArg1().getT()) instanceof Int_))){
             e.setT(new Error_());
-            System.err.println("Error en el tipado de index"); // TODO AÑADIR MÁS INFO CON STRINGLOCALIZADO
+            System.err.println("Error en el tipado de index");
+            if (e.getArg0() instanceof Id) {
+            	System.err.println("Fila: " + ((Id)e.getArg0()).getStrL().fila() + "\nColumna: " + ((Id)e.getArg0()).getStrL().col());
+            }
         }
     }
 
@@ -519,6 +553,7 @@ public class Tipado extends ProcesamientoPorDefecto {
         else {
         	if(!(Util.ref_exc(e.getArg0().getT()) instanceof Error_)) {
         		System.out.println("Error en el tipado de acceso a campo.");
+            	System.err.println("Fila: " + e.getStrL().fila() + "\nColumna: " + e.getStrL().col());
         	}
         	e.setT(new Error_());
         }
@@ -533,6 +568,9 @@ public class Tipado extends ProcesamientoPorDefecto {
         else {
         	if(Util.ref_exc(e.getArg0().getT()) instanceof Error_){
         		System.out.println("Error en tipado de indir (acceso a puntero)");
+                if (e.getArg0() instanceof Id) {
+                	System.err.println("Fila: " + ((Id)e.getArg0()).getStrL().fila() + "\nColumna: " + ((Id)e.getArg0()).getStrL().col());
+                }
         	}
         	e.setT(new Error_());
         }

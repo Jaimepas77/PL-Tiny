@@ -78,6 +78,7 @@ public class Vinculacion extends ProcesamientoPorDefecto {
 			ts = new Vinculos();
 			ts.padre = ant_ts;
 
+			int antPasada = pasada;
 			pasada = 1;
 			dec.getLParams().procesa(this);
 			dec.getLDecs().procesa(this);
@@ -86,6 +87,9 @@ public class Vinculacion extends ProcesamientoPorDefecto {
 			dec.getLDecs().procesa(this);
 			pasada = 1;
 			dec.getLIns().procesa(this);
+			
+
+			pasada = antPasada;
 			ts = ts.padre;
 		}
 	}
@@ -258,11 +262,15 @@ public class Vinculacion extends ProcesamientoPorDefecto {
 		ts = new Vinculos();
 		ts.padre = ant_ts;
 
+		int antPasada = pasada;
 		pasada = 1;
 		ins.getLDecs().procesa(this);
 		pasada = 2;
 		ins.getLDecs().procesa(this);
+		pasada = 1;
 		ins.getLIns().procesa(this);
+		
+		pasada = antPasada;
 		ts = ts.padre;
 	}
 
