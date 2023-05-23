@@ -288,7 +288,7 @@ public class Vinculacion extends ProcesamientoPorDefecto {
 	@Override
 	public void procesa(Id e) {
 		Vinculable v = Util.valor_de_id(ts, e.getStr());
-		if (v != null) 
+		if (v != null && !(v instanceof Dec_Tipo)) 
 			e.setVinculo(v);
 		else 
 			throw new RuntimeException("No existe: " + e.getStr() +

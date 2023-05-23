@@ -8,6 +8,7 @@ Aquellos que empiezan por "codigo" deben funcionar correctamente.
 Aquellos que comienzan por "error" deben devolver un error o bien de ejecución o bien de algún procesamiento.
 El archivo "ejemplo.pas" contiene el código de ejemplo dado en el enunciado.
 El archivo "tres-en-raya.pas" contiene la implementación de un 3 en raya. Pone especialmente a prueba las reglas de ámbito.
+El archivo "codigoListaEnlazada.pas" pone especialmente a prueba los punteros.
 
 Existe un segundo main contenido en el archivo "ejemploPrincipal.java", carpeta "pruebas".
 Este segundo main pone a prueba la primera parte de la práctica.

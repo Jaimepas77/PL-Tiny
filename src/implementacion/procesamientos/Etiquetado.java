@@ -183,7 +183,7 @@ public class Etiquetado extends ProcesamientoPorDefecto {
 		ins.setIni(etq);
 		ins.getE().procesa(this);
 		ins.setSigStop(etq + 5);
-		etq += 6;
+		etq += 7;
 		ins.setSig(etq);
 	}
 

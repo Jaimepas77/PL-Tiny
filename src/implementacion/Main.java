@@ -41,7 +41,7 @@ public class Main {
 			if(prog.getTipo() == SalidaTipo.OK) {
 				prog.procesa(new AsignacionEspacio());
 				prog.procesa(new Etiquetado());
-				MaquinaP m = new MaquinaP(100, 100, 100, 5);
+				MaquinaP m = new MaquinaP(1000, 1000, 1000, 100);
 				prog.procesa(new GenCodigo(m));
 
 				//Ejecución sobre la máquina-p
