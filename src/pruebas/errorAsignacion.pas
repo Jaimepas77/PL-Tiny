@@ -1,5 +1,10 @@
-var vacio1: array [0] of int;
-var vacio2: array [0] of real;
+var i: int;
+var j: int;
+var k: real;
+
 begin
-	vacio1 = vacio2;
+	@Descomentar los que se quieran probar
+	null = i;
+	@J - (K) = I;
+	@(i = j);
 end.

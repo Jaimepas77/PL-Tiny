@@ -223,14 +223,23 @@ public class MaquinaP {
 		} 
 		public String toString() {return "not";}
 	}
-	private INeg INEG;
-	private class INeg implements Instruccion {
+	private INegInt INEGINT;
+	private class INegInt implements Instruccion {
+		public void ejecuta() {
+			Valor opnd = pilaEvaluacion.pop();
+			pilaEvaluacion.push(new ValorInt(-opnd.valorInt()));
+			pc++;
+		} 
+		public String toString() {return "neg_real";}
+	}
+	private INegReal INEGREAL;
+	private class INegReal implements Instruccion {
 		public void ejecuta() {
 			Valor opnd = pilaEvaluacion.pop();
 			pilaEvaluacion.push(new ValorReal(-opnd.valorReal()));
 			pc++;
 		} 
-		public String toString() {return "neg";}
+		public String toString() {return "neg_real";}
 	}
 	private IBltInt IBLTINT;
 	private class IBltInt implements Instruccion {
@@ -814,7 +823,8 @@ public class MaquinaP {
 	public Instruccion and() {return IAND;}
 	public Instruccion or() {return IOR;}
 	public Instruccion not() {return INOT;}
-	public Instruccion neg() {return INEG;}
+	public Instruccion negInt() {return INEGINT;}
+	public Instruccion negReal() {return INEGREAL;}
 	public Instruccion bltInt() {return IBLTINT;}
 	public Instruccion bltReal() {return IBLTREAL;}
 	public Instruccion bltString() {return IBLTSTRING;}
@@ -894,7 +904,8 @@ public class MaquinaP {
 		IAND = new IAnd();
 		IOR = new IOr();
 		INOT = new INot();
-		INEG = new INeg();
+		INEGINT = new INegInt();
+		INEGREAL = new INegReal();
 		//RELACIONALES
 		IBLTINT = new IBltInt();
 		IBLTREAL = new IBltReal();

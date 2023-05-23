@@ -125,7 +125,7 @@ public class Tipado extends ProcesamientoPorDefecto {
                 campos.setTipo(campos.getCampos().getTipo());
             }
             else {
-                System.err.println("Error en el tipado de Muchos_Campos");
+                System.err.println("Error en el tipado de campos: campo '" + c.getStr() + "' duplicado");
                 System.err.println("Fila: " + c.getStrL().fila() + "\nColumna: " + c.getStrL().col());
                 campos.setTipo(SalidaTipo.ERROR);
             }

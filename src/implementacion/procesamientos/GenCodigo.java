@@ -485,7 +485,12 @@ public class GenCodigo extends ProcesamientoPorDefecto {
 	@Override
 	public void procesa(Neg e) {
 		etiquetaUn(e);
-		m.ponInstruccion(m.neg());
+		if(Util.ref_exc(e.getT()) instanceof Real_) {
+			m.ponInstruccion(m.negReal());
+		}
+		else {
+			m.ponInstruccion(m.negInt());
+		}
 	}
 
 	@Override
